@@ -41,13 +41,18 @@ if __name__ == "__main__":
     maxTh = 200;
     edges = cv2.Canny(blurred, minTh, maxTh);
 
-    pivotingTextDetection(edges);
+    regions, isTextRegion = pivotingTextDetection(edges);
 
-    """
+    for r in range(len(regions)):
+        if isTextRegion[r]:
+            current = regions[r];
+            colBounds = current[2:];
+            rowBounds = current[:2];
+            drawBoundingBox(img2, colBounds, rowBounds);
+
     imagesToShow = [];
     imagesToShow.append(("Original", img));
-    #imagesToShow.append(("Edges", edges));
+    imagesToShow.append(("Edges", edges));
     imagesToShow.append(("Detected Texts", img2));
     showImages(1, 3, imagesToShow);
-    """
 

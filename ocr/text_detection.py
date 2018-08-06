@@ -26,11 +26,10 @@ def filterSegments(bin_seq):
     return segment_boundaries;
 
 
-def getHorizontalHist(region, Th = 10):
+def getColBounds(region, Th = 10):
     COL_AXIS = 0;
     # Count the number of edge pixels in each column of the region
     horizHist = np.count_nonzero(region, axis=COL_AXIS);
-    print("Horizontal Hist Size: %d" % (horizHist.shape[0]));
     # Obtain a binary sequence from the histogram
     bin_seq = np.array(list(map(lambda x: int(x > Th), horizHist)));
     col_boundaries = filterSegments(bin_seq);
@@ -38,7 +37,7 @@ def getHorizontalHist(region, Th = 10):
     return col_boundaries;
 
 
-def getVerticalHist(region, Th = 2):
+def getRowBounds(region, Th = 2):
     ROW_AXIS = 1;
     # Count the number of edge pixels in each row of the region
     vertHist = np.count_nonzero(region, axis=ROW_AXIS);
@@ -49,17 +48,34 @@ def getVerticalHist(region, Th = 2):
 
 
 def pivotingTextDetection(edges):
-    col_segment_boundaries = getHorizontalHist(edges);
+    rows = edges.shape[0];
+    cols = edges.shape[1];
+    # Region represented as (top, bottom, left, right)
+    initRegion = (0, rows) + (0, cols);
+    # Active Local Image Region Collection - possible candidates for text regions
+    # would be added to this collection
+    ALIRC = [initRegion];
+    isTextRegion = [False];
 
-    row_segment_boundaries = [];
-    # For each region bounded by the segments identified
-    for r in range(len(col_segment_boundaries)):
-        col_bounds = col_segment_boundaries[r];
-        left = col_bounds[0];
-        right = col_bounds[1];
-        region = edges[:, left:right+1];
-        row_boundaries = getVerticalHist(region);
-        row_segment_boundaries.append(row_boundaries);
+    for index, regionBounds in enumerate(ALIRC):
+        top = regionBounds[0]; bottom = regionBounds[1];
+        left = regionBounds[2]; right = regionBounds[3];
+        region = edges[top:bottom+1, left:right+1];
+        col_bounds = getColBounds(region);
 
-    return (col_segment_boundaries, row_segment_boundaries);
+        # A region is considered to be a true text region when it could not be
+        # be further subdivided into subregions
+        if len(col_bounds) == 0:
+            isTextRegion[index] = True;
+
+        for col_bound in col_bounds:
+            left = col_bound[0];
+            right = col_bound[1];
+            subregion = edges[:, left:right+1];
+            row_bounds = getRowBounds(subregion);
+            for row_bound in row_bounds:
+                ALIRC.append(row_bound + col_bound);
+                isTextRegion.append(False);
+
+    return (ALIRC, isTextRegion);
 
