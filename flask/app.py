@@ -1,4 +1,7 @@
+import tensorflow as tf
+from skimage import data, io, filters
 from flask import *
+
 app = Flask(__name__);
 
 @app.route("/")
@@ -8,7 +11,6 @@ def hello_world():
 @app.route("/upload", methods=["POST"])
 def file_upload():
     return "File received!", 201;
-
 
 @app.errorhandler(404)
 def not_found(error):
