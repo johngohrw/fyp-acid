@@ -1,31 +1,7 @@
-import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-
-def filterSegments(bin_seq):
-    segment_len = 0;
-    segment_indexes = [];
-    segment_boundaries = [];
-    # Eliminate segments that are less than 3 pixels wide
-    for coord, x in np.ndenumerate(bin_seq):
-        if x == 1:
-            segment_len += 1;
-            x_coord = coord[0];
-            segment_indexes.append(x_coord);
-        else:
-            if segment_len > 0 and segment_len < 3:
-                for i in segment_indexes:
-                    bin_seq[i] = 0;
-                segment_len = 0;
-                segment_indexes = [];
-            else:
-                if segment_len > 0:
-                    segment_boundaries.append((segment_indexes[0], segment_indexes[-1]));
-                    segment_len = 0;
-                    segment_indexes = [];
-
-    return segment_boundaries;
+from text_detection import pivotingTextDetection
 
 
 def drawBoundingBox(img, colBounds, rowBounds):
@@ -50,8 +26,6 @@ def showImages(m, n, images):
 
 if __name__ == "__main__":
     #img = cv2.imread('compound.jpg', cv2.IMREAD_GRAYSCALE);
-    COL_AXIS = 0;
-    ROW_AXIS = 1;
 
     img = cv2.imread('example.jpg');
     rows = img.shape[0];
@@ -67,35 +41,18 @@ if __name__ == "__main__":
     maxTh = 200;
     edges = cv2.Canny(blurred, minTh, maxTh);
 
-    # Count the number of edge pixels in each column to get a horizontal histogram
-    horizHist = np.count_nonzero(edges, axis=COL_AXIS);
-    print("Horizontal Hist Size: %d" % (horizHist.shape[0]));
+    regions, isTextRegion = pivotingTextDetection(edges);
 
-
-    Th = 10;
-    bin_seq = np.array(list(map(lambda x: int(x > Th), horizHist)));
-    col_segment_boundaries = filterSegments(bin_seq);
-
-
-    Tv = 2;
-    row_segment_boundaries = [];
-    # For each region bounded by the segments identified
-    for r in range(len(col_segment_boundaries)):
-        col_bounds = col_segment_boundaries[r];
-        left = col_bounds[0];
-        right = col_bounds[1];
-        region = edges[:, left:right+1];
-        # Obtain a vertical histogram for each of the region
-        vertHist = np.count_nonzero(region, axis=ROW_AXIS);
-        binSeqVert = np.array(list(map(lambda x: int(x > Tv), vertHist)));
-        row_boundaries = filterSegments(binSeqVert);
-
-        for row_bounds in row_boundaries:
-            drawBoundingBox(img2, col_bounds, row_bounds);
+    for r in range(len(regions)):
+        if isTextRegion[r]:
+            current = regions[r];
+            colBounds = current[2:];
+            rowBounds = current[:2];
+            drawBoundingBox(img2, colBounds, rowBounds);
 
     imagesToShow = [];
     imagesToShow.append(("Original", img));
-    #imagesToShow.append(("Edges", edges));
+    imagesToShow.append(("Edges", edges));
     imagesToShow.append(("Detected Texts", img2));
-    showImages(1, 2, imagesToShow);
+    showImages(1, 3, imagesToShow);
 
