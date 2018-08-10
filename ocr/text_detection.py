@@ -26,7 +26,7 @@ def filterSegments(bin_seq):
     return segment_boundaries;
 
 
-def getColBounds(region, Th = 10):
+def getColBounds(region, Th = 5):
     COL_AXIS = 0;
     # Count the number of edge pixels in each column of the region
     horizHist = np.count_nonzero(region, axis=COL_AXIS);
@@ -37,7 +37,7 @@ def getColBounds(region, Th = 10):
     return col_boundaries;
 
 
-def getRowBounds(region, Th = 10):
+def getRowBounds(region, Th = 5):
     ROW_AXIS = 1;
     # Count the number of edge pixels in each row of the region
     vertHist = np.count_nonzero(region, axis=ROW_AXIS);

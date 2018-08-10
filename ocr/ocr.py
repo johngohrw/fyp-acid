@@ -6,6 +6,25 @@ from matplotlib import pyplot as plt
 from text_detection import pivotingTextDetection
 
 
+def unsharp(img, blurred):
+    # Unsharped filter by subtracting the blurred image from the original
+    # in a weighted way
+    # Formula:
+    # dst = src1*alpha + src2*beta + gamma;
+    alpha = 1.5;
+    beta = -0.5;
+    gamma = 0;
+    unsharped = cv2.addWeighted(img, alpha, blurred, beta, gamma);
+
+    return unsharped;
+
+
+def sharpen(img):
+    sharpening_mask = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]]);
+    sharpened = cv2.filter2D(img, -1, sharpening_mask);
+    return sharpened;
+
+
 def detectLines(edges):
     linesCoords = [];
     linesImg = np.zeros(edges.shape, dtype=np.uint8);
@@ -59,7 +78,7 @@ if __name__ == "__main__":
     #img = cv2.imread('compound.jpg', cv2.IMREAD_GRAYSCALE);
 
     currentDir = os.path.dirname(os.path.realpath(__file__));
-    imgPath = os.path.join(currentDir, "imgs/example4.jpg");
+    imgPath = os.path.join(currentDir, "imgs/example3.jpg");
     img = cv2.imread(imgPath);
     rows = img.shape[0];
     cols = img.shape[1];
@@ -67,32 +86,32 @@ if __name__ == "__main__":
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY);
 
     img2 = img.copy();
-    KERNEL_SIZE = 3;
-    #blurred = cv2.medianBlur(gray, KERNEL_SIZE);
-    blurred = cv2.GaussianBlur(gray, (KERNEL_SIZE, KERNEL_SIZE), 0);
+    KERNEL_SIZE = 9;
+    sigmaX = 10;
+    blurred = cv2.GaussianBlur(gray, (KERNEL_SIZE, KERNEL_SIZE), sigmaX);
+
+    unsharped = unsharp(gray, blurred);
 
     minTh = 100;
     maxTh = 200;
-    edges = cv2.Canny(blurred, minTh, maxTh, L2gradient = True);
+    edges = cv2.Canny(unsharped, minTh, maxTh, L2gradient = True);
 
     linesCoords, linesImg = detectLines(edges);
-    for coords in linesCoords:
-        drawLine(img2, coords, (0, 0, 255), 2);
-    """
-    regions, isTextRegion = pivotingTextDetection(edges);
+    removedLines = cv2.subtract(edges, linesImg);
+
+    regions, isTextRegion = pivotingTextDetection(removedLines);
 
     for r in range(len(regions)):
         if isTextRegion[r]:
             current = regions[r];
-            print(current);
             colBounds = current[2:];
             rowBounds = current[:2];
             drawBoundingBox(img2, colBounds, rowBounds);
-    """
-    removedLines = cv2.subtract(edges, linesImg);
+
     imagesToShow = [];
     imagesToShow.append(("Original", img));
-    imagesToShow.append(("Edges", linesImg));
-    imagesToShow.append(("Detected Texts", removedLines));
-    showImages(1, 3, imagesToShow);
+    imagesToShow.append(("Sharpened", unsharped));
+    imagesToShow.append(("Edges with detected lines removed", removedLines));
+    imagesToShow.append(("Detected Texts", img2));
+    showImages(2, 2, imagesToShow);
 
