@@ -8,7 +8,7 @@ from text_detection import pivotingTextDetection
 
 def detectLines(edges):
     linesCoords = [];
-    linesImg = np.zeros(edges.shape);
+    linesImg = np.zeros(edges.shape, dtype=np.uint8);
 
     MIN_LENGTH = 100;
     MAX_GAP = 20;
@@ -21,7 +21,7 @@ def detectLines(edges):
             linePoints = endpoint1 + endpoint2;
             linesCoords.append(linePoints);
 
-            drawLine(linesImg, linePoints);
+            drawLine(linesImg, linePoints, thick=3);
 
     return (linesCoords, linesImg);
 
@@ -89,9 +89,10 @@ if __name__ == "__main__":
             rowBounds = current[:2];
             drawBoundingBox(img2, colBounds, rowBounds);
     """
+    removedLines = cv2.subtract(edges, linesImg);
     imagesToShow = [];
     imagesToShow.append(("Original", img));
-    imagesToShow.append(("Edges", edges));
-    imagesToShow.append(("Detected Texts", linesImg));
+    imagesToShow.append(("Edges", linesImg));
+    imagesToShow.append(("Detected Texts", removedLines));
     showImages(1, 3, imagesToShow);
 
