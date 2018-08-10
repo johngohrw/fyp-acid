@@ -26,22 +26,22 @@ def filterSegments(bin_seq):
     return segment_boundaries;
 
 
-def getColBounds(region, Th = 10):
+def getColBounds(region, Th = 5):
     COL_AXIS = 0;
     # Count the number of edge pixels in each column of the region
     horizHist = np.count_nonzero(region, axis=COL_AXIS);
     # Obtain a binary sequence from the histogram
-    bin_seq = np.array(list(map(lambda x: int(x > Th), horizHist)));
+    bin_seq = np.array(list(map(lambda x: int(x >= Th), horizHist)));
     col_boundaries = filterSegments(bin_seq);
 
     return col_boundaries;
 
 
-def getRowBounds(region, Th = 2):
+def getRowBounds(region, Th = 5):
     ROW_AXIS = 1;
     # Count the number of edge pixels in each row of the region
     vertHist = np.count_nonzero(region, axis=ROW_AXIS);
-    binSeqVert = np.array(list(map(lambda x: int(x > Th), vertHist)));
+    binSeqVert = np.array(list(map(lambda x: int(x >= Th), vertHist)));
     row_boundaries = filterSegments(binSeqVert);
 
     return row_boundaries;
