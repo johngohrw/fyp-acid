@@ -4,6 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from text_detection import pivotingTextDetection
+from min_coverage import getMinCoverage
 
 
 def unsharp(img, blurred):
@@ -104,14 +105,13 @@ if __name__ == "__main__":
     for r in range(len(regions)):
         if isTextRegion[r]:
             current = regions[r];
-            colBounds = current[2:];
-            rowBounds = current[:2];
+            minCoveredRegion = getMinCoverage(edges, current);
+            colBounds = minCoveredRegion[2:];
+            rowBounds = minCoveredRegion[:2];
             drawBoundingBox(img2, colBounds, rowBounds);
 
     imagesToShow = [];
-    imagesToShow.append(("Original", img));
-    imagesToShow.append(("Sharpened", unsharped));
-    imagesToShow.append(("Edges with detected lines removed", removedLines));
+    imagesToShow.append(("Edges with removed detected Lines", removedLines));
     imagesToShow.append(("Detected Texts", img2));
-    showImages(2, 2, imagesToShow);
+    showImages(1, 2, imagesToShow);
 
