@@ -26,7 +26,7 @@ def filterSegments(bin_seq):
     return segment_boundaries;
 
 
-def getColBounds(region, Th = 5):
+def getColBounds(region, Th = 10):
     COL_AXIS = 0;
     # Count the number of edge pixels in each column of the region
     horizHist = np.count_nonzero(region, axis=COL_AXIS);
@@ -37,7 +37,7 @@ def getColBounds(region, Th = 5):
     return col_boundaries;
 
 
-def getRowBounds(region, Th = 5):
+def getRowBounds(region, Th = 10):
     ROW_AXIS = 1;
     # Count the number of edge pixels in each row of the region
     vertHist = np.count_nonzero(region, axis=ROW_AXIS);
@@ -74,7 +74,8 @@ def pivotingTextDetection(edges):
             subregion = edges[:, left:right+1];
             row_bounds = getRowBounds(subregion);
             for row_bound in row_bounds:
-                ALIRC.append(row_bound + col_bound);
+                detectedRegion = row_bound + col_bound;
+                ALIRC.append(detectedRegion);
                 isTextRegion.append(False);
 
     return (ALIRC, isTextRegion);
