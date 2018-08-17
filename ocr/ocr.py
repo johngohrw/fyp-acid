@@ -6,9 +6,14 @@ from matplotlib import pyplot as plt
 from text_detection import pivotingTextDetection
 from min_coverage import getMinCoverage
 from img_utils import *
+from recognition import initDict, getBoundingBoxOfChars
+
 
 if __name__ == "__main__":
-    #img = cv2.imread('compound.jpg', cv2.IMREAD_GRAYSCALE);
+    # Initialize dictionary of chars and their corresponding bounding box
+    # in the template images
+    (chars, rects, imgs) = initDict();
+    (letterImg, upperImg, digitsImg) = imgs;
 
     currentDir = os.path.dirname(os.path.realpath(__file__));
     imgPath = os.path.join(currentDir, "imgs/example3.jpg");
@@ -34,16 +39,21 @@ if __name__ == "__main__":
 
     regions, isTextRegion = pivotingTextDetection(removedLines);
 
+    binarized = cv2.threshold(unsharped, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1];
+
     for r in range(len(regions)):
         if isTextRegion[r]:
             current = regions[r];
             minCoveredRegion = getMinCoverage(edges, current);
+
             colBounds = minCoveredRegion[2:];
             rowBounds = minCoveredRegion[:2];
             drawBoundingBox(img2, colBounds, rowBounds);
 
+    """
     imagesToShow = [];
     imagesToShow.append(("Edges with removed detected Lines", removedLines));
     imagesToShow.append(("Detected Texts", img2));
     showImages(1, 2, imagesToShow);
+    """
 
