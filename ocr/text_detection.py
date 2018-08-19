@@ -2,28 +2,21 @@ import numpy as np
 
 
 def filterSegments(bin_seq):
-    #Filter out segments which are less than 3 pixels wide
-    segment_len = 0;
-    segment_indexes = [];
-    segment_boundaries = [];
+    ones = [];
+    segmentBounds = [];
     for coord, x in np.ndenumerate(bin_seq):
         if x == 1:
-            segment_len += 1;
-            x_coord = coord[0];
-            segment_indexes.append(x_coord);
+            ones.append(x);
         else:
-            if segment_len > 0 and segment_len < 3:
-                for i in segment_indexes:
-                    bin_seq[i] = 0;
-                segment_len = 0;
-                segment_indexes = [];
-            else:
-                if segment_len > 0:
-                    segment_boundaries.append((segment_indexes[0], segment_indexes[-1]));
-                    segment_len = 0;
-                    segment_indexes = [];
+            segmentLen = len(ones);
+            currentIndex = coord[0];
+            if segmentLen > 3:
+                start = currentIndex - segmentLen;
+                end = currentIndex - 1;
+                segmentBounds.append((start, end));
+            ones = [];
 
-    return segment_boundaries;
+    return segmentBounds;
 
 
 def getColBounds(region, Th = 10):

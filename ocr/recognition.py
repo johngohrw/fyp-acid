@@ -1,6 +1,3 @@
-import string
-import os
-
 from imutils import contours
 import numpy as np
 import imutils
@@ -8,13 +5,6 @@ import cv2
 from matplotlib import pyplot as plt
 
 from img_utils import showImages
-
-
-def getBoundingBoxOfChars(binarized):
-    contourRefs = cv2.findContours(binarized.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[1];
-    contourRefs = contours.sort_contours(contourRefs, method="left-to-right")[0];
-
-    return [cv2.boundingRect(contour) for contour in contourRefs];
 
 
 def processTemplateImg(imgName):
@@ -27,28 +17,28 @@ def processTemplateImg(imgName):
     return (rects, binarized);
 
 
-def initDict():
-    currentDir = os.path.dirname(os.path.realpath(__file__));
+def getBoundingBoxOfChars(binarized):
+    contourRefs = cv2.findContours(binarized.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[1];
+    contourRefs = contours.sort_contours(contourRefs, method="left-to-right")[0];
 
-    letters = list(string.ascii_lowercase);
-    letters.insert(9, "-");
-    letters.insert(11, "-");
-    lettersPath = os.path.join(currentDir, "templates/letters.png");
-    lettersRects, binImg = processTemplateImg(lettersPath);
+    return [cv2.boundingRect(contour) for contour in contourRefs];
 
-    upper = list(string.ascii_uppercase);
-    upperPath = os.path.join(currentDir, "templates/letters_upper.png");
-    upperRects, binImg2 = processTemplateImg(upperPath);
 
-    digits = list(string.digits);
-    digitsPath = os.path.join(currentDir, "templates/digits.png");
-    digitsRects, binImg3 = processTemplateImg(digitsPath);
+def matchTemplate(roi, chars, charRects, templateBinImg):
+    dimensionsToMatch = (57, 88);
+    scores = [];
+    for c in range(len(chars)):
+        (x, y, w, h) = charRects[c];
+        currentTemplate = templateBinImg[y:y + h, x:x + w];
+        currentTemplate = cv2.resize(currentTemplate, dimensionsToMatch);
 
-    chars = letters + upper + digits;
-    charRects = lettersRects + upperRects + digitsRects;
-    imgs = []; imgs.append(binImg); imgs.append(binImg2); imgs.append(binImg3);
+        result = cv2.matchTemplate(roi, currentTemplate, cv2.TM_CCOEFF);
+        (_, score, _, _) = cv2.minMaxLoc(result);
+        scores.append(score);
 
-    return (chars, charRects, imgs);
+    maxIndex = np.argmax(scores);
+
+    return (scores[maxIndex], maxIndex);
 
 
 if __name__ == "__main__":
