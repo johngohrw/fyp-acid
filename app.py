@@ -1,4 +1,7 @@
 import tensorflow as tf
+
+import numpy as np
+import cv2
 from skimage import data, io, filters
 from flask import *
 
@@ -10,6 +13,8 @@ def hello_world():
 
 @app.route("/upload", methods=["POST"])
 def file_upload():
+    imgbuf = np.fromstring(request.data, np.uint8);
+    img = cv2.imdecode(imgbuf, cv2.IMREAD_GRAYSCALE);
     return "File received!", 201;
 
 @app.errorhandler(404)
