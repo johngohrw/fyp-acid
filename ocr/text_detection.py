@@ -1,4 +1,6 @@
 import numpy as np
+from matplotlib import pyplot as plt
+from img_utils import drawBoundingBox;
 
 
 def filterSegments(bin_seq):
@@ -40,7 +42,8 @@ def getRowBounds(region, Th = 10):
     return row_boundaries;
 
 
-def pivotingTextDetection(edges):
+def pivotingTextDetection(edges, orig):
+    #debug = orig.copy();
     rows = edges.shape[0];
     cols = edges.shape[1];
     # Region represented as (top, bottom, left, right)
@@ -64,8 +67,16 @@ def pivotingTextDetection(edges):
         for col_bound in col_bounds:
             left = col_bound[0];
             right = col_bound[1];
+
             subregion = edges[:, left:right+1];
             row_bounds = getRowBounds(subregion);
+            """
+            print(row_bounds);
+            orig_r = debug[:, left:right+1];
+            plt.subplot(1, 2, 1), plt.imshow(orig_r, 'gray');
+            plt.subplot(1, 2, 2), plt.imshow(subregion, 'gray');
+            plt.show();
+            """
             for row_bound in row_bounds:
                 detectedRegion = row_bound + col_bound;
                 ALIRC.append(detectedRegion);
