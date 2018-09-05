@@ -37,7 +37,7 @@ export default class FileUpload extends Component {
       
    render() {
      return(
-        <div class="uploader-container">
+        <div className="uploader-container">
             <h4>Upload your shit</h4>
          <form onSubmit={this.handleUploadImages}>
            <div className="form-group">

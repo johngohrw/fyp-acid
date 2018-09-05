@@ -1,7 +1,7 @@
 h1, h2, h3 {
   font-family: "Old Standard TT", serif;
   font-weight: 600;
-  margin: 10px 0 10px 0; }
+  margin: 15px 0 15px 0; }
 
 h4, h5, h6, p {
   font-family: "Merriweather Sans", sans-serif; }
@@ -25,7 +25,7 @@ h6 {
   font-size: 1.33em; }
 
 p {
-  font-size: 1em; }
+  font-size: 1.1em; }
 
 body {
   background-color: black; }
@@ -36,6 +36,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 35px;
+  align-items: center;
   height: 100vh;
   background-color: #373737; }
 
@@ -44,10 +45,14 @@ body {
   flex-direction: column;
   flex-grow: 1;
   height: 100%;
+  width: 100%;
+  max-width: 780px;
   border-radius: 5px;
   box-shadow: 3px 3px #ff00ff; }
 
 .inner-content {
+  margin-left: 12%;
+  margin-right: 12%;
   flex-grow: 1; }
 
 .button-row {

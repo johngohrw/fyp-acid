@@ -1,7 +1,7 @@
 h1, h2, h3 {
   font-family: "Old Standard TT", serif;
   font-weight: 600;
-  margin: 10px 0 10px 0; }
+  margin: 15px 0 15px 0; }
 
 h4, h5, h6, p {
   font-family: "Merriweather Sans", sans-serif; }
@@ -25,4 +25,4 @@ h6 {
   font-size: 1.33em; }
 
 p {
-  font-size: 1em; }
+  font-size: 1.1em; }

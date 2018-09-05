@@ -9,8 +9,9 @@ export default class WelcomePage extends Component {
         return (
             <div className="welcome-page__container">
                 <div className="inner-content">
-                    <h4>Hallo!</h4>
-                    <p>Welcome to FYP ACID</p>
+                    <h4>Halllo!</h4>
+                    <p>Welcome to ACID. </p>
+                    <p>we can detect your stupid compound images.</p>
                 </div>
                 <div className="button-row">
                     <Link to="/template-test">
