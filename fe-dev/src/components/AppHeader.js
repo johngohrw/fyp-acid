@@ -17,6 +17,7 @@ export default class AppHeader extends Component {
                 }}>
                     <h1>acid</h1>
                 </div>
+                <h5>automatic compound image detection</h5>
                <div className="app-header__nav">
                     <h6>
                         <Link to="/"> link1 </Link>/
