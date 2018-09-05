@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import axios from 'axios';
 import '../css/components/FileUpload.css'
 
@@ -7,11 +8,11 @@ export default class FileUpload extends Component {
     constructor(props) {
         super(props);
           this.state = {
-            uploadStatus: false
+            uploadStatus: false,
+            mode: null
           }
         this.handleUploadImages = this.handleUploadImages.bind(this);
       }
-    
     
       handleUploadImages(ev) {
         ev.preventDefault();
@@ -34,19 +35,37 @@ export default class FileUpload extends Component {
             );
         }
       }
+
+      handleChange(e) {
+        this.setState({mode: e.target.value});
+      }
       
    render() {
+
+    var uploadButton;
+    if (this.state.mode === null || this.state.mode === "select a method") {
+      uploadButton = <button className="btn btn-success" disabled>Upload</button>
+    } else {
+      uploadButton = <button className="btn btn-success" >Upload</button>
+    }
      return(
         <div className="uploader-container">
-            <h4>Upload your shit</h4>
-         <form onSubmit={this.handleUploadImages}>
-           <div className="form-group">
-             <input className="form-control"  ref={(ref) => { this.uploadInput = ref; }} type="file" multiple/>
-           </div>
- 
-           <button className="btn btn-success" type>Upload</button>
-         </form>
-       </div>
+          <h4>Upload your shit</h4>
+          <Form onSubmit={this.handleUploadImages}>
+            <FormGroup>
+              <input className="form-control"  ref={(ref) => { this.uploadInput = ref; }} type="file" multiple />
+            </FormGroup>
+            <FormGroup>
+              <Label for="mode">Select Mode</Label>
+              <Input type="select" name="mode" id="mode" defaultValue="select a method" onChange={(e) => {this.handleChange(e)}}>
+                <option disabled>select a method</option>
+                <option>OCR</option>
+                <option>LBP</option>
+              </Input>
+            </FormGroup>
+            {uploadButton}
+          </Form>
+        </div>
      )
    }
  }

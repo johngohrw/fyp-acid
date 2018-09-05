@@ -9,17 +9,21 @@ from flask import *
 # Path to your python modules
 import sys
 sys.path.append("./ocr/");
+sys.path.append("./lbp/");
 
 from ocr import OCR
+from lbp import LBP
 
-global ocrEngine
+global ocrEngine, lbpEngine
 app = Flask(__name__);
 
 
 def main():
     # All things global should be defined here
     global ocrEngine;
+    global lbpEngine;
     ocrEngine = OCR();
+    lbpEngine = LBP();
 
 
 @app.route("/")
@@ -53,6 +57,35 @@ def file_upload():
         response = make_response(buffer.tobytes());
         response.headers["Content-Type"] = "image/jpeg"
         return response, 201;
+
+@app.route("/api/v0/lbp", methods=["POST"])
+def file_upload_lbp():
+    # check if the post request has the file part
+    if 'file' not in request.files:
+        print('No file part')
+        return "400 BAD REQUEST", 400;
+    file = request.files['file']
+    # if user does not select file, browser also
+    # submit an empty part without filename
+    if file.filename == '':
+        print('No selected file')
+        return "400 BAD REQUEST", 400;
+
+    if file:
+        in_memory_img = io.BytesIO();
+        file.save(in_memory_img);
+        imgbuf = np.fromstring(in_memory_img.getvalue(), np.uint8);
+        img = cv2.imdecode(imgbuf, cv2.IMREAD_UNCHANGED);
+
+        lbpEngine.preprocess(img);
+        # edges, binImg = ocrEngine.preprocess(img);
+        # resultImg = ocrEngine.recognize(img, edges, binImg);
+
+        # # JPEG files supported only for the moment
+        # _, buffer = cv2.imencode(".jpg", resultImg);
+        # response = make_response(buffer.tobytes());
+        # response.headers["Content-Type"] = "image/jpeg"
+        # return response, 201;
 
 
 @app.errorhandler(404)
