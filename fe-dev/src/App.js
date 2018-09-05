@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import AppHeader from './components/AppHeader'
 
 import UploadPage from './pages/UploadPage';
-
+import WelcomePage from './pages/WelcomePage';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './css/app.css';
 
 class App extends Component {
+
+  componentWillMount() {
+
+    // changing document title
+    document.title = 'FYP ACID';
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -15,7 +23,9 @@ class App extends Component {
         <div className="container">
           <Router>
             <div className="content">
-              <Route exact path='/' component={UploadPage}/>
+              <AppHeader />
+              <Route exact path='/' component={WelcomePage}/>
+              <Route path='/upload' component={UploadPage}/>
             </div>
           </Router>
         </div>

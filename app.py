@@ -29,6 +29,7 @@ def hello_world():
 
 @app.route("/api/v0/ocr", methods=["POST"])
 def file_upload():
+<<<<<<< HEAD
     print(request.files);
     # check if the post request has the file part
     if 'file' not in request.files:

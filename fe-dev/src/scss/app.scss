@@ -1,12 +1,25 @@
 @import 'variables';
 
+h1, h2, h3 {
+    font-family: $font-title;
+}
+
+h4, h5, h6, p {
+    font-family: $font-body;
+}
+
 body {
     background-color: black;
+
+    #root {
+        background-color: $color-bg-dark;
+    }
 }
 
 .container {
-    border: 1px solid black;
     height: 100vh;
+    background-color: $color-bg-dark;
+    padding: 10px;
 }
 
 
