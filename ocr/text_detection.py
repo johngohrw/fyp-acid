@@ -1,29 +1,24 @@
 import numpy as np
+from matplotlib import pyplot as plt
+from img_utils import drawBoundingBox;
 
 
 def filterSegments(bin_seq):
-    #Filter out segments which are less than 3 pixels wide
-    segment_len = 0;
-    segment_indexes = [];
-    segment_boundaries = [];
+    ones = [];
+    segmentBounds = [];
     for coord, x in np.ndenumerate(bin_seq):
         if x == 1:
-            segment_len += 1;
-            x_coord = coord[0];
-            segment_indexes.append(x_coord);
+            ones.append(x);
         else:
-            if segment_len > 0 and segment_len < 3:
-                for i in segment_indexes:
-                    bin_seq[i] = 0;
-                segment_len = 0;
-                segment_indexes = [];
-            else:
-                if segment_len > 0:
-                    segment_boundaries.append((segment_indexes[0], segment_indexes[-1]));
-                    segment_len = 0;
-                    segment_indexes = [];
+            segmentLen = len(ones);
+            currentIndex = coord[0];
+            if segmentLen > 3:
+                start = currentIndex - segmentLen;
+                end = currentIndex - 1;
+                segmentBounds.append((start, end));
+            ones = [];
 
-    return segment_boundaries;
+    return segmentBounds;
 
 
 def getColBounds(region, Th = 10):
@@ -47,7 +42,8 @@ def getRowBounds(region, Th = 10):
     return row_boundaries;
 
 
-def pivotingTextDetection(edges):
+def pivotingTextDetection(edges, orig):
+    #debug = orig.copy();
     rows = edges.shape[0];
     cols = edges.shape[1];
     # Region represented as (top, bottom, left, right)
@@ -71,8 +67,16 @@ def pivotingTextDetection(edges):
         for col_bound in col_bounds:
             left = col_bound[0];
             right = col_bound[1];
+
             subregion = edges[:, left:right+1];
             row_bounds = getRowBounds(subregion);
+            """
+            print(row_bounds);
+            orig_r = debug[:, left:right+1];
+            plt.subplot(1, 2, 1), plt.imshow(orig_r, 'gray');
+            plt.subplot(1, 2, 2), plt.imshow(subregion, 'gray');
+            plt.show();
+            """
             for row_bound in row_bounds:
                 detectedRegion = row_bound + col_bound;
                 ALIRC.append(detectedRegion);

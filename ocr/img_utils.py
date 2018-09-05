@@ -58,7 +58,7 @@ def drawBoundingBox(img, colBounds, rowBounds):
     bottom = rowBounds[1];
 
     thickness = 1;
-    color = (255, 0, 0);
+    color = (0, 0, 255);
     cv2.rectangle(img, (left, top), (right, bottom), color, thickness);
 
 
