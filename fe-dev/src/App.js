@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import AppHeader from './components/AppHeader'
 
 import UploadPage from './pages/UploadPage';
-
+import WelcomePage from './pages/WelcomePage';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './css/app.css';
@@ -11,6 +11,8 @@ import './css/app.css';
 class App extends Component {
 
   componentWillMount() {
+
+    // changing document title
     document.title = 'FYP ACID';
   }
 
@@ -22,7 +24,8 @@ class App extends Component {
           <Router>
             <div className="content">
               <AppHeader />
-              <Route exact path='/' component={UploadPage}/>
+              <Route exact path='/' component={WelcomePage}/>
+              <Route path='/upload' component={UploadPage}/>
             </div>
           </Router>
         </div>

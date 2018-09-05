@@ -30,6 +30,10 @@ def hello_world():
 @app.route("/api/v0/ocr", methods=["POST"])
 def file_upload():
     imgbuf = np.fromstring(request.data, np.uint8);
+
+    print('request: ', request.data);
+
+    pass
     img = cv2.imdecode(imgbuf, cv2.IMREAD_UNCHANGED);
     edges, binImg = ocrEngine.preprocess(img);
     resultImg = ocrEngine.recognize(img, edges, binImg);
