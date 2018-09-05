@@ -11,18 +11,20 @@ class LBP:
         print("Hello from LBP!");
         currentDir = os.path.dirname(os.path.realpath(__file__));
 
-        def preprocess(self, image):
-            # read current image
-            img = cv2.imread(image)
+    def preprocess(self, image):
+        # read current image
+        img = image
 
-            # get image dimensions
-            dimensions = img.shape 
-            img_height = dimensions[0]
-            img_width = dimensions[1]
-            # resize image
-            img = cv2.resize(img, (img_width * 2, img_height * 2))
+        # get image dimensions
+        dimensions = img.shape 
+        img_height = dimensions[0]
+        img_width = dimensions[1]
+        # resize image
+        img = cv2.resize(img, (img_width * 2, img_height * 2))
 
-            print('preprocess!')
+        print('preprocess!')
+
+        return img
 
 
 

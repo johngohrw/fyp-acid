@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import axios from 'axios';
 import '../css/components/FileUpload.css'
 
@@ -16,6 +16,9 @@ export default class FileUpload extends Component {
     
       handleUploadImages(ev) {
         ev.preventDefault();
+
+        let endpoint = 'http://localhost:5000/api/v0/' + this.state.mode.toLowerCase()
+        console.log('Endpoint: ', endpoint)
     
         let fileList = [];
 
@@ -24,7 +27,7 @@ export default class FileUpload extends Component {
 
             const data = new FormData();
             data.append('file', this.uploadInput.files[i])
-            axios.post('http://localhost:5000/api/v0/ocr', data)
+            axios.post(endpoint, data)
                 .then(function (response) {
                     console.log(response);
                     // this.setState({ imageURL: `http://localhost:8000/${response.body.file}`, uploadStatus: true });
@@ -44,9 +47,9 @@ export default class FileUpload extends Component {
 
     var uploadButton;
     if (this.state.mode === null || this.state.mode === "select a method") {
-      uploadButton = <button className="btn btn-success" disabled>Upload</button>
+      uploadButton = <Button className="btn btn-success" disabled>Upload</Button>
     } else {
-      uploadButton = <button className="btn btn-success" >Upload</button>
+      uploadButton = <Button className="btn btn-success" >Upload</Button>
     }
      return(
         <div className="uploader-container">

@@ -77,15 +77,12 @@ def file_upload_lbp():
         imgbuf = np.fromstring(in_memory_img.getvalue(), np.uint8);
         img = cv2.imdecode(imgbuf, cv2.IMREAD_UNCHANGED);
 
-        lbpEngine.preprocess(img);
-        # edges, binImg = ocrEngine.preprocess(img);
-        # resultImg = ocrEngine.recognize(img, edges, binImg);
-
-        # # JPEG files supported only for the moment
-        # _, buffer = cv2.imencode(".jpg", resultImg);
-        # response = make_response(buffer.tobytes());
-        # response.headers["Content-Type"] = "image/jpeg"
-        # return response, 201;
+        resultImg = lbpEngine.preprocess(img);
+        # add more LBP steps here
+        _, buffer = cv2.imencode(".jpg", resultImg);
+        response = make_response(buffer.tobytes());
+        response.headers["Content-Type"] = "image/jpeg"
+        return response, 201;
 
 
 @app.errorhandler(404)
