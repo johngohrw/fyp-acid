@@ -1,0 +1,21 @@
+@import '../variables';
+
+.app-header {
+    // border: solid black 1px;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: $color-bg-light;
+
+    h1 {
+        font-family: $font-title;
+        font-size: 5rem;
+        color: $color-fg-dark;
+    }
+
+    h4 {
+        font-family: $font-body;
+        font-size: 2rem;
+        color: $color-accent-1;
+    }
+}
