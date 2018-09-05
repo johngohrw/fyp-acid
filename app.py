@@ -29,8 +29,6 @@ def hello_world():
 
 @app.route("/api/v0/ocr", methods=["POST"])
 def file_upload():
-<<<<<<< HEAD
-    print(request.files);
     # check if the post request has the file part
     if 'file' not in request.files:
         print('No file part')
@@ -44,6 +42,7 @@ def file_upload():
 
     if file:
         in_memory_img = io.BytesIO();
+        file.save(in_memory_img);
         imgbuf = np.fromstring(in_memory_img.getvalue(), np.uint8);
         img = cv2.imdecode(imgbuf, cv2.IMREAD_UNCHANGED);
         edges, binImg = ocrEngine.preprocess(img);

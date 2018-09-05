@@ -73,8 +73,17 @@ class OCR:
                 binTextRegion = binarized[top:bottom+1, left:right+1];
                 charRects = getBoundingBoxOfChars(binTextRegion);
 
-                # TODO: Put recognized texts in the image, next to their region
                 recognizedText = self.__template_match(binTextRegion, charRects);
+                print(recognizedText);
+                font = cv2.FONT_HERSHEY_SIMPLEX;
+                origin = (right, bottom);   # origin of the text is bottom-left
+                fontScale = 0.5;
+                fontColor = (255, 0, 0);
+                lineType = 2;
+
+                # Putting recognized text near their detected region
+                cv2.putText(imgCopy, recognizedText,
+                        origin, font, fontScale, fontColor, lineType);
 
                 colBounds = minCoveredRegion[2:];
                 rowBounds = minCoveredRegion[:2];
