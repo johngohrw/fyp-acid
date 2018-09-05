@@ -67,9 +67,10 @@ class OCR:
         for r in range(len(regions)):
             if isTextRegion[r]:
                 current = regions[r];
-                minCoveredRegion = getMinCoverage(edges, current);
+                #minCoveredRegion = getMinCoverage(edges, current);
 
-                (top, bottom, left, right) = minCoveredRegion;
+                #(top, bottom, left, right) = minCoveredRegion;
+                (top, bottom, left, right) = current;
                 binTextRegion = binarized[top:bottom+1, left:right+1];
                 charRects = getBoundingBoxOfChars(binTextRegion);
 
@@ -85,8 +86,10 @@ class OCR:
                 cv2.putText(imgCopy, recognizedText,
                         origin, font, fontScale, fontColor, lineType);
 
-                colBounds = minCoveredRegion[2:];
-                rowBounds = minCoveredRegion[:2];
+                #colBounds = minCoveredRegion[2:];
+                #rowBounds = minCoveredRegion[:2];
+                colBounds = current[2:];
+                rowBounds = current[:2];
                 drawBoundingBox(imgCopy, colBounds, rowBounds);
 
         return imgCopy;
