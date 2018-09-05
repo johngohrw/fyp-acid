@@ -1,7 +1,11 @@
 @import '../variables';
+@import '../mixins';
 
 .upload-page__container {
-    border: solid 1px black;
+    @include flex-col;
+    @include padding-l;
+
+    border-radius: inherit;
     background-color: $color-bg-light;
-    padding: 15px;
+    height: 100%;
 }

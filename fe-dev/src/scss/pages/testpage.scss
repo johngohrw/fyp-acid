@@ -1,7 +1,7 @@
 @import '../variables';
 @import '../mixins';
 
-.welcome-page__container {
+.test-page__container {
     @include flex-col;
     @include padding-l;
 

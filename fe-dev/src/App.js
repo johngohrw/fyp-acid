@@ -4,6 +4,7 @@ import AppHeader from './components/AppHeader'
 
 import UploadPage from './pages/UploadPage';
 import WelcomePage from './pages/WelcomePage';
+import TemplateTestPage from './pages/TemplateTestPage';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './css/app.css';
@@ -11,24 +12,23 @@ import './css/app.css';
 class App extends Component {
 
   componentWillMount() {
-
-    // changing document title
-    document.title = 'FYP ACID';
+    document.title = 'FYP ACID'; // changing doc title upon loading. 
   }
 
   render() {
     return (
       <React.Fragment>
         <CssBaseline />
-        <div className="container">
-          <Router>
+        <Router>
+          <div className="main-container container">  
+            <AppHeader />
             <div className="content">
-              <AppHeader />
               <Route exact path='/' component={WelcomePage}/>
               <Route path='/upload' component={UploadPage}/>
+              <Route path='/template-test' component={TemplateTestPage}/>
             </div>
-          </Router>
-        </div>
+          </div>
+        </Router> 
       </React.Fragment>
     );
   }

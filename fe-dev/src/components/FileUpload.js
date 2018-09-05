@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import '../css/components/FileUpload.css'
 
 export default class FileUpload extends Component {
 
@@ -36,14 +37,14 @@ export default class FileUpload extends Component {
       
    render() {
      return(
-       <div class="container">
+        <div class="uploader-container">
+            <h4>Upload your shit</h4>
          <form onSubmit={this.handleUploadImages}>
            <div className="form-group">
              <input className="form-control"  ref={(ref) => { this.uploadInput = ref; }} type="file" multiple/>
            </div>
  
            <button className="btn btn-success" type>Upload</button>
- 
          </form>
        </div>
      )

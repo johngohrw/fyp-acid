@@ -1,0 +1,11 @@
+.uploader-container form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+  .uploader-container form .form-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 500px; }
