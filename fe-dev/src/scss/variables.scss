@@ -1,4 +1,3 @@
-
 //// colors
 
 // color definitions
@@ -24,6 +23,10 @@ $color-fresh-water: #88bbd6;
 $color-plaster: #cdcdcd;
 $color-linen: #e9e9e9;
 
+// others
+$color-magenta: #ff00ff;
+$color-light-magenta: #ff59ff;
+
 // color assignments
 $color-bg-light: $color-paper;
 $color-bg-dark: $color-charcoal;
@@ -37,7 +40,4 @@ $color-accent-2: $color-silk;
 // font imports
 $yeseva-one: 'Yeseva One', cursive;
 $merriweather-sans: 'Merriweather Sans', sans-serif;
-
-// font assignments
-$font-title:  $yeseva-one;
-$font-body: $merriweather-sans;
+$old-standard: 'Old Standard TT', serif;

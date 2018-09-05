@@ -1,4 +1,7 @@
 .welcome-page__container {
-  border: solid 1px black;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  border-radius: inherit;
   background-color: #f4f4f4;
-  padding: 15px; }
+  height: 100%; }

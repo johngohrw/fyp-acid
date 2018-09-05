@@ -16,25 +16,18 @@ export default class UploadPage extends Component {
     render() {
         return (
             <div className="upload-page__container">
-                {/* <form method="post" enctype="multipart/form-data"> */}
-                    {/* <div>
-                        <label for="image_uploads">Choose images to upload (PNG, JPG)</label>
-                        <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png" multiple />
-                    </div>
-                    <div className="preview">
-                        <p>No files currently selected for upload</p>
-                    </div>
-                    <div>
-                        <button>Submit</button>
-                    </div>         */}
+                <div className="inner-content">
                     <div>
                         <FileUpload />
                     </div>
-
+                </div>
+                <div className="button-row">
                     <div>
-                        <Link to="/">Back</Link>
+                        <Link to="/">
+                            <button className="btn btn-danger">Back</button>
+                        </Link>
                     </div>
-                {/* </form> */}
+                </div>
             </div>
         );
     };

@@ -1,21 +1,41 @@
 @import '../variables';
+@import '../mixins';
 
 .app-header {
-    // border: solid black 1px;
-    border-radius: 15px;
-    padding: 15px;
+    @include padding-s;
+    @include flex-col;
+    @include flex-center;
+    
+    border-radius: 5px;
     margin-bottom: 10px;
-    background-color: $color-bg-light;
+    background-color: none;
 
     h1 {
-        font-family: $font-title;
-        font-size: 5rem;
-        color: $color-fg-dark;
+        color: $color-silk;
+        font-family: $old-standard;
+        font-size: 12em;
+        text-shadow: 3px 3px 0 $color-magenta;
+        font-weight: 700;
+        margin: -30px;
     }
 
-    h4 {
-        font-family: $font-body;
-        font-size: 2rem;
-        color: $color-accent-1;
+    h5 {
+        color: $color-light-magenta;
+        margin: -7px 0 5px;
+        font-size: 1.5rem;
     }
+
+    h6 {
+        color: $color-accent-1;
+        margin: 10px;
+    }
+}
+
+.app-header__nav {
+    height: 6em;
+    padding: 0 20px;
+    border-radius: 5px;
+    background-color: $color-bg-light;
+    box-shadow: 3px 3px $color-magenta;
+
 }

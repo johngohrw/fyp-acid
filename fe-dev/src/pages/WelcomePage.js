@@ -4,21 +4,21 @@ import '../css/pages/welcomepage.css';
 
 
 export default class WelcomePage extends Component {
-    
-    constructor(props) {
-        super(props);
-        this.state = {
-            someState: 'haha'
-        };
-    };
 
     render() {
         return (
             <div className="welcome-page__container">
-                <h1>Hallo!</h1>
-                <p>Welcome to FYP ACID</p>
-                <div>
-                    <Link to="/upload">Next</Link>
+                <div className="inner-content">
+                    <h4>Hallo!</h4>
+                    <p>Welcome to FYP ACID</p>
+                </div>
+                <div className="button-row">
+                    <Link to="/template-test">
+                        <button className="btn btn-info">Test</button>   
+                    </Link>
+                    <Link to="/upload">
+                        <button className="btn btn-success">Next</button>
+                    </Link>
                 </div>
             </div>
         );

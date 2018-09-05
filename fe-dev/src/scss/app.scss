@@ -1,12 +1,6 @@
 @import 'variables';
-
-h1, h2, h3 {
-    font-family: $font-title;
-}
-
-h4, h5, h6, p {
-    font-family: $font-body;
-}
+@import 'mixins';
+@import 'font-styles';
 
 body {
     background-color: black;
@@ -16,10 +10,31 @@ body {
     }
 }
 
-.container {
+.main-container {
+    @include flex-col;
+    @include padding-xl;
+
     height: 100vh;
     background-color: $color-bg-dark;
-    padding: 10px;
 }
 
+.content {
+    @include flex-col;
+    
+    flex-grow: 1;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: 3px 3px $color-magenta;
+}
+
+.inner-content {
+    flex-grow: 1;
+}
+
+.button-row {
+    @include flex-row;
+    @include margin-xl;
+
+    justify-content: space-evenly;
+}
 
