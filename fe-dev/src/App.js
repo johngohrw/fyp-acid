@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import AppHeader from './components/AppHeader'
 
 import UploadPage from './pages/UploadPage';
 
@@ -15,6 +16,7 @@ class App extends Component {
         <div className="container">
           <Router>
             <div className="content">
+              <AppHeader />
               <Route exact path='/' component={UploadPage}/>
             </div>
           </Router>

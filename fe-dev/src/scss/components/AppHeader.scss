@@ -1,0 +1,19 @@
+@import '../variables';
+
+.app-header {
+    border: solid black 1px;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: $color-bg-light;
+
+    h1 {
+        font-family: $font-title;
+        color: $color-fg-dark;
+    }
+
+    h4 {
+        font-family: $font-body;
+        // font-size: 1rem;
+        color: $color-accent-1;
+    }
+}
