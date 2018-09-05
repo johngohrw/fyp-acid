@@ -9,6 +9,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import './css/app.css';
 
 class App extends Component {
+
+  componentWillMount() {
+    document.title = 'FYP ACID';
+  }
+
   render() {
     return (
       <React.Fragment>
