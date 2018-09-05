@@ -65,10 +65,12 @@ def pivotingTextDetection(edges, orig):
             isTextRegion[index] = True;
 
         for col_bound in col_bounds:
-            left = col_bound[0];
-            right = col_bound[1];
+            # Column boundaries is relative to the subregion,
+            # but we want their actual position in the original image
+            segment_left = left + col_bound[0];
+            segment_right = left + col_bound[1];
 
-            subregion = edges[:, left:right+1];
+            subregion = edges[:, segment_left:segment_right+1];
             row_bounds = getRowBounds(subregion);
             """
             print(row_bounds);
@@ -78,7 +80,10 @@ def pivotingTextDetection(edges, orig):
             plt.show();
             """
             for row_bound in row_bounds:
-                detectedRegion = row_bound + col_bound;
+                # Again the row boundaries are relative to the subregion
+                segment_top = top + row_bound[0];
+                segment_bottom = top + row_bound[1];
+                detectedRegion = (segment_top, segment_bottom, segment_left, segment_right);
                 ALIRC.append(detectedRegion);
                 isTextRegion.append(False);
 
