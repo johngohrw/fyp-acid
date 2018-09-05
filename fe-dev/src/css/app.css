@@ -1,6 +1,15 @@
+h1, h2, h3 {
+  font-family: "Yeseva One", cursive; }
+
+h4, h5, h6, p {
+  font-family: "Merriweather Sans", sans-serif; }
+
 body {
   background-color: black; }
+  body #root {
+    background-color: #373737; }
 
 .container {
-  border: 1px solid black;
-  height: 100vh; }
+  height: 100vh;
+  background-color: #373737;
+  padding: 10px; }

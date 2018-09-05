@@ -1,3 +1,7 @@
+@import '../variables';
+
 .upload-page__container {
     border: solid 1px black;
+    background-color: $color-bg-light;
+    padding: 15px;
 }

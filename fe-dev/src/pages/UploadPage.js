@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import AppHeader from '../components/AppHeader';
 import '../css/pages/uploadpage.css';
 
 

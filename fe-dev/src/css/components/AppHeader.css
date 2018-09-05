@@ -1,11 +1,13 @@
 .app-header {
-  border: solid black 1px;
   border-radius: 15px;
   padding: 15px;
+  margin-bottom: 10px;
   background-color: #f4f4f4; }
   .app-header h1 {
     font-family: "Yeseva One", cursive;
+    font-size: 5rem;
     color: #373737; }
   .app-header h4 {
     font-family: "Merriweather Sans", sans-serif;
+    font-size: 2rem;
     color: #c0b283; }
