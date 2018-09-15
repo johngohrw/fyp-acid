@@ -37,30 +37,20 @@ cv2.GaussianBlur(img, (kernel_size,kernel_size), 0)
 cv2.imshow('Apply Blur', img)
 cv2.waitKey(0)
 
-
+'''
 edges = cv2.Canny(img, 255/3, 255, apertureSize = 3)
 cv2.imshow('Apply Canny Edge Detection', edges)
 cv2.waitKey(0)
+'''
 
-edges = cv2.Canny(img, 255/4, 255, apertureSize = 3)
-cv2.imshow('Apply Canny Edge Detection', edges)
-cv2.waitKey(0)
-
-edges = cv2.Canny(img, 255/2, 255, apertureSize = 3)
-cv2.imshow('Apply Canny Edge Detection', edges)
-cv2.waitKey(0)
-
-edges = cv2.Canny(img, 255, 255, apertureSize = 3)
-cv2.imshow('Apply Canny Edge Detection', edges)
-cv2.waitKey(0)
-
-edges = cv2.Canny(img, 800, 255, apertureSize = 3)
+edges = cv2.Canny(img, 800/3, 800, apertureSize = 3)
 cv2.imshow('Apply Canny Edge Detection', edges)
 cv2.waitKey(0)
 
 ret, thres = cv2.threshold(edges, 127, 255, cv2.THRESH_BINARY)
 cv2.imshow('Apply Binary', thres)
 cv2.waitKey(0)
+
 '''
 
 edges1 = cv2.Canny(thres, 255/3, 255, apertureSize = 3)
@@ -70,6 +60,8 @@ cv2.waitKey(0)
 '''
 lines = cv2.HoughLines(edges, 1, np.pi/180, 290)
 print(lines)
+
+
 
 for inter_array in lines:
     print (inter_array)
@@ -89,14 +81,14 @@ for inter_array in lines:
         cv2.waitKey(0)
 
 cv2.imshow('Hough Lines', orig)
+
 '''
-
-lines = cv2.HoughLinesP(thres,rho = 1,theta = np.pi/180,threshold = 100,minLineLength = 500,maxLineGap = 20)
-
+lines = cv2.HoughLinesP(thres, rho =1, theta = np.pi/180, lines= np.array([]), threshold = 15 ,minLineLength = 50,maxLineGap = 10)
 print(lines)
+
 for coordinates in lines:
     for x1,y1,x2,y2 in coordinates:
-        cv2.line(orig   ,(x1,y1),(x2,y2),(0,255,0),2)
+        cv2.line(orig, (x1,y1) , (x2,y2) ,(0,255,0),4)
         cv2.imshow("Hough Lines Prob", orig)
         cv2.waitKey(0)
 
