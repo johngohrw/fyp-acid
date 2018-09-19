@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from img_utils import drawBoundingBox;
+from min_coverage import getMinCoverage
 
 
 def filterSegments(bin_seq):
@@ -42,8 +43,7 @@ def getRowBounds(region, Th = 10):
     return row_boundaries;
 
 
-def pivotingTextDetection(edges, orig):
-    #debug = orig.copy();
+def pivotingTextDetection(edges, orig, debug = False):
     rows = edges.shape[0];
     cols = edges.shape[1];
     # Region represented as (top, bottom, left, right)
@@ -51,18 +51,22 @@ def pivotingTextDetection(edges, orig):
     # Active Local Image Region Collection - possible candidates for text regions
     # would be added to this collection
     ALIRC = [initRegion];
-    isTextRegion = [False];
+    txtRegions = [];
 
     for index, regionBounds in enumerate(ALIRC):
-        top = regionBounds[0]; bottom = regionBounds[1];
-        left = regionBounds[2]; right = regionBounds[3];
+        top, bottom, left, right = regionBounds;
         region = edges[top:bottom+1, left:right+1];
+
         col_bounds = getColBounds(region);
 
         # A region is considered to be a true text region when it could not be
         # be further subdivided into subregions
         if len(col_bounds) == 0:
-            isTextRegion[index] = True;
+            if debug:
+                referenceImg = orig[top:bottom+1, left:right+1];
+                plt.imshow(referenceImg, 'gray');
+                plt.show();
+            txtRegions.append(regionBounds);
 
         for col_bound in col_bounds:
             # Column boundaries is relative to the subregion,
@@ -72,20 +76,24 @@ def pivotingTextDetection(edges, orig):
 
             subregion = edges[:, segment_left:segment_right+1];
             row_bounds = getRowBounds(subregion);
-            """
-            print(row_bounds);
-            orig_r = debug[:, left:right+1];
-            plt.subplot(1, 2, 1), plt.imshow(orig_r, 'gray');
-            plt.subplot(1, 2, 2), plt.imshow(subregion, 'gray');
-            plt.show();
-            """
+
             for row_bound in row_bounds:
                 # Again the row boundaries are relative to the subregion
                 segment_top = top + row_bound[0];
                 segment_bottom = top + row_bound[1];
                 detectedRegion = (segment_top, segment_bottom, segment_left, segment_right);
-                ALIRC.append(detectedRegion);
-                isTextRegion.append(False);
 
-    return (ALIRC, isTextRegion);
+                minCoveredRegion = getMinCoverage(edges, detectedRegion);
+                if debug:
+                    regionImg = edges[segment_top:segment_bottom+1, segment_left:segment_right+1];
+                    minTop, minBot, minLeft, minRight = minCoveredRegion;
+                    minRegionImg = edges[minTop:minBot+1, minLeft:minRight+1];
+
+                    plt.subplot(1, 2, 1), plt.imshow(regionImg, 'gray');
+                    plt.subplot(1, 2, 2), plt.imshow(minRegionImg, 'gray');
+                    plt.show();
+
+                ALIRC.append(minCoveredRegion);
+
+    return txtRegions;
 

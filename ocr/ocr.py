@@ -5,7 +5,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from text_detection import pivotingTextDetection
-from min_coverage import getMinCoverage
 from img_utils import *
 from recognition import *
 
@@ -64,58 +63,48 @@ class OCR:
 
     def recognize(self, img, edges, binarized):
         imgCopy = img.copy();
-        regions, isTextRegion = pivotingTextDetection(edges, img);
+        txtRegions = pivotingTextDetection(edges, img, debug=True);
 
-        for r in range(len(regions)):
-            if isTextRegion[r]:
-                current = regions[r];
-                #minCoveredRegion = getMinCoverage(edges, current);
+        for (top, bottom, left, right) in txtRegions:
+            binTextRegion = binarized[top:bottom+1, left:right+1];
 
-                #(top, bottom, left, right) = minCoveredRegion;
-                (top, bottom, left, right) = current;
-                binTextRegion = binarized[top:bottom+1, left:right+1];
-                charRects = getBoundingBoxOfChars(binTextRegion);
+            #referenceImg = img[top:bottom+1, left:right+1];
+            #plt.imshow(referenceImg, 'gray');
+            #plt.show();
 
-                recognizedText = self.__template_match(binTextRegion, charRects);
-                print(recognizedText);
-                font = cv2.FONT_HERSHEY_SIMPLEX;
-                origin = (right, bottom);   # origin of the text is bottom-left
-                fontScale = 0.5;
-                fontColor = (255, 0, 0);
-                lineType = 2;
+            currentRegionChars = getBoundingBoxOfChars(binTextRegion);
 
-                # Putting recognized text near their detected region
-                cv2.putText(imgCopy, recognizedText,
-                        origin, font, fontScale, fontColor, lineType);
+            recognizedText = self.__template_match(binTextRegion, currentRegionChars);
+            print(recognizedText);
+            font = cv2.FONT_HERSHEY_SIMPLEX;
+            origin = (right, bottom);   # origin of the text is bottom-left
+            fontScale = 0.5;
+            fontColor = (255, 0, 0);
+            lineType = 2;
 
-                #colBounds = minCoveredRegion[2:];
-                #rowBounds = minCoveredRegion[:2];
-                colBounds = current[2:];
-                rowBounds = current[:2];
-                drawBoundingBox(imgCopy, colBounds, rowBounds);
+            # Putting recognized text near their detected region
+            cv2.putText(imgCopy, recognizedText,
+                    origin, font, fontScale, fontColor, lineType);
+
+            colBounds = (left, right);
+            rowBounds = (top, bottom);
+            drawBoundingBox(imgCopy, colBounds, rowBounds);
 
         return imgCopy;
 
 
     # This is python's way for defining a private method, Pfffft"
-    def __template_match(self, binTextRegion, charRects):
+    def __template_match(self, binTextRegion, currentRegionChars):
         dimensionsToMatch = (57, 88);
         recognizedText = "";
-        for rect in charRects:
-            (x, y, w, h) = rect;
+        # Attempt to match each segmented chars in the text region with
+        # all the chars in our alphabet
+        for (x, y, w, h) in currentRegionChars:
             roi = binTextRegion[y:y + h, x:x + w];
             roi = cv2.resize(roi, dimensionsToMatch);
 
-            maxLetterScore, maxLetterIndex = matchTemplate(roi, self.lowerLetters, self.lowerRects, self.lowerBinImg);
-            maxUpperScore, maxUpperIndex = matchTemplate(roi, self.upperLetters, self.upperRects, self.upperBinImg);
-            maxDigitsScore, maxDigitsIndex = matchTemplate(roi, self.digits, self.digitsRects, self.digitsBinImg);
-
-            if maxLetterScore > maxUpperScore and maxLetterScore > maxDigitsScore:
-                recognizedText += self.lowerLetters[maxLetterIndex];
-            elif maxUpperScore > maxLetterScore and maxUpperScore > maxDigitsScore:
-                recognizedText += self.upperLetters[maxUpperIndex];
-            else:
-                recognizedText += self.digits[maxDigitsIndex];
+            _, maxLetterIndex = matchTemplate(roi, self.chars, self.charRects, self.templateBinImg);
+            recognizedText += self.chars[maxLetterIndex];
 
         return recognizedText;
 
@@ -126,7 +115,6 @@ if __name__ == "__main__":
     img = cv2.imread(imgPath);
 
     ocr = OCR();
-    """
     edges, binImg = ocr.preprocess(img);
     result = ocr.recognize(img, edges, binImg);
 
@@ -134,6 +122,4 @@ if __name__ == "__main__":
     imagesToShow.append(("Original", img));
     imagesToShow.append(("Detected Texts", result));
     showImages(1, 2, imagesToShow);
-    """
-
 
