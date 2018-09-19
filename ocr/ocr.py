@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 from text_detection import pivotingTextDetection
 from min_coverage import getMinCoverage
 from img_utils import *
-from recognition import processTemplateImg, getBoundingBoxOfChars, matchTemplate
+from recognition import *
 
 
 class OCR:
@@ -16,28 +16,30 @@ class OCR:
         print("Hello from OCR!");
         currentDir = os.path.dirname(os.path.realpath(__file__));
 
-        # Lowercase letters templates
-        lower = list(string.ascii_lowercase);
-        lower.insert(9, "-");
-        lower.insert(11, "-");
         lettersPath = os.path.join(currentDir, "templates/letters.png");
-        lowerRects, lettersBinImg = processTemplateImg(lettersPath);
-        self.lowerLetters = lower;
-        self.lowerRects = lowerRects; self.lowerBinImg = lettersBinImg;
-
-        # Uppercase letters templates
-        upper = list(string.ascii_uppercase);
         upperPath = os.path.join(currentDir, "templates/letters_upper.png");
-        upperRects, upperBinImg = processTemplateImg(upperPath);
-        self.upperLetters = upper;
-        self.upperRects = upperRects; self.upperBinImg = upperBinImg;
-
-        # Digits templates
-        digits = list(string.digits);
         digitsPath = os.path.join(currentDir, "templates/digits.png");
-        digitsRects, digitsBinImg = processTemplateImg(digitsPath);
-        self.digits = digits;
-        self.digitsRects = digitsRects; self.digitsBinImg = digitsBinImg;
+
+        lettersImg = cv2.imread(lettersPath);
+        upperImg = cv2.imread(upperPath);
+        digitsImg = cv2.imread(digitsPath);
+
+        fixedRows = lettersImg.shape[0];
+
+        upperDimensions = (upperImg.shape[1], fixedRows);
+        upperImg = cv2.resize(upperImg, upperDimensions);
+        digitsDimensions = (digitsImg.shape[1], fixedRows);
+        digitsImg = cv2.resize(digitsImg, digitsDimensions);
+
+        # Concatenate the template images in a row
+        templateImg = np.concatenate((lettersImg, np.concatenate((upperImg, digitsImg), axis=1)), axis=1);
+
+        self.chars = list(string.ascii_lowercase + string.ascii_uppercase + string.digits);
+        self.chars.insert(9, "-");
+        self.chars.insert(11, "-");
+        charRects, templateBinImg = processTemplateImg(templateImg);
+        self.charRects = charRects;
+        self.templateBinImg = templateBinImg;
 
 
     def preprocess(self, img):
@@ -124,6 +126,7 @@ if __name__ == "__main__":
     img = cv2.imread(imgPath);
 
     ocr = OCR();
+    """
     edges, binImg = ocr.preprocess(img);
     result = ocr.recognize(img, edges, binImg);
 
@@ -131,5 +134,6 @@ if __name__ == "__main__":
     imagesToShow.append(("Original", img));
     imagesToShow.append(("Detected Texts", result));
     showImages(1, 2, imagesToShow);
+    """
 
 
