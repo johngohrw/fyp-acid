@@ -53,7 +53,6 @@ export default class FileUpload extends Component {
     }
      return(
         <div className="uploader-container">
-          <h4>Upload your shit</h4>
           <Form onSubmit={this.handleUploadImages}>
             <FormGroup>
               <input className="form-control"  ref={(ref) => { this.uploadInput = ref; }} type="file" multiple />
@@ -64,6 +63,7 @@ export default class FileUpload extends Component {
                 <option disabled>select a method</option>
                 <option>OCR</option>
                 <option>LBP</option>
+                <option>shapes</option>
               </Input>
             </FormGroup>
             {uploadButton}

@@ -1,6 +1,6 @@
 import math
 import cv2
-import numpy
+import numpy as np
 from scipy.spatial import distance
 
 # prints warning if blocksize is not optimal.
@@ -70,7 +70,7 @@ def subdivide(image, blocksize, lbp):
         histograms.append(subarray)
     
     # initialise array storing neighbouring histograms' Euclidean distances
-    dist_array = numpy.zeros(shape=((divisions_y * 2)-1,(divisions_x * 2)-1))
+    dist_array = np.zeros(shape=((divisions_y * 2)-1,(divisions_x * 2)-1))
 
     # calculating left-neighbour Euclidean distances, storing in dist_array
     for row in range(divisions_y):

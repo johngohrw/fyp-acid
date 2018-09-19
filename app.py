@@ -3,6 +3,7 @@ import tensorflow as tf
 import io
 import numpy as np
 import cv2
+import random
 #from skimage import data, io, filters
 from flask import *
 
@@ -71,14 +72,27 @@ def file_upload_lbp():
         print('No selected file')
         return "400 BAD REQUEST", 400;
 
+    randomID = random.getrandbits(128);
+
     if file:
         in_memory_img = io.BytesIO();
         file.save(in_memory_img);
         imgbuf = np.fromstring(in_memory_img.getvalue(), np.uint8);
         img = cv2.imdecode(imgbuf, cv2.IMREAD_UNCHANGED);
 
-        resultImg = lbpEngine.preprocess(img);
-        # add more LBP steps here
+        blocksize = 10; # blocksize of region subdivisions
+
+        print('{}: starting preprocessing..'.format(randomID));
+        preprocessedImg = lbpEngine.preprocess(img);
+        print('{}: computing distance array..'.format(randomID));
+        dist_array = lbpEngine.compute_distance_array(preprocessedImg, blocksize)
+        print('{}: computing bottom shift..'.format(randomID));
+        bottomshifted = lbpEngine.bottom_shift(dist_array);
+        print('{}: computing right shift..'.format(randomID));
+        rightshifted = lbpEngine.right_shift(dist_array);
+        print('{}: done!'.format(randomID));
+        resultImg = dist_array;
+
         _, buffer = cv2.imencode(".jpg", resultImg);
         response = make_response(buffer.tobytes());
         response.headers["Content-Type"] = "image/jpeg"

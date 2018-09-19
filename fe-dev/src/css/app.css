@@ -51,6 +51,8 @@ body {
   box-shadow: 3px 3px #ff00ff; }
 
 .inner-content {
+  display: flex;
+  flex-direction: column;
   margin-left: 12%;
   margin-right: 12%;
   flex-grow: 1; }

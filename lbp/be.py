@@ -38,7 +38,7 @@ for i in range(len(images)):
     plt.subplot(1, 4, 1)
     plt.imshow(img)
     plt.axis('off')
-    plt.subplot(1, 4, 2)``
+    plt.subplot(1, 4, 2)
     plt.imshow(dist_array)
     plt.axis('off')
     plt.subplot(1, 4, 3)

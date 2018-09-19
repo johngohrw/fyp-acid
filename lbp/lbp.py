@@ -2,6 +2,7 @@ import os
 import cv2
 import glob
 import matplotlib.pyplot as plt
+import numpy
 from modules.lbp import LocalBinaryPatterns
 from modules.subdivisions import subdivide
 from modules.shifting import rightshift, bottomshift
@@ -22,14 +23,20 @@ class LBP:
         # resize image
         img = cv2.resize(img, (img_width * 2, img_height * 2))
 
-        print('preprocess!')
-
         return img
 
+    def compute_distance_array(self, image, blocksize):
+        
+        # initialise LocalBinaryPattern instance
+        lbpInstance = LocalBinaryPatterns(24, 8, "uniform") #number of points, radius
 
+        return subdivide(image, blocksize, lbpInstance)
 
+    def bottom_shift(self, dist_array):
+        return bottomshift(dist_array)
 
-
+    def right_shift(self, dist_array):
+        return rightshift(dist_array)
 
 
 if __name__ == "__main__":
@@ -42,7 +49,7 @@ if __name__ == "__main__":
     # deciding approximate size of subdivision blocks.
     # best to keep it a factor of 100 as image dimensions 
     # will first be resized to a factor of 100.
-    blocksize = 10
+    blocksize = 20
 
     # get list of image in folder
     images = glob.glob("images/*")
@@ -66,16 +73,16 @@ if __name__ == "__main__":
         rightshifted = rightshift(dist_array)
         bottomshifted = bottomshift(dist_array)
 
-        # plt.subplot(1, 4, 1)
-        # plt.imshow(img)
-        # plt.axis('off')
-        # plt.subplot(1, 4, 2)``
-        # plt.imshow(dist_array)
-        # plt.axis('off')
-        # plt.subplot(1, 4, 3)
-        # plt.imshow(rightshifted)
-        # plt.axis('off')
-        # plt.subplot(1, 4, 4)
-        # plt.imshow(bottomshifted)
-        # plt.axis('off')
-        # plt.show()
+        plt.subplot(1, 4, 1)
+        plt.imshow(img)
+        plt.axis('off')
+        plt.subplot(1, 4, 2)
+        plt.imshow(dist_array)
+        plt.axis('off')
+        plt.subplot(1, 4, 3)
+        plt.imshow(rightshifted)
+        plt.axis('off')
+        plt.subplot(1, 4, 4)
+        plt.imshow(bottomshifted)
+        plt.axis('off')
+        plt.show()
