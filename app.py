@@ -1,5 +1,3 @@
-import tensorflow as tf
-
 import io
 import numpy as np
 import cv2
@@ -98,11 +96,9 @@ def file_upload_lbp():
         response.headers["Content-Type"] = "image/jpeg"
         return response, 201;
 
-
 @app.errorhandler(404)
 def not_found(error):
     return "404 NOT FOUND!", 404;
-
 
 @app.errorhandler(405)
 def method_not_allowed(error):
