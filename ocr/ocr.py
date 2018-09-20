@@ -10,6 +10,7 @@ import pytesseract
 from text_detection import pivotingTextDetection
 from img_utils import *
 from recognition import *
+from thinning import zhangSuen
 
 
 class OCR:
@@ -64,13 +65,14 @@ class OCR:
         return (edges, binarized);
 
 
-    def recognize(self, img, edges, binarized):
+    def recognize(self, img, edges, binarized, thinning = False):
         imgCopy = img.copy();
         txtRegions = pivotingTextDetection(edges, img);
 
         for (top, bottom, left, right) in txtRegions:
             binTextRegion = binarized[top:bottom+1, left:right+1];
-            currentRegionChars = getBoundingBoxOfChars(binTextRegion);
+            if thinning:
+                binTextRegion = zhangSuen(binTextRegion);
 
             filename = "{}.jpg".format(os.getpid());
             cv2.imwrite(filename, binTextRegion);
