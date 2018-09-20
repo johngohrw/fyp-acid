@@ -62,20 +62,18 @@ class OCR:
         linesCoords, linesImg = detectLines(edges);
         removedLines = cv2.subtract(edges, linesImg);
 
-        return (edges, binarized);
+        return (unsharped, edges, binarized);
 
 
-    def recognize(self, img, edges, binarized, thinning = False):
+    def recognize(self, img, preprocessedImg, edges, binarized):
         imgCopy = img.copy();
         txtRegions = pivotingTextDetection(edges, img);
 
         for (top, bottom, left, right) in txtRegions:
-            binTextRegion = binarized[top:bottom+1, left:right+1];
-            if thinning:
-                binTextRegion = zhangSuen(binTextRegion);
+            targetRegion = preprocessedImg[top:bottom+1, left:right+1];
 
             filename = "{}.jpg".format(os.getpid());
-            cv2.imwrite(filename, binTextRegion);
+            cv2.imwrite(filename, targetRegion);
             config = ("-l eng --oem 1 --psm 7");
             recognizedText = pytesseract.image_to_string(Image.open(filename), config=config);
             os.remove(filename);
@@ -121,8 +119,8 @@ if __name__ == "__main__":
     img = cv2.imread(imgPath);
 
     ocr = OCR();
-    edges, binImg = ocr.preprocess(img);
-    result = ocr.recognize(img, edges, binImg);
+    preprocessedImg, edges, binImg = ocr.preprocess(img);
+    result = ocr.recognize(img, preprocessedImg, edges, binImg);
 
     """
     imagesToShow = [];
