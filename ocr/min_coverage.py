@@ -134,6 +134,7 @@ def maxShrinking(edges, regionBounds):
 def shrinkRowBounds(edges, rowBound, left, right, step):
     EDGE_PIXEL = 255;
 
+    rows = edges.shape[0];
     current = rowBound;
     edgeDetected = False;
     while not edgeDetected:
@@ -144,6 +145,9 @@ def shrinkRowBounds(edges, rowBound, left, right, step):
                 break;
         if not edgeDetected:
             current += step;
+        if current < 0 or current >= rows:
+            current = rowBound;
+            break;
 
     return current;
 
@@ -151,6 +155,7 @@ def shrinkRowBounds(edges, rowBound, left, right, step):
 def shrinkColBounds(edges, colBound, top, bottom, step):
     EDGE_PIXEL = 255;
 
+    cols = edges.shape[1];
     current = colBound;
     edgeDetected = False;
     while not edgeDetected:
@@ -161,6 +166,9 @@ def shrinkColBounds(edges, colBound, top, bottom, step):
                 break;
         if not edgeDetected:
             current += step;
+        if current < 0 or current >= cols:
+            current = colBound;
+            break;
 
     return current;
 

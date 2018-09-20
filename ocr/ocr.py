@@ -4,6 +4,9 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
+from PIL import Image
+import pytesseract
+
 from text_detection import pivotingTextDetection
 from img_utils import *
 from recognition import *
@@ -58,23 +61,24 @@ class OCR:
         linesCoords, linesImg = detectLines(edges);
         removedLines = cv2.subtract(edges, linesImg);
 
-        return (removedLines, binarized);
+        return (edges, binarized);
 
 
     def recognize(self, img, edges, binarized):
         imgCopy = img.copy();
-        txtRegions = pivotingTextDetection(edges, img, debug=True);
+        txtRegions = pivotingTextDetection(edges, img);
 
         for (top, bottom, left, right) in txtRegions:
             binTextRegion = binarized[top:bottom+1, left:right+1];
-
-            #referenceImg = img[top:bottom+1, left:right+1];
-            #plt.imshow(referenceImg, 'gray');
-            #plt.show();
-
             currentRegionChars = getBoundingBoxOfChars(binTextRegion);
 
-            recognizedText = self.__template_match(binTextRegion, currentRegionChars);
+            filename = "{}.jpg".format(os.getpid());
+            cv2.imwrite(filename, binTextRegion);
+            config = ("-l eng --oem 1 --psm 7");
+            recognizedText = pytesseract.image_to_string(Image.open(filename), config=config);
+            os.remove(filename);
+
+            #recognizedText = self.__template_match(binTextRegion, currentRegionChars);
             print(recognizedText);
             font = cv2.FONT_HERSHEY_SIMPLEX;
             origin = (right, bottom);   # origin of the text is bottom-left
@@ -118,8 +122,10 @@ if __name__ == "__main__":
     edges, binImg = ocr.preprocess(img);
     result = ocr.recognize(img, edges, binImg);
 
+    """
     imagesToShow = [];
     imagesToShow.append(("Original", img));
     imagesToShow.append(("Detected Texts", result));
     showImages(1, 2, imagesToShow);
+    """
 
