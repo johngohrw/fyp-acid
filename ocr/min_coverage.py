@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 """
 Calculates the minimum coverage bounding box.
@@ -18,81 +19,122 @@ already in the region
 """
 
 def getMinCoverage(edges, regionBounds):
-    expandedRegion = minExpansion(edges, regionBounds);
-    shrinkedRegion = maxShrinking(edges, expandedRegion);
-    return shrinkedRegion;
+    try:
+        expandedRegion = minExpansion(edges, regionBounds);
+        shrinkedRegion = maxShrinking(edges, expandedRegion);
+        return shrinkedRegion;
+    except IndexError:
+        print("Min coverage Index error:", regionBounds);
+        raise IndexError;
 
 
 def minExpansion(edges, regionBounds):
-    top = regionBounds[0]; bottom = regionBounds[1];
-    left = regionBounds[2]; right = regionBounds[3];
+    top, bottom, left, right  = regionBounds;
 
     height = edges.shape[0];
     width = edges.shape[1];
 
+    lookaheadVal = 3;
     if top > 0:
-        top = detectEdgesOutsideTopAndBottom(edges, top, left, right, -1);
+        top = detectEdgesOutsideTopAndBottom(edges, top, left, right, -1, -lookaheadVal);
     if bottom < height-1:
-        bottom = detectEdgesOutsideTopAndBottom(edges, bottom, left, right, 1);
+        bottom = detectEdgesOutsideTopAndBottom(edges, bottom, left, right, 1, lookaheadVal);
 
     if left > 0:
-        left = detectEdgesOutsideLeftAndRight(edges, left, top, bottom, -1);
+        left = detectEdgesOutsideLeftAndRight(edges, left, top, bottom, -1, -lookaheadVal);
     if right < width-1:
-        right = detectEdgesOutsideLeftAndRight(edges, right, top, bottom, 1);
+        right = detectEdgesOutsideLeftAndRight(edges, right, top, bottom, 1, lookaheadVal);
 
     newRegionBounds = (top, bottom, left, right);
     return newRegionBounds;
 
 
-def detectEdgesOutsideTopAndBottom(edges, targetBound, left, right, step):
+def detectEdgesOutsideTopAndBottom(edges, targetBound, left, right, step, lookahead):
     EDGE_PIXEL = 255;
 
-    noEdgeDetected = False;
+    rows = edges.shape[0];
+    edgeDetected = True;
     current = targetBound;
     # Keep expanding the boundary until there is no more edge pixels that
     # connect with an edge pixel within a region
-    while not noEdgeDetected:
+    while edgeDetected and (current > 0 and current < rows-1):
         for col in range(left, right+1):
-            noEdgeDetected = True;
+            edgeDetected = False;
             currentPixel = edges[current, col];
             if currentPixel == EDGE_PIXEL:
                 neighbour1 = edges[current+step, col-1];
                 neighbour2 = edges[current+step, col];
                 neighbour3 = edges[current+step, col+1];
+                # There is a neighbouring edge pixel at the boundaries
+                # of the region, move to next row
                 if neighbour1 == EDGE_PIXEL or neighbour2 == EDGE_PIXEL or neighbour3 == EDGE_PIXEL:
-                    noEdgeDetected = False;
+                    edgeDetected = True;
                     current += step;
                     break;
+
+                # Allow some gaps in between
+                lookaheadRow = current + lookahead;
+                if lookaheadRow > 0 or lookaheadRow < rows:
+                    n1 = edges[lookaheadRow, col-1];
+                    n2 = edges[lookaheadRow, col];
+                    n3 = edges[lookaheadRow, col+1];
+                    if n1 == EDGE_PIXEL or n2 == EDGE_PIXEL or n3 == EDGE_PIXEL:
+                        edgeDetected = True;
+                        current += lookahead;
+                        break;
+
+    if current < 0:
+        current = 0;
+    elif current > rows-1:
+        current = rows-1;
 
     return current;
 
 
-def detectEdgesOutsideLeftAndRight(edges, targetBound, top, bottom, step):
+def detectEdgesOutsideLeftAndRight(edges, targetBound, top, bottom, step, lookahead):
     EDGE_PIXEL = 255;
 
-    noEdgeDetected = False;
+    cols = edges.shape[1];
+    edgeDetected = True;
     current = targetBound;
     # Keep expanding the boundary until there is no more edge pixels that
     # connect with an edge pixel within a region
-    while not noEdgeDetected:
+    while edgeDetected and (current > 0 and current < cols-1):
         for row in range(top, bottom+1):
-            noEdgeDetected = True;
+            edgeDetected = False;
             currentPixel = edges[row, current];
             if currentPixel == EDGE_PIXEL:
                 neighbour1 = edges[row-1, current+step];
                 neighbour2 = edges[row, current+step];
                 neighbour3 = edges[row+1, current+step];
+                # There is a neighbouring edge pixel at the boundaries
+                # of the region, move to next column
                 if neighbour1 == EDGE_PIXEL or neighbour2 == EDGE_PIXEL or neighbour3 == EDGE_PIXEL:
-                    noEdgeDetected = False;
+                    edgeDetected = True;
                     current += step;
                     break;
+
+                # Allows some gaps in between
+                lookaheadCol = current + lookahead;
+                if lookaheadCol > 0 or lookaheadCol < cols:
+                    n1 = edges[row-1, lookaheadCol];
+                    n2 = edges[row, lookaheadCol];
+                    n3 = edges[row+1, lookaheadCol];
+                    if n1 == EDGE_PIXEL or n2 == EDGE_PIXEL or n3 == EDGE_PIXEL:
+                        edgeDetected = True;
+                        current += lookahead;
+                        break;
+
+    if current < 0:
+        current = 0;
+    elif current > cols-1:
+        current = cols-1;
 
     return current;
 
 
 def maxShrinking(edges, regionBounds):
-    top = regionBounds[0]; bottom = regionBounds[1];
-    left = regionBounds[2]; right = regionBounds[3];
+    top, bottom, left, right = regionBounds;
 
     top = shrinkRowBounds(edges, top, left, right, 1);
     bottom = shrinkRowBounds(edges, bottom, left, right, -1);
@@ -107,6 +149,7 @@ def maxShrinking(edges, regionBounds):
 def shrinkRowBounds(edges, rowBound, left, right, step):
     EDGE_PIXEL = 255;
 
+    rows = edges.shape[0];
     current = rowBound;
     edgeDetected = False;
     while not edgeDetected:
@@ -117,6 +160,9 @@ def shrinkRowBounds(edges, rowBound, left, right, step):
                 break;
         if not edgeDetected:
             current += step;
+        if current < 0 or current >= rows:
+            current = rowBound;
+            break;
 
     return current;
 
@@ -124,6 +170,7 @@ def shrinkRowBounds(edges, rowBound, left, right, step):
 def shrinkColBounds(edges, colBound, top, bottom, step):
     EDGE_PIXEL = 255;
 
+    cols = edges.shape[1];
     current = colBound;
     edgeDetected = False;
     while not edgeDetected:
@@ -134,6 +181,9 @@ def shrinkColBounds(edges, colBound, top, bottom, step):
                 break;
         if not edgeDetected:
             current += step;
+        if current < 0 or current >= cols:
+            current = colBound;
+            break;
 
     return current;
 
