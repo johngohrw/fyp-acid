@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 """
 Calculates the minimum coverage bounding box.
@@ -18,9 +19,13 @@ already in the region
 """
 
 def getMinCoverage(edges, regionBounds):
-    expandedRegion = minExpansion(edges, regionBounds);
-    shrinkedRegion = maxShrinking(edges, expandedRegion);
-    return shrinkedRegion;
+    try:
+        expandedRegion = minExpansion(edges, regionBounds);
+        shrinkedRegion = maxShrinking(edges, expandedRegion);
+        return shrinkedRegion;
+    except IndexError:
+        print("Min coverage Index error:", regionBounds);
+        raise IndexError;
 
 
 def minExpansion(edges, regionBounds):
@@ -78,6 +83,11 @@ def detectEdgesOutsideTopAndBottom(edges, targetBound, left, right, step, lookah
                         current += lookahead;
                         break;
 
+    if current < 0:
+        current = 0;
+    elif current > rows-1:
+        current = rows-1;
+
     return current;
 
 
@@ -114,6 +124,11 @@ def detectEdgesOutsideLeftAndRight(edges, targetBound, top, bottom, step, lookah
                         edgeDetected = True;
                         current += lookahead;
                         break;
+
+    if current < 0:
+        current = 0;
+    elif current > cols-1:
+        current = cols-1;
 
     return current;
 

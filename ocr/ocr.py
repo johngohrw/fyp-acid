@@ -3,6 +3,7 @@ import os
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
+import imutils
 
 from PIL import Image
 import pytesseract
@@ -15,34 +16,36 @@ from thinning import zhangSuen
 
 class OCR:
 
-    def __init__(self):
+    def __init__(self, templateMatching = False):
         print("Hello from OCR!");
-        currentDir = os.path.dirname(os.path.realpath(__file__));
 
-        lettersPath = os.path.join(currentDir, "templates/letters.png");
-        upperPath = os.path.join(currentDir, "templates/letters_upper.png");
-        digitsPath = os.path.join(currentDir, "templates/digits.png");
+        if templateMatching:
+            currentDir = os.path.dirname(os.path.realpath(__file__));
 
-        lettersImg = cv2.imread(lettersPath);
-        upperImg = cv2.imread(upperPath);
-        digitsImg = cv2.imread(digitsPath);
+            lettersPath = os.path.join(currentDir, "templates/letters.png");
+            upperPath = os.path.join(currentDir, "templates/letters_upper.png");
+            digitsPath = os.path.join(currentDir, "templates/digits.png");
 
-        fixedRows = lettersImg.shape[0];
+            lettersImg = cv2.imread(lettersPath);
+            upperImg = cv2.imread(upperPath);
+            digitsImg = cv2.imread(digitsPath);
 
-        upperDimensions = (upperImg.shape[1], fixedRows);
-        upperImg = cv2.resize(upperImg, upperDimensions);
-        digitsDimensions = (digitsImg.shape[1], fixedRows);
-        digitsImg = cv2.resize(digitsImg, digitsDimensions);
+            fixedRows = lettersImg.shape[0];
 
-        # Concatenate the template images in a row
-        templateImg = np.concatenate((lettersImg, np.concatenate((upperImg, digitsImg), axis=1)), axis=1);
+            upperDimensions = (upperImg.shape[1], fixedRows);
+            upperImg = cv2.resize(upperImg, upperDimensions);
+            digitsDimensions = (digitsImg.shape[1], fixedRows);
+            digitsImg = cv2.resize(digitsImg, digitsDimensions);
 
-        self.chars = list(string.ascii_lowercase + string.ascii_uppercase + string.digits);
-        self.chars.insert(9, "-");
-        self.chars.insert(11, "-");
-        charRects, templateBinImg = processTemplateImg(templateImg);
-        self.charRects = charRects;
-        self.templateBinImg = templateBinImg;
+            # Concatenate the template images in a row
+            templateImg = np.concatenate((lettersImg, np.concatenate((upperImg, digitsImg), axis=1)), axis=1);
+
+            self.chars = list(string.ascii_lowercase + string.ascii_uppercase + string.digits);
+            self.chars.insert(9, "-");
+            self.chars.insert(11, "-");
+            charRects, templateBinImg = processTemplateImg(templateImg);
+            self.charRects = charRects;
+            self.templateBinImg = templateBinImg;
 
 
     def preprocess(self, img):
@@ -65,36 +68,45 @@ class OCR:
         return (unsharped, edges, binarized);
 
 
-    def recognize(self, img, preprocessedImg, edges, binarized):
-        imgCopy = img.copy();
-        txtRegions = pivotingTextDetection(edges, img);
+    def recognize(self, img):
+        results = [];
 
-        for (top, bottom, left, right) in txtRegions:
-            targetRegion = preprocessedImg[top:bottom+1, left:right+1];
+        for angle in np.arange(0, 360, 90):
+            print("Current angle:", angle);
+            rotated = imutils.rotate_bound(img, angle);
+            preprocessedImg, edges, binImg = ocr.preprocess(rotated);
+            txtRegions = pivotingTextDetection(edges, img);
 
-            filename = "{}.jpg".format(os.getpid());
-            cv2.imwrite(filename, targetRegion);
-            config = ("-l eng --oem 1 --psm 7");
-            recognizedText = pytesseract.image_to_string(Image.open(filename), config=config);
-            os.remove(filename);
+            for (top, bottom, left, right) in txtRegions:
+                targetRegion = preprocessedImg[top:bottom+1, left:right+1];
 
-            #recognizedText = self.__template_match(binTextRegion, currentRegionChars);
-            print(recognizedText);
-            font = cv2.FONT_HERSHEY_SIMPLEX;
-            origin = (right, bottom);   # origin of the text is bottom-left
-            fontScale = 0.5;
-            fontColor = (255, 0, 0);
-            lineType = 2;
+                filename = "{}.jpg".format(os.getpid());
+                cv2.imwrite(filename, targetRegion);
+                config = ("-l eng --oem 1 --psm 7");
+                recognizedText = pytesseract.image_to_string(Image.open(filename), config=config);
+                os.remove(filename);
 
-            # Putting recognized text near their detected region
-            cv2.putText(imgCopy, recognizedText,
-                    origin, font, fontScale, fontColor, lineType);
+                print(recognizedText);
 
-            colBounds = (left, right);
-            rowBounds = (top, bottom);
-            drawBoundingBox(imgCopy, colBounds, rowBounds);
+                colBounds = (left, right);
+                rowBounds = (top, bottom);
+                drawBoundingBox(rotated, colBounds, rowBounds);
 
-        return imgCopy;
+            results.append(rotated);
+
+        return results;
+
+
+    def __placeText(self, img, text):
+        font = cv2.FONT_HERSHEY_SIMPLEX;
+        origin = (right, bottom);   # origin of the text is bottom-left
+        fontScale = 0.5;
+        fontColor = (255, 0, 0);
+        lineType = 2;
+
+        # Putting recognized text near their detected region
+        cv2.putText(img, text,
+                origin, font, fontScale, fontColor, lineType);
 
 
     # This is python's way for defining a private method, Pfffft"
@@ -119,8 +131,7 @@ if __name__ == "__main__":
     img = cv2.imread(imgPath);
 
     ocr = OCR();
-    preprocessedImg, edges, binImg = ocr.preprocess(img);
-    result = ocr.recognize(img, preprocessedImg, edges, binImg);
+    result = ocr.recognize(img);
 
     """
     imagesToShow = [];
