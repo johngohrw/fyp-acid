@@ -24,7 +24,6 @@ def getMinCoverage(edges, regionBounds):
         shrinkedRegion = maxShrinking(edges, expandedRegion);
         return shrinkedRegion;
     except IndexError:
-        print("Min coverage Index error:", regionBounds);
         raise IndexError;
 
 

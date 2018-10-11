@@ -70,23 +70,33 @@ class OCR:
 
     def recognize(self, img):
         results = [];
+        texts = {};
 
+        currentDir = os.path.dirname(os.path.realpath(__file__));
         for angle in np.arange(0, 360, 90):
-            print("Current angle:", angle);
             rotated = imutils.rotate_bound(img, angle);
-            preprocessedImg, edges, binImg = ocr.preprocess(rotated);
+            preprocessedImg, edges, binImg = self.preprocess(rotated);
             txtRegions = pivotingTextDetection(edges, img);
 
             for (top, bottom, left, right) in txtRegions:
                 targetRegion = preprocessedImg[top:bottom+1, left:right+1];
 
-                filename = "{}.jpg".format(os.getpid());
-                cv2.imwrite(filename, targetRegion);
-                config = ("-l eng --oem 1 --psm 7");
-                recognizedText = pytesseract.image_to_string(Image.open(filename), config=config);
-                os.remove(filename);
+                if 0 in targetRegion.shape:
+                    continue;
 
-                print(recognizedText);
+                filename = "{}.jpg".format(os.getpid());
+                imgPath = os.path.join(currentDir, filename);
+                cv2.imwrite(imgPath, targetRegion);
+                config = ("-l eng --oem 1 --psm 7");
+                recognizedText = pytesseract.image_to_string(Image.open(imgPath), config=config);
+                os.remove(imgPath);
+
+                tokens = recognizedText.split(" ");
+                for token in tokens:
+                    try:
+                        texts[token] += 1;
+                    except KeyError:
+                        texts[token] = 1;
 
                 colBounds = (left, right);
                 rowBounds = (top, bottom);
@@ -94,7 +104,7 @@ class OCR:
 
             results.append(rotated);
 
-        return results;
+        return results, texts;
 
 
     def __placeText(self, img, text):
@@ -131,7 +141,7 @@ if __name__ == "__main__":
     img = cv2.imread(imgPath);
 
     ocr = OCR();
-    result = ocr.recognize(img);
+    results, texts = ocr.recognize(img);
 
     """
     imagesToShow = [];
