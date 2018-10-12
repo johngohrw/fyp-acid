@@ -2,7 +2,8 @@ import os
 
 import cv2
 import numpy as np
-import sklearn
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
 
 import sys
 sys.path.append("./ocr/");
@@ -72,6 +73,27 @@ if __name__ == "__main__":
         npData = np.genfromtxt(dataFilename, delimiter=",");
         npLabels = np.genfromtxt(labelFilename, delimiter="\n", dtype=np.uint8);
         assert npData.shape[0] == npLabels.shape[0];
-        print(npData);
-        print(npLabels);
+
+        # Data has 'X' as prefix while the labels have 'y' as prefix
+        #
+        # This method randomly shuffles the data and labels for us.
+        # Potentially useful params:
+        #   test_size: float, int (between 0.0 and 1.0), default = 0.25
+        #   train_size: float, int (between 0.0 and 1.0)
+        #   random_state: A fixed seed value to give to the PRNG
+        #
+        X_train, X_test, y_train, y_test = train_test_split(npData, npLabels, random_state=0);
+        print(X_train);
+        print(X_test);
+        print(y_train);
+        print(y_test);
+
+        # Training with KNN (2 neighbor classifier)
+        knn = KNeighborsClassifier(n_neighbors=2);
+        knn.fit(X_train, y_train);
+
+        # Testing with KNN
+        y_pred = knn.predict(X_test);
+        print("Test set predictions:\n{}".format(y_pred));
+        print("Test set score: {:.2f}".format(knn.score(X_test, y_test)));
 
