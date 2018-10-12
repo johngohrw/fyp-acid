@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import LinearSVC
 
 import sys
 sys.path.append("./ocr/");
@@ -91,9 +92,20 @@ if __name__ == "__main__":
         # Training with KNN (2 neighbor classifier)
         knn = KNeighborsClassifier(n_neighbors=2);
         knn.fit(X_train, y_train);
+        print("KNN Train set score: {:.2f}".format(knn.score(X_train, y_train)));
 
         # Testing with KNN
         y_pred = knn.predict(X_test);
-        print("Test set predictions:\n{}".format(y_pred));
-        print("Test set score: {:.2f}".format(knn.score(X_test, y_test)));
+        print("KNN Test set predictions:\n{}".format(y_pred));
+        print("KNN Test set score: {:.2f}".format(knn.score(X_test, y_test)));
+
+        # Training with SVM
+        svm = LinearSVC(random_state=0, C=750);
+        svm.fit(X_train, y_train);
+        print("SVM Train set score: {:.2f}".format(svm.score(X_train, y_train)));
+
+        # Testing with SVM
+        svm_y_pred = svm.predict(X_test);
+        print("SVM Test set predictions:\n{}".format(svm_y_pred));
+        print("SVM Test set score: {:.2f}".format(svm.score(X_test, y_test)));
 
