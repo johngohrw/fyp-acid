@@ -30,16 +30,20 @@ def detectLines(edges):
     MAX_GAP = 20;
     Th = 125;
     lines = cv2.HoughLinesP(edges, 1, np.pi/180, Th, minLineLength=MIN_LENGTH, maxLineGap=MAX_GAP);
-    for x in range(len(lines)):
-        for x1, y1, x2, y2 in lines[x]:
-            endpoint1 = (x1, y1);
-            endpoint2 = (x2, y2);
-            linePoints = endpoint1 + endpoint2;
-            linesCoords.append(linePoints);
 
-            drawLine(linesImg, linePoints, thick=3);
+    try:
+        for x in range(len(lines)):
+            for x1, y1, x2, y2 in lines[x]:
+                endpoint1 = (x1, y1);
+                endpoint2 = (x2, y2);
+                linePoints = endpoint1 + endpoint2;
+                linesCoords.append(linePoints);
 
-    return (linesCoords, linesImg);
+                drawLine(linesImg, linePoints, thick=3);
+
+        return (linesCoords, linesImg);
+    except TypeError:
+        return (None, edges);
 
 
 def drawLine(img, coords, color = (255, 255, 255), thick = 1):

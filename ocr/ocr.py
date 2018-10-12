@@ -62,8 +62,10 @@ class OCR:
         maxTh = 200;
         edges = cv2.Canny(unsharped, minTh, maxTh, L2gradient = True);
 
+        """
         linesCoords, linesImg = detectLines(edges);
         removedLines = cv2.subtract(edges, linesImg);
+        """
 
         return (unsharped, edges, binarized);
 

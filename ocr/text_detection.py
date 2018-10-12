@@ -84,6 +84,7 @@ def pivotingTextDetection(edges, orig, debug = False):
                 detectedRegion = (segment_top, segment_bottom, segment_left, segment_right);
 
                 try:
+                    """
                     minCoveredRegion = getMinCoverage(edges, detectedRegion);
 
                     if debug:
@@ -94,8 +95,8 @@ def pivotingTextDetection(edges, orig, debug = False):
                         plt.subplot(1, 2, 1), plt.imshow(regionImg, 'gray');
                         plt.subplot(1, 2, 2), plt.imshow(minRegionImg, 'gray');
                         plt.show();
-
-                    ALIRC.append(minCoveredRegion);
+                    """
+                    ALIRC.append(detectedRegion);
                 except IndexError:
                     continue;
 
