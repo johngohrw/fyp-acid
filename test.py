@@ -1,6 +1,7 @@
 import os
 
 import cv2
+import numpy as np
 import sklearn
 
 import sys
@@ -36,22 +37,41 @@ def getOCRFeatures(imgNames, imgDir, ocr, data, labels, label_value, limit = 15)
 
 
 if __name__ == "__main__":
-    currentDir = os.path.dirname(os.path.realpath(__file__));
-    compPath = os.path.join(currentDir, "dataset/COMP");
-    noCompPath = os.path.join(currentDir, "dataset/NOCOMP");
+    dataFilename = "data.csv";
+    labelFilename = "labels.txt";
+    # Data or label file does not exist then just extract the features, give
+    # label and write them to their respective files
+    if not os.path.isfile(dataFilename) or not os.path.isfile(labelFilename):
+        currentDir = os.path.dirname(os.path.realpath(__file__));
+        compPath = os.path.join(currentDir, "dataset/COMP");
+        noCompPath = os.path.join(currentDir, "dataset/NOCOMP");
 
-    compImgs = os.listdir(compPath);
-    noCompImgs = os.listdir(noCompPath);
-    print(len(compImgs));
-    print(len(noCompImgs));
+        compImgs = os.listdir(compPath);
+        noCompImgs = os.listdir(noCompPath);
+        print(len(compImgs));
+        print(len(noCompImgs));
 
-    ocr = OCR();
+        ocr = OCR();
 
-    data = [];
-    labels = [];
-    getOCRFeatures(compImgs, compPath, ocr, data, labels, 1);
-    getOCRFeatures(noCompImgs, noCompPath, ocr, data, labels, 0, limit = 10);
+        data = [];
+        labels = [];
+        getOCRFeatures(compImgs, compPath, ocr, data, labels, 1);
+        getOCRFeatures(noCompImgs, noCompPath, ocr, data, labels, 0, limit = 10);
+        with open(dataFilename, "w") as dataFile, open(labelFilename, "w") as labelsFile:
+            for i in range(len(data)):
+                dataRow = data[i];
+                dataStr = "";
+                for j in range(len(dataRow)-1):
+                    dataStr += str(dataRow[j]) + ",";
+                dataStr += str(dataRow[len(dataRow)-1]) + "\n";
+                dataFile.write(dataStr);
 
-    print(len(data));
-    print(len(labels));
+                label = labels[i];
+                labelsFile.write(str(label) + "\n");
+    else:
+        npData = np.genfromtxt(dataFilename, delimiter=",");
+        npLabels = np.genfromtxt(labelFilename, delimiter="\n", dtype=np.uint8);
+        assert npData.shape[0] == npLabels.shape[0];
+        print(npData);
+        print(npLabels);
 
