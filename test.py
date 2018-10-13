@@ -3,6 +3,8 @@ import os
 import cv2
 import numpy as np
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import KFold
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import LinearSVC
 
@@ -108,4 +110,32 @@ if __name__ == "__main__":
         svm_y_pred = svm.predict(X_test);
         print("SVM Test set predictions:\n{}".format(svm_y_pred));
         print("SVM Test set score: {:.2f}".format(svm.score(X_test, y_test)));
+
+        # Performing k fold cross validation (5 folds)
+        # NOTE: Cross validation is not used to build a model for
+        # new data. K models are build when running a k fold cross validation
+        # so it just evaluate how well the model will generalize when
+        # trained on a specific dataset
+        #
+        # Other cross validation methods:
+        # LeaveOneOut: Like k fold cross validation, but each fold is a single
+        #              sample
+        # ShuffleSplit: Shuffles and splits the data set into training
+        #               set and into testing set, and repeats this for N
+        #               iterations. Training and test set do not have to
+        #               be 100% together, which means some samples could be
+        #               left out in each iteration, useful for large datasets
+        # GroupKFold: Groups related data together. Data that are of the
+        #             of the same group should not be split when doing k fold
+        #             cross validation. An example would be like for a model
+        #             that attempts to recognize emotions. If there are
+        #             multiple shots of the same person but with different
+        #             emotions, its better that all the images of that person
+        #             to be in the training set, rather than having some in
+        #             training and some in testing.
+        knn2 = KNeighborsClassifier(n_neighbors=2);
+        kfold = KFold(n_splits=5, shuffle=True, random_state=0);
+        scores = cross_val_score(knn2, npData, npLabels, cv=kfold);
+        print("Cross validation scores: {}".format(scores));
+        print("Average cross-validation score: {:.2f}".format(scores.mean()));
 
