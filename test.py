@@ -5,8 +5,10 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
+from sklearn.model_selection import GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import LinearSVC
+from sklearn.svm import SVC
 
 import sys
 sys.path.append("./ocr/");
@@ -138,4 +140,45 @@ if __name__ == "__main__":
         scores = cross_val_score(knn2, npData, npLabels, cv=kfold);
         print("Cross validation scores: {}".format(scores));
         print("Average cross-validation score: {:.2f}".format(scores.mean()));
+
+        # Training, testing and validation set
+        #
+        # Split the dataset to train+validation and test first
+        X_trainval, X_test, y_trainval, y_test = train_test_split(npData, npLabels, random_state=0);
+        # Then split the train+validation set to train and validation set
+        # accordingly
+        X_train, X_valid, y_train, y_valid = train_test_split(X_trainval, y_trainval, random_state=1);
+
+        best_score = 0;
+        # Parameter testing and Cross Validation
+        for gamma in [0.001, 0.01, 0.1, 1, 10, 100]:
+            for C in [0.001, 0.01, 0.1, 1, 10, 100]:
+                # A non-linear SVM
+                kernel_svm = SVC(gamma=gamma, C=C);
+                scores = cross_val_score(kernel_svm, X_trainval, y_trainval, cv=5);
+                # Get average cross validation accuracy
+                score = np.mean(scores);
+                if score > best_score:
+                    best_score = score;
+                    best_parameters = {"C": C, "gamma": gamma};
+
+        # Rebuild the model using the best parameters
+        kernel_svm = SVC(**best_parameters);
+        kernel_svm.fit(X_trainval, y_trainval);
+        test_score = kernel_svm.score(X_test, y_test);
+        print("RBF Kernel SVM");
+        print("==============");
+        print("Best cross-validation score: {:.2f}".format(best_score));
+        print("Best parameters:", best_parameters);
+        print("Test score with best parameters: {:.2f}".format(test_score));
+
+        # Or we can do all that with a single class
+        param_grid = {"gamma": [0.001, 0.01, 0.1, 1, 10, 100],
+                "C": [0.001, 0.01, 0.1, 1, 10, 100]};
+        grid_search = GridSearchCV(SVC(), param_grid, cv=5);
+        grid_search.fit(X_trainval, y_trainval);
+        print("Best cross-validation score: {:.2f}".format(grid_search.best_score_));
+        print("Best parameters: {}".format(grid_search.best_params_));
+        print("Test score with best parameters: {:.2f}".format(grid_search.score(X_test, y_test)));
+
 
