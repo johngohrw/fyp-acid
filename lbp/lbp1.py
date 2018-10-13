@@ -3,7 +3,7 @@ import glob
 import numpy as np
 import matplotlib.pyplot as plt
 from modules.lbp import LocalBinaryPatterns
-from modules.subdivisions import subdivide
+from modules.subdivisions import subdivide_checkeredLBP
 from modules.shifting import rightshift, bottomshift
 
 # initialise LocalBinaryPattern instance
@@ -43,7 +43,7 @@ for i in range(len(images)):
 
     # compute distance array via LBP (checkerboard format)
     # for j in range(5):
-    checkered = subdivide(img, blocksize, lbps[3])
+    checkered = subdivide_checkeredLBP(img, blocksize, lbps[3])
     equ = cv2.equalizeHist(np.uint8(checkered)) # do histogram equalization
     sub = cv2.bitwise_not(equ)
     ret,thresh1 = cv2.threshold(sub,200,255,cv2.THRESH_TOZERO)

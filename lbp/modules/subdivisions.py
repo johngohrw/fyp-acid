@@ -21,7 +21,7 @@ def quantizePixel(val, maxPixelValue):
 
 # subdivides the input image with a LocalBinaryPattern instance
 # according to the blocksize, returns a checkered distance matrix.
-def subdivide(image, blocksize, lbp):
+def subdivide_checkeredLBP(image, blocksize, lbp):
 
     blocksize_x = blocksize
     blocksize_y = blocksize
@@ -100,14 +100,14 @@ def subdivide(image, blocksize, lbp):
     
     return dist_array
     
-
-# subdivides the input image into divisions
+    
+# subdivides the input image into divisions based on the blocksize.
+# nice and simple. no retarded stuff going on.
 def divisions(image, blocksize):
 
-    blocksize_x = blocksize
+    # how many pixels per block (square blocks only for now lul)
+    blocksize_x = blocksize 
     blocksize_y = blocksize
-
-
 
     # get image dimensions
     dimensions = image.shape 

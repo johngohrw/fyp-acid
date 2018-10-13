@@ -2,8 +2,9 @@ import cv2
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 from modules.lbp import LocalBinaryPatterns
-from modules.subdivisions import subdivide, divisions
+from modules.subdivisions import subdivide_checkeredLBP, divisions
 from modules.shifting import rightshift, bottomshift
 
 # initialise LocalBinaryPattern instance
@@ -11,6 +12,9 @@ lbp = LocalBinaryPatterns(8, 24, "uniform") #number of points, radius
 
 # get list of image in folder
 images = glob.glob("images/*")
+
+# resultFile = open('results.txt', 'w')
+resultFileCsv = open('results.csv', 'w')
 
 # for each image in folder:
 for i in range(len(images)):
@@ -26,7 +30,7 @@ for i in range(len(images)):
     # resize image
     img = cv2.resize(img, (600, 600))
 
-    subdivided = divisions(img, 50)
+    subdivided = divisions(img, 200)
 
     concatenatedHistograms = np.array([])
  
@@ -41,5 +45,7 @@ for i in range(len(images)):
             # plt.subplot(len(subdivided), len(subdivided[0]), ( m*len(subdivided[0]) + (n+1) ) )
             # plt.imshow(subdivided[m][n])
             # plt.axis('off')
-    
+
+    # resultFile.write(np.array2string(concatenatedHistograms, max_line_width=math.inf, precision=5, threshold=100000, separator=',', suppress_small=False) + '\n')
+    resultFileCsv.write(np.array2string(concatenatedHistograms, max_line_width=math.inf, precision=5, threshold=100000,formatter={'float_kind':lambda x: "%.5f" % x}, separator=',', suppress_small=False)[1:-1] + '\n')
     # plt.show()
