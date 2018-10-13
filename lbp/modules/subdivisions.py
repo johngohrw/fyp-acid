@@ -100,3 +100,53 @@ def subdivide(image, blocksize, lbp):
     
     return dist_array
     
+
+# subdivides the input image into divisions
+def divisions(image, blocksize):
+
+    blocksize_x = blocksize
+    blocksize_y = blocksize
+
+
+
+    # get image dimensions
+    dimensions = image.shape 
+    img_height = dimensions[0]
+    img_width = dimensions[1]
+
+    # round up image dimensions for resizing
+    new_height = roundup(img_height) 
+    new_width = roundup(img_width)
+
+    # resize image dimensions to nearest hundred
+    scaled = cv2.resize(image, (new_width, new_height))
+
+    # sizeCheck. prints warning if blocksize is not optimal.
+    sizeCheck(new_width, new_height, blocksize_x, blocksize_y)
+
+    # get number of divisions on each axis
+    divisions_x = new_width // blocksize_x
+    divisions_y = new_height // blocksize_y
+
+    # initialising histograms array
+    divisions = []
+
+    # iterate through image subdivision blocks, describing each
+    # subdivision's lbp histogram and saving it into an array
+    for row in range(divisions_y):
+        subarray = []
+        for col in range(divisions_x):
+            x_start = col * blocksize_x
+            x_end = x_start + blocksize_x
+            y_start = row * blocksize_y
+            y_end = y_start + blocksize_y
+            # print(x_start, x_end, y_start, y_end)
+            current_block = scaled[y_start:y_end, x_start:x_end]
+
+            subarray.append(current_block)
+    
+        # save histogram in histograms array
+        divisions.append(subarray)
+    
+    return divisions
+    
