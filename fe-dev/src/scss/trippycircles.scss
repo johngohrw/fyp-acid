@@ -1,0 +1,56 @@
+$CONTAINER_SIZE: 1200px;
+$NUM_CIRCLES: 150;
+
+body {
+  background: black;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.trippycircle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-image: linear-gradient(#ff4747 10%, #4286f4 25%, #47ff6f 75%, #fbff47 75%, #8942f4 75%);
+  background-size: 5px 100px;
+  background-position: center;
+}
+
+.trippycontainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.trippycontainer {
+  transform: translate(-50%, -50%);
+  height: $CONTAINER_SIZE;
+  width: $CONTAINER_SIZE;
+  border-radius: $CONTAINER_SIZE * 10 / 100;
+}
+
+.trippycircle {
+  border-radius: 100%;
+  @for $i from 2 through $NUM_CIRCLES {
+    &:nth-child(#{$i}) {
+      $size: $CONTAINER_SIZE - $i * 40px - 10px;
+      animation: spin 20s -#{$i / 10}s ease-in-out alternate infinite;
+      height: $size;
+      width: $size;
+      margin: -$size / 2;
+    }
+  }
+}
+
+@keyframes spin {
+  80% {
+    transform: rotate(-200deg);
+  }
+  100% {
+    transform: rotate(200deg);
+  }
+}

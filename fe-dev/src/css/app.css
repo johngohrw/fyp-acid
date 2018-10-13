@@ -32,6 +32,14 @@ body {
   body #root {
     background-color: #373737; }
 
+.trippybg {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  z-index: 1;
+  height: inherit !important;
+  width: 100% !important; }
+
 .main-container {
   display: flex;
   flex-direction: column;
@@ -43,6 +51,7 @@ body {
 .content {
   display: flex;
   flex-direction: column;
+  z-index: 2;
   flex-grow: 1;
   height: 100%;
   width: 100%;

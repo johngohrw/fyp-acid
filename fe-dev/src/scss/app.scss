@@ -10,6 +10,16 @@ body {
     }
 }
 
+.trippybg {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    z-index: 1;
+
+    height: inherit !important;
+    width: 100% !important;
+}
+
 .main-container {
     @include flex-col;
     @include padding-xl;
@@ -22,6 +32,7 @@ body {
 .content {
     @include flex-col;
     
+    z-index: 2;
     flex-grow: 1;
     height: 100%;
     width: 100%;

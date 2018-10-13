@@ -6,7 +6,8 @@
   align-items: center;
   border-radius: 5px;
   margin-bottom: 10px;
-  background-color: none; }
+  background-color: none;
+  z-index: 2; }
   .app-header h1 {
     color: #dcd0c0;
     font-family: "Old Standard TT", serif;
