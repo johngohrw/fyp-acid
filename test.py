@@ -9,6 +9,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
 
 import sys
 sys.path.append("./ocr/");
@@ -165,6 +167,7 @@ if __name__ == "__main__":
         # Rebuild the model using the best parameters
         kernel_svm = SVC(**best_parameters);
         kernel_svm.fit(X_trainval, y_trainval);
+        y_pred = kernel_svm.predict(X_test);
         test_score = kernel_svm.score(X_test, y_test);
         print("RBF Kernel SVM");
         print("==============");
@@ -181,4 +184,27 @@ if __name__ == "__main__":
         print("Best parameters: {}".format(grid_search.best_params_));
         print("Test score with best parameters: {:.2f}".format(grid_search.score(X_test, y_test)));
 
+        # Confusion matrix is a 2x2 matrix, where row is the true class
+        # while column is the predicted class
+        #     0  1
+        # 0 |TN|FP|         TN = True Negative (Predicted 0 and is actually 0)
+        # 1 |FN|TP|         FP = False Positive (Predicted 1 but actually 0)
+        #                   FN = False Negative (Predicted 0 but actually 1)
+        #                   TP = True Positive (Predicted 1 and is actually 1)
+        #
+        confusion = confusion_matrix(y_test, y_pred);
+        print("Kernel SVM confustion matrix:\n{}".format(confusion));
+
+        # Summarizing the confustion matrix
+        #
+        # Precision = TP / TP + FP (how many predicted positive are actually
+        #                           positive)
+        # Recall = TP / TP + FN (identify all positive samples and measure
+        #                        its correctness to predict positive samples)
+        #
+        # f1-score (F) = 2 * precision * recall
+        #                   --------------------
+        #                    precision + recall
+        print(y_test);
+        print(classification_report(y_test, y_pred, target_names=["not-compound", "compound"]));
 
