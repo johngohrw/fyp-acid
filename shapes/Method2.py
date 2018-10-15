@@ -1,3 +1,4 @@
+import os
 import cv2 as cv
 import numpy as np
 
@@ -24,16 +25,28 @@ def sort_contours(cnts, method="left-to-right"):
 	# return the list of sorted contours and bounding boxes
 	return (cnts, boundingBoxes)
 
+def getImageHeightWidth (image):
+    height, width = image.shape[:2]
+    return height, width
 
-def box_extraction(image):
-    img = cv.imread(image, 0) 
-    (thresh, img_bin) = cv.threshold(img, 128, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)  # Thresholding the image
-    img_bin = 255-img_bin  # Invert the image
-    cv.imwrite("Image_bin.jpg",img_bin)
+def binarizeImages (image):
+    (thresh, binarized) = cv.threshold(image, 128, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)  # Thresholding the image
+    return binarized
+
+def invertImages (image):
+    inv_img = 255 - image 
+    return inv_img
+
+def detectBoxes(img):
+
+    img_binarized = binarizeImages(img)
+    img_inverted = invertImages(img_binarized)
+
+    cv.imwrite("Image_bin.jpg",img_inverted)
    
     # Defining a kernel length
     kernel_length = np.array(img).shape[1]//40
-     
+    
     # A verticle kernel of (1 X kernel_length), which will detect all the verticle lines from the image.
     verticle_kernel = cv.getStructuringElement(cv.MORPH_RECT, (1, kernel_length))
     
@@ -44,12 +57,12 @@ def box_extraction(image):
     kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
 
     # Morphological operation to detect verticle lines from an image
-    img_temp1 = cv.erode(img_bin, verticle_kernel, iterations=3)
+    img_temp1 = cv.erode(img_inverted, verticle_kernel, iterations=3)
     verticle_lines_img = cv.dilate(img_temp1, verticle_kernel, iterations=3)
     cv.imwrite("verticle_lines.jpg",verticle_lines_img)
 
     # Morphological operation to detect horizontal lines from an image
-    img_temp2 = cv.erode(img_bin, hori_kernel, iterations=3)
+    img_temp2 = cv.erode(img_inverted, hori_kernel, iterations=3)
     horizontal_lines_img = cv.dilate(img_temp2, hori_kernel, iterations=3)
     cv.imwrite("horizontal_lines.jpg",horizontal_lines_img)
 
@@ -74,18 +87,31 @@ def box_extraction(image):
     # Sort all the contours by top to bottom.
     (contours, boundingBoxes) = sort_contours(contours, method="top-to-bottom")
     
-    idx = 0
+    img_height, img_width = getImageHeightWidth(img)
+    threshed_height = img_height *0.3
+    threshed_width = img_width * 0.3
+'''
+    highest_height = img_height
+    highest_width = img_width
+'''
     for c in contours:
         # Returns the location and width,height for every contour
         x, y, w, h = cv.boundingRect(c)
 
     # If the box height is greater then 20, widht is >80, then only save it as a box in "cropped/" folder.
         #if (w > 80 and h > 20) and w > 3*h:
-        if (w > 50 and h > 80):
-            idx += 1
+        if (w > threshed_width  and h > threshed_height):
             new_img = img[y:y+h, x:x+w]
             cv.imshow('cropped images', new_img)
+            print(w*h) #area
             cv.waitKey(0)
 
+currentDir = os.path.dirname(os.path.realpath(__file__));
 
-box_extraction("16.jpg")
+for i in range (1, 32):
+    img_name = "Images/" + str(i) + ".jpg"
+    img_path = os.path.join(currentDir, img_name )
+    image = cv.imread(img_path, 0)
+    cv.imshow(img_name, image)
+    detectBoxes(image)
+    cv.destroyAllWindows()
