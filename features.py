@@ -1,5 +1,6 @@
 import os
 import math
+import argparse
 
 import cv2
 import numpy as np
@@ -21,6 +22,7 @@ def getFeatures(imgNames, imgDir, lbp, ocr, dataFile, labelsFile, label_value, l
         imgLimit = len(imgNames);
 
     for i in range(imgLimit):
+        print("i = {}".format(i));
         img = imgNames[i];
         print(img);
         imgPath = os.path.join(imgDir, img);
@@ -39,6 +41,14 @@ def getFeatures(imgNames, imgDir, lbp, ocr, dataFile, labelsFile, label_value, l
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser();
+    parser.add_argument("comp_size", type=int, help="Number of compound images");
+    parser.add_argument("nocomp_size", type=int, help="Number of non-compound images");
+
+    args = parser.parse_args();
+    comp_size = args.comp_size;
+    nocomp_size = args.nocomp_size;
+
     dataFilename = "data.csv";
     labelFilename = "labels.txt";
     # Data or label file does not exist then just extract the features, give
@@ -57,8 +67,6 @@ if __name__ == "__main__":
         ocr = OCR();
 
         with open(dataFilename, "w") as dataFile, open(labelFilename, "w") as labelsFile:
-            compLimit = 15;
-            getFeatures(compImgs, compPath, lbp, ocr, dataFile, labelsFile, 1, limit = compLimit);
-            noCompLimit = 10;
-            getFeatures(noCompImgs, noCompPath, lbp, ocr, dataFile, labelsFile, 0, limit = noCompLimit);
+            getFeatures(compImgs, compPath, lbp, ocr, dataFile, labelsFile, 1, limit = comp_size);
+            getFeatures(noCompImgs, noCompPath, lbp, ocr, dataFile, labelsFile, 0, limit = nocomp_size);
 
