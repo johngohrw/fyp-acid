@@ -1,6 +1,5 @@
 import os
 
-import cv2
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
@@ -12,37 +11,6 @@ from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 
-import sys
-sys.path.append("./ocr/");
-
-from ocr import OCR
-
-
-def getOCRFeatures(imgNames, imgDir, ocr, data, labels, label_value, limit = 15):
-    for i in range(limit):
-        img = imgNames[i];
-        print(img);
-        imgPath = os.path.join(imgDir, img);
-        img = cv2.imread(imgPath);
-        _, texts = ocr.recognize(img);
-
-        # Don't mind the code below, just doing some bullshit
-        features = [];
-        for key, value in texts.items():
-            if len(key) == 0:
-                continue;
-            if len(features) == 6:
-                break;
-            if value > 1:
-                features.append(value);
-
-        while len(features) < 6:
-            features.append(0);
-
-        data.append(features);
-        print(features);
-        labels.append(label_value);
-
 
 if __name__ == "__main__":
     dataFilename = "data.csv";
@@ -50,32 +18,7 @@ if __name__ == "__main__":
     # Data or label file does not exist then just extract the features, give
     # label and write them to their respective files
     if not os.path.isfile(dataFilename) or not os.path.isfile(labelFilename):
-        currentDir = os.path.dirname(os.path.realpath(__file__));
-        compPath = os.path.join(currentDir, "dataset/COMP");
-        noCompPath = os.path.join(currentDir, "dataset/NOCOMP");
-
-        compImgs = os.listdir(compPath);
-        noCompImgs = os.listdir(noCompPath);
-        print(len(compImgs));
-        print(len(noCompImgs));
-
-        ocr = OCR();
-
-        data = [];
-        labels = [];
-        getOCRFeatures(compImgs, compPath, ocr, data, labels, 1);
-        getOCRFeatures(noCompImgs, noCompPath, ocr, data, labels, 0, limit = 10);
-        with open(dataFilename, "w") as dataFile, open(labelFilename, "w") as labelsFile:
-            for i in range(len(data)):
-                dataRow = data[i];
-                dataStr = "";
-                for j in range(len(dataRow)-1):
-                    dataStr += str(dataRow[j]) + ",";
-                dataStr += str(dataRow[len(dataRow)-1]) + "\n";
-                dataFile.write(dataStr);
-
-                label = labels[i];
-                labelsFile.write(str(label) + "\n");
+        print("No data CSV file or label file");
     else:
         npData = np.genfromtxt(dataFilename, delimiter=",");
         npLabels = np.genfromtxt(labelFilename, delimiter="\n", dtype=np.uint8);
@@ -151,38 +94,21 @@ if __name__ == "__main__":
         # accordingly
         X_train, X_valid, y_train, y_valid = train_test_split(X_trainval, y_trainval, random_state=1);
 
-        best_score = 0;
-        # Parameter testing and Cross Validation
-        for gamma in [0.001, 0.01, 0.1, 1, 10, 100]:
-            for C in [0.001, 0.01, 0.1, 1, 10, 100]:
-                # A non-linear SVM
-                kernel_svm = SVC(gamma=gamma, C=C);
-                scores = cross_val_score(kernel_svm, X_trainval, y_trainval, cv=5);
-                # Get average cross validation accuracy
-                score = np.mean(scores);
-                if score > best_score:
-                    best_score = score;
-                    best_parameters = {"C": C, "gamma": gamma};
-
-        # Rebuild the model using the best parameters
-        kernel_svm = SVC(**best_parameters);
-        kernel_svm.fit(X_trainval, y_trainval);
-        y_pred = kernel_svm.predict(X_test);
-        test_score = kernel_svm.score(X_test, y_test);
-        print("RBF Kernel SVM");
-        print("==============");
-        print("Best cross-validation score: {:.2f}".format(best_score));
-        print("Best parameters:", best_parameters);
-        print("Test score with best parameters: {:.2f}".format(test_score));
-
         # Or we can do all that with a single class
         param_grid = {"gamma": [0.001, 0.01, 0.1, 1, 10, 100],
                 "C": [0.001, 0.01, 0.1, 1, 10, 100]};
         grid_search = GridSearchCV(SVC(), param_grid, cv=5);
         grid_search.fit(X_trainval, y_trainval);
+        print("RBF Kernel SVM");
         print("Best cross-validation score: {:.2f}".format(grid_search.best_score_));
         print("Best parameters: {}".format(grid_search.best_params_));
         print("Test score with best parameters: {:.2f}".format(grid_search.score(X_test, y_test)));
+
+        # Rebuild the model using the best parameters
+        kernel_svm = SVC(**grid_search.best_params_);
+        kernel_svm.fit(X_trainval, y_trainval);
+        y_pred = kernel_svm.predict(X_test);
+        test_score = kernel_svm.score(X_test, y_test);
 
         # Confusion matrix is a 2x2 matrix, where row is the true class
         # while column is the predicted class

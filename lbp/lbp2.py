@@ -7,19 +7,20 @@ from modules.lbp import LocalBinaryPatterns
 from modules.subdivisions import subdivide_checkeredLBP, divisions
 from modules.shifting import rightshift, bottomshift
 
-def getLBPHistogram(lbp, imgPath):
-    # read current image
-    img = cv2.imread(imgPath)
+
+def getLBPHistogram(lbp, img):
+    # Protect the original image
+    imgCopy = img.copy();
 
     # get image dimensions
-    dimensions = img.shape
+    dimensions = imgCopy.shape
     img_height = dimensions[0]
     img_width = dimensions[1]
 
     # resize image
-    img = cv2.resize(img, (600, 600))
+    imgCopy = cv2.resize(imgCopy, (600, 600))
 
-    subdivided = divisions(img, 200)
+    subdivided = divisions(imgCopy, 200)
 
     concatenatedHistograms = np.array([])
 
@@ -45,6 +46,8 @@ if __name__ == "__main__":
 
     # for each image in folder:
     for i in range(len(images)):
-        lbpHist = getLBPHistogram(lbp, images[i]);
+        # read current image
+        img = cv2.imread(imgPath)
+        lbpHist = getLBPHistogram(lbp, img);
 
         resultFileCsv.write(np.array2string(lbpHist, max_line_width=math.inf, precision=5, threshold=100000,formatter={'float_kind':lambda x: "%.5f" % x}, separator=',', suppress_small=False)[1:-1] + '\n')
