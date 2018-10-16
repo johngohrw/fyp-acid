@@ -7,16 +7,18 @@ import numpy as np
 
 import sys
 sys.path.append("./ocr/");
+sys.path.append("./shapes/");
 sys.path.append("./lbp/");
 
 from modules.lbp import LocalBinaryPatterns
 from modules.subdivisions import subdivide_checkeredLBP, divisions
 from modules.shifting import rightshift, bottomshift
 from lbp2 import getLBPHistogram
+from Method2 import Shapes
 from ocr import OCR
 
 
-def getFeatures(imgNames, imgDir, lbp, ocr, dataFile, labelsFile, label_value, limit = None):
+def getFeatures(imgNames, imgDir, lbp, shape, ocr, dataFile, labelsFile, label_value, limit = None):
     imgLimit = limit;
     if limit == None:
         imgLimit = len(imgNames);
@@ -31,10 +33,18 @@ def getFeatures(imgNames, imgDir, lbp, ocr, dataFile, labelsFile, label_value, l
         img = cv2.imread(imgPath);
         lbpHist = getLBPHistogram(lbp, img);
         lbpHistStr = np.array2string(lbpHist, max_line_width=math.inf, precision=5, threshold=100000,formatter={'float_kind':lambda x: "%.5f" % x}, separator=',', suppress_small=False)[1:-1];
+
+        # Shape features
+        shapeFeatures = shape.boxFeatures(img);
+
         # OCR feature
         _, frequency = ocr.recognize(img);
 
-        features = "{},{}\n".format(lbpHistStr, frequency);
+        features = lbpHistStr;
+        for area in shapeFeatures:
+            features += ",{:.5f}".format(area);
+
+        features = "{},{}\n".format(features, frequency);
         print(features);
         dataFile.write(features);
         labelsFile.write("{}\n".format(label_value));
@@ -64,9 +74,10 @@ if __name__ == "__main__":
         print(len(noCompImgs));
 
         lbp = LocalBinaryPatterns(8, 24, "uniform") #number of points, radius
+        shape = Shapes();
         ocr = OCR();
 
         with open(dataFilename, "w") as dataFile, open(labelFilename, "w") as labelsFile:
-            getFeatures(compImgs, compPath, lbp, ocr, dataFile, labelsFile, 1, limit = comp_size);
-            getFeatures(noCompImgs, noCompPath, lbp, ocr, dataFile, labelsFile, 0, limit = nocomp_size);
+            getFeatures(compImgs, compPath, lbp, shape, ocr, dataFile, labelsFile, 1, limit = comp_size);
+            getFeatures(noCompImgs, noCompPath, lbp, shape, ocr, dataFile, labelsFile, 0, limit = nocomp_size);
 
