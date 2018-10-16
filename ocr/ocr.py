@@ -106,7 +106,8 @@ class OCR:
 
             results.append(rotated);
 
-        return results, texts;
+        frequency = self.__summarizeOccurences(texts);
+        return results, frequency;
 
 
     def __placeText(self, img, text):
@@ -135,6 +136,23 @@ class OCR:
             recognizedText += self.chars[maxLetterIndex];
 
         return recognizedText;
+
+
+    def __summarizeOccurences(self, texts):
+        frequency = 0;
+        total = 0;
+        for key, value in texts.items():
+            if len(key) == 0:
+                continue;
+            if value > 1:
+                frequency += value;
+            total += value;
+
+        if total == 0:
+            return "{:.5f}".format(float(total));
+        else:
+            frequency /= total;
+            return "{:.5f}".format(frequency);
 
 
 if __name__ == "__main__":

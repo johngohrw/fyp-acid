@@ -7,33 +7,23 @@ from modules.lbp import LocalBinaryPatterns
 from modules.subdivisions import subdivide_checkeredLBP, divisions
 from modules.shifting import rightshift, bottomshift
 
-# initialise LocalBinaryPattern instance
-lbp = LocalBinaryPatterns(8, 24, "uniform") #number of points, radius
 
-# get list of image in folder
-images = glob.glob("images/*")
-
-# resultFile = open('results.txt', 'w')
-resultFileCsv = open('results.csv', 'w')
-
-# for each image in folder:
-for i in range(len(images)):
-    
-    # read current image
-    img = cv2.imread(images[i])
+def getLBPHistogram(lbp, img):
+    # Protect the original image
+    imgCopy = img.copy();
 
     # get image dimensions
-    dimensions = img.shape 
+    dimensions = imgCopy.shape
     img_height = dimensions[0]
     img_width = dimensions[1]
 
     # resize image
-    img = cv2.resize(img, (600, 600))
+    imgCopy = cv2.resize(imgCopy, (600, 600))
 
-    subdivided = divisions(img, 200)
+    subdivided = divisions(imgCopy, 200)
 
     concatenatedHistograms = np.array([])
- 
+
     for m in range(len(subdivided)):
         for n in range(len(subdivided[0])):
 
@@ -41,11 +31,23 @@ for i in range(len(images)):
             gray = cv2.cvtColor(subdivided[m][n], cv2.COLOR_RGB2GRAY)
             hist = lbp.describe(gray)
             concatenatedHistograms = np.concatenate([concatenatedHistograms, hist])
+    return concatenatedHistograms;
 
-            # plt.subplot(len(subdivided), len(subdivided[0]), ( m*len(subdivided[0]) + (n+1) ) )
-            # plt.imshow(subdivided[m][n])
-            # plt.axis('off')
 
-    # resultFile.write(np.array2string(concatenatedHistograms, max_line_width=math.inf, precision=5, threshold=100000, separator=',', suppress_small=False) + '\n')
-    resultFileCsv.write(np.array2string(concatenatedHistograms, max_line_width=math.inf, precision=5, threshold=100000,formatter={'float_kind':lambda x: "%.5f" % x}, separator=',', suppress_small=False)[1:-1] + '\n')
-    # plt.show()
+if __name__ == "__main__":
+    # initialise LocalBinaryPattern instance
+    lbp = LocalBinaryPatterns(8, 24, "uniform") #number of points, radius
+
+    # get list of image in folder
+    images = glob.glob("images/*")
+
+    # resultFile = open('results.txt', 'w')
+    resultFileCsv = open('results.csv', 'w')
+
+    # for each image in folder:
+    for i in range(len(images)):
+        # read current image
+        img = cv2.imread(imgPath)
+        lbpHist = getLBPHistogram(lbp, img);
+
+        resultFileCsv.write(np.array2string(lbpHist, max_line_width=math.inf, precision=5, threshold=100000,formatter={'float_kind':lambda x: "%.5f" % x}, separator=',', suppress_small=False)[1:-1] + '\n')
