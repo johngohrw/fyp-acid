@@ -29,20 +29,31 @@ def getImageHeightWidth (image):
     height, width = image.shape[:2]
     return height, width
 
-def binarizeImages (image):
+def binarizeImage (image):
     (thresh, binarized) = cv.threshold(image, 128, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)  # Thresholding the image
     return binarized
 
-def invertImages (image):
+def invertImage (image):
     inv_img = 255 - image 
     return inv_img
 
-def detectBoxes(img):
+def medianBlurImage (image):
+    kernel_size = 3
+    median_blur = cv.medianBlur(image, kernel_size)
+    #cv.imshow('blurry', median_blur)
+    return median_blur
 
-    img_binarized = binarizeImages(img)
-    img_inverted = invertImages(img_binarized)
+def detectBoxes(img, resultingArea):
+    currentDir = os.path.dirname(os.path.realpath(__file__));
 
-    cv.imwrite("Image_bin.jpg",img_inverted)
+    img_blur = medianBlurImage(img)
+
+    img_binarized = binarizeImage(img_blur)
+    img_inverted = invertImage(img_binarized)
+
+    filename = "Image_bin.jpg"
+    img_path = os.path.join(currentDir, filename)
+    cv.imwrite(img_path, img_inverted)
    
     # Defining a kernel length
     kernel_length = np.array(img).shape[1]//40
@@ -59,12 +70,18 @@ def detectBoxes(img):
     # Morphological operation to detect verticle lines from an image
     img_temp1 = cv.erode(img_inverted, verticle_kernel, iterations=3)
     verticle_lines_img = cv.dilate(img_temp1, verticle_kernel, iterations=3)
-    cv.imwrite("verticle_lines.jpg",verticle_lines_img)
+
+    filename = "verticle_lines.jpg"
+    img_path = os.path.join(currentDir, filename)
+    cv.imwrite(img_path, verticle_lines_img)
 
     # Morphological operation to detect horizontal lines from an image
     img_temp2 = cv.erode(img_inverted, hori_kernel, iterations=3)
     horizontal_lines_img = cv.dilate(img_temp2, hori_kernel, iterations=3)
-    cv.imwrite("horizontal_lines.jpg",horizontal_lines_img)
+
+    filename = "horizontal_lines.jpg"
+    img_path = os.path.join(currentDir, filename)
+    cv.imwrite(img_path, horizontal_lines_img)
 
     # Weighting parameters, this will decide the quantity of an image to be added to make a new image.
     alpha = 0.5
@@ -77,7 +94,9 @@ def detectBoxes(img):
 
     # For Debugging
     # Enable this line to see verticle and horizontal lines in the image which is used to find boxes
-    cv.imwrite("img_final_bin.jpg",img_final_bin)
+    filename = "img_final_bin.jpg"
+    img_path = os.path.join(currentDir, filename)
+    cv.imwrite(img_path, img_final_bin)
     
     # Find contours for image, which will detect all the boxes
     im2, contours, hierarchy = cv.findContours(
@@ -90,28 +109,55 @@ def detectBoxes(img):
     img_height, img_width = getImageHeightWidth(img)
     threshed_height = img_height *0.3
     threshed_width = img_width * 0.3
-'''
+
+    img_area = img_height * img_width
+
+    '''
     highest_height = img_height
     highest_width = img_width
-'''
+    '''
+ 
     for c in contours:
         # Returns the location and width,height for every contour
         x, y, w, h = cv.boundingRect(c)
-
+        
+        #print(w)
+        #print(h)
+        cv.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        #cv.imshow('drawing image', image)
+        #cv.waitKey(0)
+        '''
     # If the box height is greater then 20, widht is >80, then only save it as a box in "cropped/" folder.
         #if (w > 80 and h > 20) and w > 3*h:
-        if (w > threshed_width  and h > threshed_height):
-            new_img = img[y:y+h, x:x+w]
-            cv.imshow('cropped images', new_img)
-            print(w*h) #area
-            cv.waitKey(0)
+        if (w < img_width or h < img_height):
+            if (w > threshed_width  and h > threshed_height):
+                new_img = img[y:y+h, x:x+w]
+                cv.imshow('cropped images', new_img)
+                contour_area = w*h
+                #print(area) #area
+                #cv.waitKey(0)
+
+                area_ratio = contour_area / img_area
+                resultingArea.write(str(area_ratio) + ', ')
+        '''
+        contour_area = w*h
+        area_ratio = contour_area / img_area
+        resultingArea.write(str(area_ratio) + ', ')
+
+    resultingArea.write('\n')
+
 
 currentDir = os.path.dirname(os.path.realpath(__file__));
 
+resultArea = open('resultShape.txt', 'w')
 for i in range (1, 32):
     img_name = "Images/" + str(i) + ".jpg"
     img_path = os.path.join(currentDir, img_name )
     image = cv.imread(img_path, 0)
-    cv.imshow(img_name, image)
-    detectBoxes(image)
+    #cv.imshow(img_name, image)
+    #cv.waitKey(0)
+    
+    detectBoxes(image, resultArea)
     cv.destroyAllWindows()
+resultArea.close()
+
