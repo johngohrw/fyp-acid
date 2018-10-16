@@ -29,7 +29,7 @@ export default class FileUpload extends Component {
             data.append('file', this.uploadInput.files[i])
             axios.post(endpoint, data)
                 .then(function (response) {
-                    console.log(response);
+                    console.log("fileupload: img response:", response);
                     // this.setState({ imageURL: `http://localhost:8000/${response.body.file}`, uploadStatus: true });
                 })
                 .catch(function (error) {

@@ -38,7 +38,7 @@ ul {
   @for $i from 2 through $NUM_CIRCLES {
     &:nth-child(#{$i}) {
       $size: $CONTAINER_SIZE - $i * 40px - 10px;
-      animation: spin 20s -#{$i / 10}s ease-in-out alternate infinite;
+      animation: spin 30s -#{$i / 10}s ease-in-out alternate infinite;
       height: $size;
       width: $size;
       margin: -$size / 2;

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import '../css/components/AppHeader.css';
 
 export default class AppHeader extends Component {
@@ -17,15 +16,7 @@ export default class AppHeader extends Component {
                 }}>
                     <h1>acid</h1>
                 </div>
-                <h5>automatic compound image detection</h5>
-               <div className="app-header__nav">
-                    <h6>
-                        <Link to="/"> link1 </Link>/
-                        <Link to="/"> link2 </Link>/ 
-                        <Link to="/"> link3 </Link>/ 
-                        <Link to="/"> link4 </Link> 
-                    </h6>
-               </div>
+                <h5 className="tagline">automatic compound image detection</h5>
            </div>
         );
     };

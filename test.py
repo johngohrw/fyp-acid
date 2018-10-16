@@ -41,7 +41,6 @@ def getOCRFeatures(imgNames, imgDir, ocr, data, labels, label_value, limit = 15)
         print(features);
         labels.append(label_value);
 
-
 if __name__ == "__main__":
     dataFilename = "data.csv";
     labelFilename = "labels.txt";

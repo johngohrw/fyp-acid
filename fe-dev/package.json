@@ -2,6 +2,7 @@
   "name": "fyp-acid",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://johngohrw.github.io/fyp-acid",
   "dependencies": {
     "@material-ui/core": "^1.5.1",
     "ajv": "^6.5.2",
@@ -23,9 +24,12 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "build-sass": "node-sass -r src/scss/ -o src/css/",
-    "watch-sass": "nodemon -e scss -x \"npm run build-sass\""
+    "watch-sass": "nodemon -e scss -x \"npm run build-sass\"",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
-    "enzyme": "^3.4.4"
+    "enzyme": "^3.4.4",
+    "gh-pages": "^2.0.1"
   }
 }

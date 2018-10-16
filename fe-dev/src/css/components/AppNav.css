@@ -1,0 +1,8 @@
+.app-header__nav {
+  z-index: 2;
+  height: 3em;
+  padding: 0 20px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: #f4f4f4;
+  box-shadow: 3px 3px #ff00ff; }

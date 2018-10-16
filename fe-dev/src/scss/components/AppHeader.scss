@@ -24,6 +24,9 @@
         color: $color-light-magenta;
         margin: -7px 0 5px;
         font-size: 1.5rem;
+        background-color: #f3f3f3; 
+        padding: 0 5px;
+        
     }
 
     h6 {
@@ -33,11 +36,3 @@
     }
 }
 
-.app-header__nav {
-    height: 6em;
-    padding: 0 20px;
-    border-radius: 5px;
-    background-color: $color-bg-light;
-    box-shadow: 3px 3px $color-magenta;
-
-}

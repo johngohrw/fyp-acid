@@ -1,13 +1,25 @@
 .app-header {
-  border-radius: 15px;
-  padding: 15px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
   margin-bottom: 10px;
-  background-color: #f4f4f4; }
+  background-color: none;
+  z-index: 2; }
   .app-header h1 {
-    font-family: "Yeseva One", cursive;
-    font-size: 5rem;
-    color: #373737; }
-  .app-header h4 {
-    font-family: "Merriweather Sans", sans-serif;
-    font-size: 2rem;
-    color: #c0b283; }
+    color: #dcd0c0;
+    font-family: "Old Standard TT", serif;
+    font-size: 12em;
+    text-shadow: 4px 4px 0 #ff00ff;
+    font-weight: 700;
+    margin: -30px; }
+  .app-header h5 {
+    color: #ff59ff;
+    margin: -7px 0 5px;
+    font-size: 1.5rem; }
+  .app-header h6 {
+    color: #c0b283;
+    font-size: 1.7rem;
+    margin: 10px; }

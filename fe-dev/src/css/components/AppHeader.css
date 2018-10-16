@@ -18,15 +18,10 @@
   .app-header h5 {
     color: #ff59ff;
     margin: -7px 0 5px;
-    font-size: 1.5rem; }
+    font-size: 1.5rem;
+    background-color: #f3f3f3;
+    padding: 0 5px; }
   .app-header h6 {
     color: #c0b283;
     font-size: 1.7rem;
     margin: 10px; }
-
-.app-header__nav {
-  height: 6em;
-  padding: 0 20px;
-  border-radius: 5px;
-  background-color: #f4f4f4;
-  box-shadow: 3px 3px #ff00ff; }

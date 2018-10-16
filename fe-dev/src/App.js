@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import AppHeader from './components/AppHeader'
+import AppNav from './components/AppNav'
 
 import UploadPage from './pages/UploadPage';
 import WelcomePage from './pages/WelcomePage';
@@ -60,32 +61,34 @@ class App extends Component {
   <div className="bourbon-ring el-30"></div>
 </div> */}
 
-<ul class="trippycontainer">
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
-  <li class="trippycircle"></li>
+<ul className="trippycontainer">
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
+  <li className="trippycircle"></li>
 </ul>
 
             </div>
             <AppHeader />
+            <AppNav {...this.props} />
             <div className="content">
+              <Route exact path='/fyp-acid' component={WelcomePage}/>
               <Route exact path='/' component={WelcomePage}/>
               <Route path='/upload' component={UploadPage}/>
               <Route path='/template-test' component={TemplateTestPage}/>
