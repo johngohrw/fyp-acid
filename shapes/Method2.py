@@ -9,21 +9,6 @@ class Shapes:
         self.imgHeight = None;
         self.imgWidth = None;
 
-
-    def sort_contours(self, cnts):
-        # initialize the reverse flag and sort index
-        reverse = False
-        i = 1
-
-        # construct the list of bounding boxes and sort them from top to
-        # bottom
-        boundingBoxes = [cv.boundingRect(c) for c in cnts]
-        (cnts, boundingBoxes) = zip(*sorted(zip(cnts, boundingBoxes),
-            key=lambda b:b[1][i], reverse=reverse))
-
-        # return the list of sorted contours and bounding boxes
-        return (cnts, boundingBoxes)
-
     def getImageHeightWidth (self, image):
         # Get the Height and width of the original image
         height, width = image.shape[:2]
@@ -94,35 +79,20 @@ class Shapes:
 
         return combined
 
-    def boxFeatures(self, img, output_limit = 8):
-        # Starts the shape feature extraction for the image.
-        self.image = img
-        self.imgHeight = self.image.shape[0]
-        self.imgWidth = self.image.shape[1]
-
-        processed = self.preProcess()
-
-        # Defining a kernel length
-        kernel_length = np.array(self.image).shape[1]//40
-
-        hori_img = self.detectHoriLines(processed, kernel_length)
-        vert_img = self.detectVertLines(processed, kernel_length)
-
-        combined_img = self.combineHoriVert(hori_img, vert_img)        
-
+    def getBoxFeatures(self, img, output_limit = 8):
         # Find contours for image, which will detect all the boxes
         # Find all the contours
-        im2, contours, hierarchy = cv.findContours(combined_img, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+        im2, contours, hierarchy = cv.findContours(img, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
         
-        # Sort all the contours by top to bottom.
-        (contours, boundingBoxes) = self.sort_contours(contours)
+        # Sort all the contours by the largest to the smallest
+        contour = sorted(contours, key=cv.contourArea, reverse = True)
 
         threshed_height = self.imgHeight *0.3
         threshed_width = self.imgWidth * 0.3
 
         featureArray = []
 
-        for c in contours:
+        for c in contour:
             # Returns the location and width,height for every contour
             x, y, w, h = cv.boundingRect(c)
             cv.rectangle(self.image, (x, y), (x+w, y+h), (0, 255, 0), 2)
@@ -139,6 +109,27 @@ class Shapes:
             featureArray.append(0);
 
         return featureArray
+
+    def boxFeatures(self, img):
+        # Starts the shape feature extraction for the image.
+        self.image = img
+        self.imgHeight = self.image.shape[0]
+        self.imgWidth = self.image.shape[1]
+
+        processed = self.preProcess()
+
+        # Defining a kernel length
+        kernel_length = np.array(self.image).shape[1]//40
+
+        hori_img = self.detectHoriLines(processed, kernel_length)
+        vert_img = self.detectVertLines(processed, kernel_length)
+
+        combined_img = self.combineHoriVert(hori_img, vert_img)        
+
+        array_features = self.getBoxFeatures(combined_img)
+
+        return array_features
+        
 
 
 def writeToFile (toWrite):
