@@ -10,19 +10,10 @@ class Shapes:
         self.imgWidth = None;
 
 
-    def sort_contours(self, cnts, method="left-to-right"):
+    def sort_contours(self, cnts):
         # initialize the reverse flag and sort index
         reverse = False
-        i = 0
-
-        # handle if we need to sort in reverse
-        if method == "right-to-left" or method == "bottom-to-top":
-            reverse = True
-
-        # handle if we are sorting against the y-coordinate rather than
-        # the x-coordinate of the bounding box
-        if method == "top-to-bottom" or method == "bottom-to-top":
-            i = 1
+        i = 1
 
         # construct the list of bounding boxes and sort them from top to
         # bottom
@@ -124,7 +115,7 @@ class Shapes:
         im2, contours, hierarchy = cv.findContours(combined_img, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
         
         # Sort all the contours by top to bottom.
-        (contours, boundingBoxes) = self.sort_contours(contours, method="top-to-bottom")
+        (contours, boundingBoxes) = self.sort_contours(contours)
 
         threshed_height = self.imgHeight *0.3
         threshed_width = self.imgWidth * 0.3
