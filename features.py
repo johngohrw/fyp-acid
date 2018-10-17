@@ -23,10 +23,15 @@ def getFeatures(imgNames, imgDir, lbp, shape, ocr, dataFile, labelsFile, label_v
     if limit == None:
         imgLimit = len(imgNames);
 
+    if label_value == 1:
+        class_name = "COMP";
+    else:
+        class_name = "NOCOMP";
+
     for i in range(imgLimit):
         print("i = {}".format(i));
         img = imgNames[i];
-        print(img);
+        print("{} = {}".format(class_name, img));
         imgPath = os.path.join(imgDir, img);
 
         # LBP features

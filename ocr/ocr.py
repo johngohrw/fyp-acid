@@ -5,6 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import imutils
 
+from io import StringIO
 from PIL import Image
 import pytesseract
 
@@ -62,11 +63,6 @@ class OCR:
         maxTh = 200;
         edges = cv2.Canny(unsharped, minTh, maxTh, L2gradient = True);
 
-        """
-        linesCoords, linesImg = detectLines(edges);
-        removedLines = cv2.subtract(edges, linesImg);
-        """
-
         return (unsharped, edges, binarized);
 
 
@@ -75,7 +71,7 @@ class OCR:
         texts = {};
 
         currentDir = os.path.dirname(os.path.realpath(__file__));
-        for angle in np.arange(0, 360, 90):
+        for angle in [0, 90, 270]:
             rotated = imutils.rotate_bound(img, angle);
             preprocessedImg, edges, binImg = self.preprocess(rotated);
             txtRegions = pivotingTextDetection(edges, img);
@@ -86,12 +82,9 @@ class OCR:
                 if 0 in targetRegion.shape:
                     continue;
 
-                filename = "{}.jpg".format(os.getpid());
-                imgPath = os.path.join(currentDir, filename);
-                cv2.imwrite(imgPath, targetRegion);
+                in_memory = Image.fromarray(targetRegion);
                 config = ("-l eng --oem 1 --psm 7");
-                recognizedText = pytesseract.image_to_string(Image.open(imgPath), config=config);
-                os.remove(imgPath);
+                recognizedText = pytesseract.image_to_string(in_memory, config=config);
 
                 tokens = recognizedText.split(" ");
                 for token in tokens:
@@ -161,12 +154,6 @@ if __name__ == "__main__":
     img = cv2.imread(imgPath);
 
     ocr = OCR();
-    results, texts = ocr.recognize(img);
-
-    """
-    imagesToShow = [];
-    imagesToShow.append(("Original", img));
-    imagesToShow.append(("Detected Texts", result));
-    showImages(1, 2, imagesToShow);
-    """
+    results, frequency = ocr.recognize(img);
+    print(frequency);
 
