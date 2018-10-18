@@ -13,29 +13,31 @@ export default class FileUpload extends Component {
           }
         this.handleUploadImages = this.handleUploadImages.bind(this);
       }
-    
+      
       handleUploadImages(ev) {
         ev.preventDefault();
 
-        let endpoint = 'http://localhost:5000/api/v0/' + this.state.mode.toLowerCase()
+        var param = this.state.mode.toLowerCase()
+        if (param === 'svm + knn') {
+          param = 'both'
+        }
+
+        let endpoint = 'http://localhost:5000/api/v0/classify?model=' + param
         console.log('Endpoint: ', endpoint)
     
         let fileList = [];
-
-        for (let i=0; i < this.uploadInput.files.length; i++) {
+          for (let i = 0; i < this.uploadInput.files.length; i++) {
             fileList.push(this.uploadInput.files[i]); // to keep track locally
 
             const data = new FormData();
             data.append('file', this.uploadInput.files[i])
             axios.post(endpoint, data)
-                .then(function (response) {
-                    console.log("fileupload: img response:", response);
-                    // this.setState({ imageURL: `http://localhost:8000/${response.body.file}`, uploadStatus: true });
-                })
-                .catch(function (error) {
-                    console.log(error);
-                }
-            );
+              .then(function (response) {
+                console.log("fileupload: img response:", response);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
         }
       }
 
@@ -61,9 +63,9 @@ export default class FileUpload extends Component {
               <Label for="mode">Select Mode</Label>
               <Input type="select" name="mode" id="mode" defaultValue="select a method" onChange={(e) => {this.handleChange(e)}}>
                 <option disabled>select a method</option>
-                <option>OCR</option>
-                <option>LBP</option>
-                <option>shapes</option>
+                <option>SVM</option>
+                <option>KNN</option>
+                <option>SVM + KNN</option>
               </Input>
             </FormGroup>
             {uploadButton}
