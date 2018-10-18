@@ -1,4 +1,5 @@
 import os
+import sys
 
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -9,6 +10,7 @@ from sklearn.svm import LinearSVC
 from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
+from sklearn.externals import joblib
 
 
 class ACIDTrainTest:
@@ -27,7 +29,7 @@ class ACIDTrainTest:
         #   random_state: A fixed seed value to give to the PRNG
         #
         # X denotes the features/data while y denotes the class labels
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(npData, npLabels, random_state=0);
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(npData, npLabels, random_state=1);
         print("\nTraining set size: {}".format(self.y_train.shape[0]));
         print("Test set size: {}".format(self.y_test.shape[0]));
 
@@ -104,6 +106,10 @@ class ACIDTrainTest:
         print(classification_report(self.y_test, y_pred, target_names=["non-compound", "compound"]));
         print();
 
+        # Saves the model for persistence
+        filename = model_name.lower().replace(' ', '_') + ".model";
+        joblib.dump(grid_search.best_estimator_, filename);
+
 
 if __name__ == "__main__":
     dataFilename = "data.csv";
@@ -111,6 +117,17 @@ if __name__ == "__main__":
     if not os.path.isfile(dataFilename) or not os.path.isfile(labelFilename):
         print("No data CSV file or label file");
     else:
+        model_names = ["Linear SVM", "RBF Kernel SVM", "KNN"];
+        model_filenames = [name.lower().replace(' ','_') + ".model" for name in model_names];
+
+        # Check the existence of persistent models, to prevent having
+        # to build the model again
+        for model_file in model_filenames:
+            if os.path.isfile(model_file):
+                print("{} already exists".format(model_file));
+                sys.exit();
+
+
         acid = ACIDTrainTest(dataFilename, labelFilename);
 
         # Stratified version ensures that the percentages of the samples
@@ -120,14 +137,14 @@ if __name__ == "__main__":
 
         # Testing best parameters for linear SVM
         linear_param_grid = {"C": [0.001, 0.01, 0.1, 1, 10, 100]};
-        acid.paramTestCrossValidate(LinearSVC(random_state=0), "Linear SVM", linear_param_grid, cross_k);
+        acid.paramTestCrossValidate(LinearSVC(random_state=0), model_names[0], linear_param_grid, cross_k);
 
         # Testing the best parameters for RBF kernel SVM
         kernel_param_grid = {"gamma": [0.001, 0.01, 0.1, 1, 10, 100],
                 "C": [0.001, 0.01, 0.1, 1, 10, 100]};
-        acid.paramTestCrossValidate(SVC(random_state=0), "RBF Kernel SVM", kernel_param_grid, cross_k);
+        acid.paramTestCrossValidate(SVC(random_state=0), model_names[1], kernel_param_grid, cross_k);
 
         # Testing the best parameters for KNN
-        knn_param_grid = {"n_neighbors": [1, 2, 3]};
-        acid.paramTestCrossValidate(KNeighborsClassifier(), "KNN", knn_param_grid, cross_k);
+        knn_param_grid = {"n_neighbors": [1, 2, 3, 4, 5, 6]};
+        acid.paramTestCrossValidate(KNeighborsClassifier(), model_names[2], knn_param_grid, cross_k);
 

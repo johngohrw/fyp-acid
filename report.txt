@@ -1,0 +1,62 @@
+
+Training set size: 4500
+Test set size: 1500
+Compound images in training set: 0.50
+Non-compound images in training set: 0.50
+Compound images in test set: 0.51
+Non-compound images in test set: 0.49
+
+Linear SVM
+===========
+Linear SVM best cross-validation score: 0.77
+Linear SVM best parameters: {'C': 10}
+Linear SVM Train set score: 0.78
+Linear SVM Test set score: 0.75
+
+Linear SVM confusion matrix:
+[[560 179]
+ [202 559]]
+              precision    recall  f1-score   support
+
+non-compound       0.73      0.76      0.75       739
+    compound       0.76      0.73      0.75       761
+
+ avg / total       0.75      0.75      0.75      1500
+
+
+RBF Kernel SVM
+===========
+RBF Kernel SVM best cross-validation score: 0.81
+RBF Kernel SVM best parameters: {'C': 10, 'gamma': 1}
+RBF Kernel SVM Train set score: 0.92
+RBF Kernel SVM Test set score: 0.80
+
+RBF Kernel SVM confusion matrix:
+[[599 140]
+ [157 604]]
+              precision    recall  f1-score   support
+
+non-compound       0.79      0.81      0.80       739
+    compound       0.81      0.79      0.80       761
+
+ avg / total       0.80      0.80      0.80      1500
+
+
+KNN
+===========
+KNN best cross-validation score: 0.77
+KNN best parameters: {'n_neighbors': 6}
+KNN Train set score: 0.83
+KNN Test set score: 0.77
+
+KNN confusion matrix:
+[[597 142]
+ [209 552]]
+              precision    recall  f1-score   support
+
+non-compound       0.74      0.81      0.77       739
+    compound       0.80      0.73      0.76       761
+
+ avg / total       0.77      0.77      0.77      1500
+
+
