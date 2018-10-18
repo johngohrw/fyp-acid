@@ -86,7 +86,7 @@ class App extends Component {
 
             </div>
             <AppHeader />
-            <AppNav {...this.props} />
+            {/* <AppNav {...this.props} /> */}
             <div className="content">
               <Route exact path='/fyp-acid' component={WelcomePage}/>
               <Route exact path='/' component={WelcomePage}/>

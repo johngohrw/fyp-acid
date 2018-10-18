@@ -9,14 +9,26 @@ export default class WelcomePage extends Component {
         return (
             <div className="welcome-page__container">
                 <div className="inner-content">
-                    <h4>Halllo!</h4>
-                    <p>Welcome to ACID. </p>
-                    <p>we can detect your stupid compound images.</p>
+                    <h4>Welcome to ACID</h4>
+                    <p>
+                        ACID is an image classifier that is able to discriminate 
+                        between compound and non-compound images from published 
+                        sources in the biomedical field.  
+                    </p>
+                    <p>
+                        We provide three different classification methods to apply 
+                        onto your uploaded images, with each method providing varying
+                        levels of accuracy.  
+                    </p>
+                    <p>
+                        You can read more about our methodology in detail 
+                        <Link to='/methodology'> here</Link>.
+                    </p>
                 </div>
                 <div className="button-row">
-                    <Link to="/template-test">
+                    {/* <Link to="/template-test">
                         <button className="btn btn-info">Test</button>   
-                    </Link>
+                    </Link> */}
                     <Link to="/upload">
                         <button className="btn btn-success">Next</button>
                     </Link>
