@@ -2,7 +2,7 @@ import io
 import numpy as np
 import cv2
 import random
-#from skimage import data, io, filters
+from sklearn.externals import joblib
 from flask import *
 
 # Path to your python modules
@@ -17,17 +17,22 @@ from Method2 import Shapes
 from ocr import OCR
 
 
-global ocrEngine, lbpEngine, shapesEngine;
+global ocrEngine, lbpEngine, shapesEngine, models
 app = Flask(__name__);
 app.config["ALLOWED_EXTENSIONS"] = set(['png', 'jpg', 'jpeg']);
 
 
 def main():
     # All things global should be defined here
-    global ocrEngine, lbpEngine, shapesEngine;
+    global ocrEngine, lbpEngine, shapesEngine, models
     lbpEngine = LocalBinaryPatterns(8, 24, "uniform");
     shapesEngine = Shapes();
     ocrEngine = OCR();
+    # Load the pre-trained classification models
+    models = {};
+    models["linear"] = joblib.load("linear_svm.model");
+    models["rbf"] = joblib.load("rbf_kernel_svm.model");
+    models["knn"] = joblib.load("knn.model");
 
 
 @app.route("/")
@@ -41,23 +46,34 @@ def valid_file(filename):
 
 @app.route("/api/v0/classify", methods=["POST"])
 def classify_endpoint():
-    # TODO: handle different query params (e.g: SVM, KNN, both, etc)
-    # example: user = request.args.get('user')
-    # Unverified, just followed some example to handle multiple file upload
-    uploaded_files = request.files.getlist("file[]");
-    for file in uploaded_files:
-        if file and valid_file(file.filename):
-            img = decode_img(file);
+    img = handle_file_upload(request);
+    if img.shape[0] == 0:
+        return "400 BAD REQUEST", 400;
 
-            lbpFeatures = getLBPHistogram(lbpEngine, img);
-            shapeFeatures = shapesEngine.boxFeatures(img);
-            _, ocrFeatures = ocr.recognize(img);
+    lbpFeatures = getLBPHistogram(lbpEngine, img);
+    shapeFeatures = shapesEngine.boxFeatures(img);
+    _, ocrFeatures = ocrEngine.recognize(img);
 
-            features = np.append(lbpFeatures, shapeFeatures.append(ocrFeatures));
-            # Round to five decimal places
-            features = np.around(features, decimal=5);
+    features = np.append(lbpFeatures, np.append(shapeFeatures, ocrFeatures));
+    # For some reason it became a numpy array of strings
+    features = np.asarray(features, dtype=float);
 
-            # Give features to our trained model here
+    # Round to five decimal places
+    features = np.around(features, decimals=5);
+    # Needs to be in a 2d array, even though its single class prediction
+    features = [features.tolist()];
+
+    # Multiple models may be chosen for prediction
+    param = request.args.get("model");
+    results = [];
+    for modelName in param.split(","):
+        model = models[modelName];
+        pred = model.predict(features)[0];
+        results.append({"model": modelName, "prediction": str(pred)});
+
+    response = jsonify(results);
+    response.headers.add('Access-Control-Allow-Origin', '*');
+    return response, 201;
 
 
 
@@ -122,7 +138,7 @@ def handle_file_upload(request):
         print('No selected file')
         return np.array([]);
 
-    if file:
+    if file and valid_file(file.filename):
         return decode_img(file);
 
 
