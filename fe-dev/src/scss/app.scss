@@ -8,7 +8,7 @@ body {
 
     #root {
         @include flex-col;
-        justify-content: center;
+        // justify-content: center;
         
         background-color: $color-bg-dark;
         min-height: inherit;

@@ -34,7 +34,6 @@ body {
   body #root {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     background-color: #373737;
     min-height: inherit; }
 
