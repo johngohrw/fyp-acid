@@ -18,8 +18,9 @@
   .app-header h5 {
     color: #ff59ff;
     margin: -7px 0 5px;
-    font-size: 1.5rem;
     background-color: #f3f3f3;
+    font-size: 1.6rem;
+    white-space: nowrap;
     padding: 0 5px; }
   .app-header h6 {
     color: #c0b283;

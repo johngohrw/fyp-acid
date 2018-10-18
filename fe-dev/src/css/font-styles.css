@@ -4,7 +4,8 @@ h1, h2, h3 {
   margin: 15px 0 15px 0; }
 
 h4, h5, h6, p {
-  font-family: "Merriweather Sans", sans-serif; }
+  font-family: "Merriweather Sans", sans-serif;
+  margin-bottom: 2rem; }
 
 h1 {
   font-size: 3em; }

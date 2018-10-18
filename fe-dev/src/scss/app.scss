@@ -4,13 +4,19 @@
 
 body {
     background-color: black;
+    min-height: 100vh;
 
     #root {
+        @include flex-col;
+        justify-content: center;
+        
         background-color: $color-bg-dark;
+        min-height: inherit;
     }
 }
 
 .trippybg {
+    // display: none;
     position: absolute;
     overflow: hidden;
     top: 0;
@@ -25,7 +31,7 @@ body {
     @include padding-xl;
 
     align-items: center;
-    height: 100vh;
+    // height: 100vh;
     background-color: $color-bg-dark;
 }
 
@@ -37,7 +43,7 @@ body {
     height: 100%;
     width: 100%;
     max-width: 780px;
-    border-radius: 5px;
+    border-radius: 20px;
     box-shadow: 3px 3px $color-magenta;
 }
 

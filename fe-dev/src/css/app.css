@@ -4,7 +4,8 @@ h1, h2, h3 {
   margin: 15px 0 15px 0; }
 
 h4, h5, h6, p {
-  font-family: "Merriweather Sans", sans-serif; }
+  font-family: "Merriweather Sans", sans-serif;
+  margin-bottom: 2rem; }
 
 h1 {
   font-size: 3em; }
@@ -28,9 +29,14 @@ p {
   font-size: 1.1em; }
 
 body {
-  background-color: black; }
+  background-color: black;
+  min-height: 100vh; }
   body #root {
-    background-color: #373737; }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #373737;
+    min-height: inherit; }
 
 .trippybg {
   position: absolute;
@@ -45,7 +51,6 @@ body {
   flex-direction: column;
   padding: 35px;
   align-items: center;
-  height: 100vh;
   background-color: #373737; }
 
 .content {
@@ -56,7 +61,7 @@ body {
   height: 100%;
   width: 100%;
   max-width: 780px;
-  border-radius: 5px;
+  border-radius: 20px;
   box-shadow: 3px 3px #ff00ff; }
 
 .inner-content {
