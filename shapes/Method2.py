@@ -108,7 +108,6 @@ class Shapes:
             if (contour_area != image_area):
                 # Threshold that was defined previously
                 if (w >= smallest_threshed_width and h >= smallest_threshed_height ):
-                    cv.rectangle(self.image, (x, y), (x+w, y+h), (0, 255, 0), 2)
                     # Get the area ratio as the data for Machine Learning later on
                     area_ratio = contour_area / image_area
                     # Put it into the area
