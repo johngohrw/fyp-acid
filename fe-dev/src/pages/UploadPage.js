@@ -3,17 +3,18 @@ import { Link, withRouter } from 'react-router-dom';
 import FileUpload from '../components/FileUpload';
 import '../css/pages/uploadpage.css';
 
-
 class UploadPage extends Component {
     
     constructor(props) {
         super(props);
 
         this.fileHandler = this.fileHandler.bind(this);
+        this.responseHandler = this.responseHandler.bind(this);
         this.uploadHandler = this.uploadHandler.bind(this);
 
         this.state = {
-            files: null
+            files: null,
+            responses: []
         };
     };
 
@@ -26,6 +27,17 @@ class UploadPage extends Component {
 
         // send to parent
         this.props.receiveFiles(filearray)
+    }
+
+    // send responses array to parent component
+    responseHandler(responsearr) {
+        console.log('parent receive response array', responsearr)
+        this.setState({
+            responses: responsearr
+        });
+
+        // send to parent
+        this.props.receiveResponses(responsearr)
     }
 
     // trigger route when upload button is pressed
@@ -42,7 +54,7 @@ class UploadPage extends Component {
                     <p>
                         You can provide multiple files at a time by selecting while holding down the Shift key!
                     </p>
-                    <FileUpload receiveFiles={this.fileHandler} onClickUpload={this.uploadHandler}/>
+                    <FileUpload receiveFiles={this.fileHandler} receiveResponses={this.responseHandler} onClickUpload={this.uploadHandler}/>
                 </div>
                 <div className="button-row">
                     <div>

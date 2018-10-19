@@ -22,15 +22,30 @@
         // border: solid 1px white;
         margin-bottom: 20px;
 
-        img {
-            align-self: flex-start;
-
+        .result-item-img-container {
             height: 100%;
             width: 40%;
-            object-fit: contain;
-            background-color: #e6e6e6;
-            border-radius: 10px;
+
+            img {
+                align-self: flex-start;
+    
+                height: 100%;
+                width: 100%;
+                object-fit: contain;
+                background-color: #e6e6e6;
+                border-radius: 10px;
+                box-shadow: 2px 2px 20px 1px #aaa;
+            }
         }
+
+        .result-item-text-container {
+            margin: auto;
+
+            p {
+    
+            }
+        }
+
     }
 }
 

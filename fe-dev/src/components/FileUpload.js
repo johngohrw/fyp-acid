@@ -10,7 +10,8 @@ export default class FileUpload extends Component {
           this.state = {
             uploadStatus: false,
             mode: null,
-            files: []
+            files: [],
+            responses: []
           }
         this.handleUploadImages = this.handleUploadImages.bind(this);
       }
@@ -20,7 +21,7 @@ export default class FileUpload extends Component {
       }
       
       handleUploadImages(ev) {
-        ev.preventDefault(); 
+        ev.preventDefault();
 
         // get selected files from picker
         var files = document.getElementById('file-selector').files
@@ -36,9 +37,13 @@ export default class FileUpload extends Component {
         let endpoint = 'http://localhost:5000/api/v0/classify?model=' + param
         console.log('Endpoint: ', endpoint)
         
+        // initialise responses
+        let responses = [];
+        let numberOfFiles = this.uploadInput.files.length;
+
         // uploading files to backend
         let fileList = [];
-        for (let i = 0; i < this.uploadInput.files.length; i++) {
+        for (let i = 0; i < numberOfFiles; i++) {
           fileList.push(this.uploadInput.files[i]); // to keep track locally (?)
           const data = new FormData();
           data.append('file', this.uploadInput.files[i])
@@ -46,6 +51,7 @@ export default class FileUpload extends Component {
           axios.post(endpoint, data)
             .then(function (response) {
               console.log("fileupload: img response:", response);
+              responses.push(response.data[0])
             })
             .catch(function (error) {
               console.log(error);
@@ -77,12 +83,25 @@ export default class FileUpload extends Component {
         // start reading
         readNext([], 0, files, imageDataCallback)
         
-        setTimeout(()=>{ 
-          console.log('read all image files!!', imagedata)
-          console.log('child send array to parent')
-          this.props.receiveFiles(imagedata) // send images to parent component
-          this.props.onClickUpload()         // trigger route
-        }, 3000)
+        // gather response from server
+        var gatherResponses = setInterval(() => {
+          console.log(responses.length, numberOfFiles)
+          if (responses.length == numberOfFiles) {
+            
+            console.log('all files gathered!')
+            clearInterval(gatherResponses);
+            // this.setState({responses: responses});
+            // setTimeout(()=>{ 
+              console.log('read all image files!!', imagedata)
+              console.log('child send array to parent')
+              this.props.receiveFiles(imagedata)      // send images to parent component
+              this.props.receiveResponses(responses) // send responses to parent component
+              this.props.onClickUpload()            // trigger routechange
+
+            // }, 2000)
+          }
+        },300) 
+        
 
       }
 

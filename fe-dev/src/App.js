@@ -21,9 +21,11 @@ class App extends Component {
       super(props);
 
       this.fileHandler = this.fileHandler.bind(this);
+      this.responseHandler = this.responseHandler.bind(this);
 
       this.state = {
-          files: null
+          files: null,
+          responses: []
       };
   };
 
@@ -32,6 +34,13 @@ class App extends Component {
       console.log('app receive file array', filearray)
       this.setState({
           files: filearray
+      });
+  }
+
+  responseHandler(responsearr) {
+      console.log('app receive response array', responsearr)
+      this.setState({
+          responses: responsearr
       });
   }
 
@@ -54,11 +63,11 @@ class App extends Component {
               <Route exact path='/' component={WelcomePage}/>
               <Route exact path='/fyp-acid' component={WelcomePage}/>
               <Route path='/upload' 
-                render={(props) => <UploadPage {...props} receiveFiles={this.fileHandler} />}/>
-              <Route path='/template-test' component={TemplateTestPage}/>
+                render={(props) => <UploadPage {...props} receiveResponses={this.responseHandler} receiveFiles={this.fileHandler} />}/>
+            <Route path='/template-test' component={TemplateTestPage}/>
               <Route path='/methodology' component={MethodologyPage}/>
               <Route path='/results' 
-                render={(props) => <ResultsPage {...props} files={this.state.files}/>}/>
+                render={(props) => <ResultsPage {...props} files={this.state.files} responses={this.state.responses}/>}/>
             </div>
           </div>
         </Router> 
