@@ -1,0 +1,11 @@
+@import '../variables';
+@import '../mixins';
+
+.results-page__container {
+    @include flex-col;
+    @include padding-l;
+
+    border-radius: inherit;
+    background-color: $color-bg-light;
+    height: 100%;
+}

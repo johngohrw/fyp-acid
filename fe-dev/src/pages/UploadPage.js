@@ -17,7 +17,10 @@ export default class UploadPage extends Component {
         return (
             <div className="upload-page__container">
                 <div className="inner-content">
-                    <h4>Upload your shit</h4> 
+                    <h4>Upload your images</h4> 
+                    <p>
+                        You can provide multiple files at a time by selecting while holding down the Shift key!
+                    </p>
                     <FileUpload />
                 </div>
                 <div className="button-row">

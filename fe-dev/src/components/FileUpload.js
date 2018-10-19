@@ -62,12 +62,12 @@ export default class FileUpload extends Component {
         <div className="uploader-container">
           <Form onSubmit={this.handleUploadImages}>
             <FormGroup>
-              <input className="form-control"  ref={(ref) => { this.uploadInput = ref; }} type="file" multiple />
+              <input className="form-control file-selector"  ref={(ref) => { this.uploadInput = ref; }} type="file" multiple />
             </FormGroup>
             <FormGroup>
-              <Label for="mode">Select Mode</Label>
-              <Input type="select" name="mode" id="mode" defaultValue="select a method" onChange={(e) => {this.handleChange(e)}}>
-                <option disabled>select a method</option>
+              <Label for="mode">Classifier</Label>
+              <Input type="select" name="mode" id="mode" defaultValue="select a classification model" onChange={(e) => {this.handleChange(e)}}>
+                <option disabled>select a classification model</option>
                 <option>Linear SVM</option>
                 <option>RBF SVM</option>
                 <option>KNN</option>
