@@ -57,7 +57,8 @@ class App extends Component {
                 render={(props) => <UploadPage {...props} receiveFiles={this.fileHandler} />}/>
               <Route path='/template-test' component={TemplateTestPage}/>
               <Route path='/methodology' component={MethodologyPage}/>
-              <Route path='/results' component={ResultsPage}/>
+              <Route path='/results' 
+                render={(props) => <ResultsPage {...props} files={this.state.files}/>}/>
             </div>
           </div>
         </Router> 

@@ -20,25 +20,26 @@ export default class FileUpload extends Component {
       }
       
       handleUploadImages(ev) {
-        ev.preventDefault();
+        ev.preventDefault(); 
 
+        // get selected files from picker
         var files = document.getElementById('file-selector').files
-        console.log("lol",files)
-
-        var param = this.state.mode
         
+        // check params
+        var param = this.state.mode
         if (param === 'Linear SVM') { param = 'linear' } 
         else if (param === 'RBF SVM') { param = 'rbf' } 
         else if (param === 'KNN') { param = 'knn' } 
         else if (param === 'Linear SVM + RBF SVM + KNN') { param = 'linear,rbf,knn' }
 
+        // set endpoint based on param
         let endpoint = 'http://localhost:5000/api/v0/classify?model=' + param
         console.log('Endpoint: ', endpoint)
-    
+        
+        // uploading files to backend
         let fileList = [];
         for (let i = 0; i < this.uploadInput.files.length; i++) {
-          fileList.push(this.uploadInput.files[i]); // to keep track locally
-
+          fileList.push(this.uploadInput.files[i]); // to keep track locally (?)
           const data = new FormData();
           data.append('file', this.uploadInput.files[i])
           console.log(data)
@@ -52,37 +53,36 @@ export default class FileUpload extends Component {
         } 
 
         var imagedata = [];
-        var outputcontainer = document.getElementById("imgdisplay");
-
         var reader = new FileReader();
-
+        
+        // recursive image reading
         const readNext = (imagedata, i, files, callback) => {
           if (i < files.length) {
             let f = files[i];
-            console.log('hahahah',f)
             reader.readAsDataURL(f)
             reader.onloadend = function (e) {
               imagedata.push(reader.result);
-              console.log('len', imagedata.length)
               i++;
               return readNext(imagedata, i, files, callback)
             }
           } else {
-            return callback(imagedata)
+            return imageDataCallback(imagedata)
           }
         }
 
-        const callback = (imgarr) => {
+        const imageDataCallback = (imgarr) => {
           imagedata = imgarr;
         }
-
-        readNext([], 0, files, callback)
+        
+        // start reading
+        readNext([], 0, files, imageDataCallback)
         
         setTimeout(()=>{ 
-          console.log('WOW!! read all files!!', imagedata)
+          console.log('read all image files!!', imagedata)
           console.log('child send array to parent')
-          this.props.receiveFiles(imagedata)
-        }, 5000)
+          this.props.receiveFiles(imagedata) // send images to parent component
+          this.props.onClickUpload()         // trigger route
+        }, 3000)
 
       }
 

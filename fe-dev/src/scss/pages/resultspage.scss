@@ -9,3 +9,28 @@
     background-color: $color-bg-light;
     height: 100%;
 }
+
+.results-list {
+    display: flex;
+    flex-flow: column nowrap;
+
+    .result-item {
+        display: flex;
+
+        width: 100%;
+        height: 160px;
+        // border: solid 1px white;
+        margin-bottom: 20px;
+
+        img {
+            align-self: flex-start;
+
+            height: 100%;
+            width: 40%;
+            object-fit: contain;
+            background-color: #e6e6e6;
+            border-radius: 10px;
+        }
+    }
+}
+

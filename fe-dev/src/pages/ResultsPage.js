@@ -5,32 +5,58 @@ import '../css/pages/resultspage.css';
 
 export default class ResultsPage extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            files: null
+        };
+
+    };
+
+    componentDidMount() {
+        console.log('results component mount! probing for 3 seconds:',this.props)
+        var probe = setInterval(() => {
+            this.setState({files: this.props.files})
+        },100)
+
+        setTimeout(() => {
+            clearInterval(probe)
+            this.loadImages()
+        },3000)
+    }
+
+    // push images to result list
+    loadImages() {
+        console.log('load images!');
+
+        for (let i = 0; i < this.state.files.length; i++) {
+            var div = document.getElementsByClassName('results-list')
+            var imgcontainer = document.createElement("div");
+            imgcontainer.className = "result-item";
+            imgcontainer.id = "ri" + i;
+
+            var img = document.createElement("img");
+            img.src = this.state.files[i];
+            img.className = "results"
+
+            imgcontainer.appendChild(img);
+            div[0].appendChild(imgcontainer);
+        }
+    }
+
     render() {
         return (
             <div className="results-page__container">
                 <div className="inner-content">
                     <h4>Results</h4>
-                    <p>
-                        ACID is an image classifier that is able to discriminate 
-                        between compound and non-compound images from published 
-                        sources in the biomedical field.  
-                    </p>
-                    <p>
-                        We provide three different classification methods to apply 
-                        onto your uploaded images, with each method providing varying
-                        levels of accuracy.  
-                    </p>
-                    <p>
-                        You can read more about our methodology in detail 
-                        <Link to='/methodology'> here</Link>.
-                    </p>
+                    <div className="results-list">
+                    
+                    </div>
                 </div>
                 <div className="button-row">
-                    {/* <Link to="/template-test">
-                        <button className="btn btn-info">Test</button>   
-                    </Link> */}
-                    <Link to="/upload">
-                        <button className="btn btn-success">Next</button>
+                    <Link to="/">
+                        <button className="btn btn-success">Back to Home</button>
                     </Link>
                 </div>
             </div>
