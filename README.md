@@ -10,6 +10,7 @@ Command for installing dependencies below are prefixed with `pip install`:
   * Pillow
   * pytesseract
   * scikit-learn
+  * scikit-image
 
 The Optical Character Recognition (OCR) module of our project depends on the
 Tesseract OCR engine v4.0 with LSTM. 
