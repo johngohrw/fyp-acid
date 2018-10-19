@@ -30,9 +30,9 @@ def main():
     ocrEngine = OCR();
     # Load the pre-trained classification models
     models = {};
-    models["linear"] = joblib.load("linear_svm.model");
-    models["rbf"] = joblib.load("rbf_kernel_svm.model");
-    models["knn"] = joblib.load("knn.model");
+    models["linear"] = joblib.load("ml/linear_svm.model");
+    models["rbf"] = joblib.load("ml/rbf_kernel_svm.model");
+    models["knn"] = joblib.load("ml/knn.model");
 
 
 @app.route("/")

@@ -6,9 +6,9 @@ import cv2
 import numpy as np
 
 import sys
-sys.path.append("./ocr/");
-sys.path.append("./shapes/");
-sys.path.append("./lbp/");
+sys.path.append("../ocr/");
+sys.path.append("../shapes/");
+sys.path.append("../lbp/");
 
 from modules.lbp import LocalBinaryPatterns
 from modules.subdivisions import subdivide_checkeredLBP, divisions
