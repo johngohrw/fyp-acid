@@ -30,14 +30,14 @@ def main():
     ocrEngine = OCR();
     # Load the pre-trained classification models
     models = {};
-    models["linear"] = joblib.load("linear_svm.model");
-    models["rbf"] = joblib.load("rbf_kernel_svm.model");
-    models["knn"] = joblib.load("knn.model");
+    models["linear"] = joblib.load("ml/linear_svm.model");
+    models["rbf"] = joblib.load("ml/rbf_kernel_svm.model");
+    models["knn"] = joblib.load("ml/knn.model");
 
 
 @app.route("/")
 def hello_world():
-    return render_template("index.html");
+    return "Nothing to see here... :D";
 
 
 def valid_file(filename):
@@ -76,54 +76,13 @@ def classify_endpoint():
     return response, 201;
 
 
-
-@app.route("/api/v0/ocr", methods=["POST"])
-def ocr_endpoint():
-    img = handle_file_upload(request);
-    if img.shape[0] == 0:
-        return "400 BAD REQUEST", 400;
-    results, frequency = ocrEngine.recognize(img);
-
-    # JPEG files supported only for the moment
-    _, buffer = cv2.imencode(".jpg", results[0]);
-    response = make_response(buffer.tobytes());
-    response.headers["Content-Type"] = "image/jpeg"
-    return response, 201;
-
-
-@app.route("/api/v0/lbp", methods=["POST"])
-def lbp_endpoint():
-    img = handle_file_upload(request);
-    if img.shape[0] == 0:
-        return "400 BAD REQUEST", 400;
-
-    randomID = random.getrandbits(128);
-    blocksize = 10; # blocksize of region subdivisions
-
-    print('{}: starting preprocessing..'.format(randomID));
-    preprocessedImg = lbpEngine.preprocess(img);
-    print('{}: computing distance array..'.format(randomID));
-    dist_array = lbpEngine.compute_distance_array(preprocessedImg, blocksize)
-    print('{}: computing bottom shift..'.format(randomID));
-    bottomshifted = lbpEngine.bottom_shift(dist_array);
-    print('{}: computing right shift..'.format(randomID));
-    rightshifted = lbpEngine.right_shift(dist_array);
-    print('{}: done!'.format(randomID));
-    resultImg = dist_array;
-
-    _, buffer = cv2.imencode(".jpg", resultImg);
-    response = make_response(buffer.tobytes());
-    response.headers["Content-Type"] = "image/jpeg"
-    return response, 201;
-
-
 @app.errorhandler(404)
 def not_found(error):
     return "404 NOT FOUND!", 404;
 
 @app.errorhandler(405)
 def method_not_allowed(error):
-    return render_template("405_error.html"), 405
+    return "405 METHOD NOT ALLOWED", 405
 
 
 def handle_file_upload(request):

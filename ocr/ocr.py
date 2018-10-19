@@ -11,42 +11,13 @@ import pytesseract
 
 from text_detection import pivotingTextDetection
 from img_utils import *
-from recognition import *
 from thinning import zhangSuen
 
 
 class OCR:
 
-    def __init__(self, templateMatching = False):
+    def __init__(self):
         print("Hello from OCR!");
-
-        if templateMatching:
-            currentDir = os.path.dirname(os.path.realpath(__file__));
-
-            lettersPath = os.path.join(currentDir, "templates/letters.png");
-            upperPath = os.path.join(currentDir, "templates/letters_upper.png");
-            digitsPath = os.path.join(currentDir, "templates/digits.png");
-
-            lettersImg = cv2.imread(lettersPath);
-            upperImg = cv2.imread(upperPath);
-            digitsImg = cv2.imread(digitsPath);
-
-            fixedRows = lettersImg.shape[0];
-
-            upperDimensions = (upperImg.shape[1], fixedRows);
-            upperImg = cv2.resize(upperImg, upperDimensions);
-            digitsDimensions = (digitsImg.shape[1], fixedRows);
-            digitsImg = cv2.resize(digitsImg, digitsDimensions);
-
-            # Concatenate the template images in a row
-            templateImg = np.concatenate((lettersImg, np.concatenate((upperImg, digitsImg), axis=1)), axis=1);
-
-            self.chars = list(string.ascii_lowercase + string.ascii_uppercase + string.digits);
-            self.chars.insert(9, "-");
-            self.chars.insert(11, "-");
-            charRects, templateBinImg = processTemplateImg(templateImg);
-            self.charRects = charRects;
-            self.templateBinImg = templateBinImg;
 
 
     def preprocess(self, img):
@@ -113,22 +84,6 @@ class OCR:
         # Putting recognized text near their detected region
         cv2.putText(img, text,
                 origin, font, fontScale, fontColor, lineType);
-
-
-    # This is python's way for defining a private method, Pfffft"
-    def __template_match(self, binTextRegion, currentRegionChars):
-        dimensionsToMatch = (57, 88);
-        recognizedText = "";
-        # Attempt to match each segmented chars in the text region with
-        # all the chars in our alphabet
-        for (x, y, w, h) in currentRegionChars:
-            roi = binTextRegion[y:y + h, x:x + w];
-            roi = cv2.resize(roi, dimensionsToMatch);
-
-            _, maxLetterIndex = matchTemplate(roi, self.chars, self.charRects, self.templateBinImg);
-            recognizedText += self.chars[maxLetterIndex];
-
-        return recognizedText;
 
 
     def __summarizeOccurences(self, texts):
