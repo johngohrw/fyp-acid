@@ -8,10 +8,24 @@ export default class UploadPage extends Component {
     
     constructor(props) {
         super(props);
+
+        this.fileHandler = this.fileHandler.bind(this);
+
         this.state = {
-            someState: 'haha'
+            files: null
         };
     };
+
+
+    fileHandler(filearray) {
+        console.log('parent receive file array', filearray)
+        this.setState({
+            files: filearray
+        });
+
+        // send to parent
+        this.props.receiveFiles(filearray)
+    }
 
     render() {
         return (
@@ -21,7 +35,7 @@ export default class UploadPage extends Component {
                     <p>
                         You can provide multiple files at a time by selecting while holding down the Shift key!
                     </p>
-                    <FileUpload />
+                    <FileUpload receiveFiles={this.fileHandler} />
                 </div>
                 <div className="button-row">
                     <div>

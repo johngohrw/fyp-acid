@@ -9,7 +9,8 @@ export default class FileUpload extends Component {
         super(props);
           this.state = {
             uploadStatus: false,
-            mode: null
+            mode: null,
+            files: []
           }
         this.handleUploadImages = this.handleUploadImages.bind(this);
       }
@@ -20,6 +21,9 @@ export default class FileUpload extends Component {
       
       handleUploadImages(ev) {
         ev.preventDefault();
+
+        var files = document.getElementById('file-selector').files
+        console.log("lol",files)
 
         var param = this.state.mode
         
@@ -45,8 +49,41 @@ export default class FileUpload extends Component {
             .catch(function (error) {
               console.log(error);
             });
+        } 
+
+        var imagedata = [];
+        var outputcontainer = document.getElementById("imgdisplay");
+
+        var reader = new FileReader();
+
+        const readNext = (imagedata, i, files, callback) => {
+          if (i < files.length) {
+            let f = files[i];
+            console.log('hahahah',f)
+            reader.readAsDataURL(f)
+            reader.onloadend = function (e) {
+              imagedata.push(reader.result);
+              console.log('len', imagedata.length)
+              i++;
+              return readNext(imagedata, i, files, callback)
+            }
+          } else {
+            return callback(imagedata)
+          }
         }
-        console.log(fileList)
+
+        const callback = (imgarr) => {
+          imagedata = imgarr;
+        }
+
+        readNext([], 0, files, callback)
+        
+        setTimeout(()=>{ 
+          console.log('WOW!! read all files!!', imagedata)
+          console.log('child send array to parent')
+          this.props.receiveFiles(imagedata)
+        }, 5000)
+
       }
 
       
@@ -62,7 +99,7 @@ export default class FileUpload extends Component {
         <div className="uploader-container">
           <Form onSubmit={this.handleUploadImages}>
             <FormGroup>
-              <input className="form-control file-selector"  ref={(ref) => { this.uploadInput = ref; }} type="file" multiple />
+              <input className="form-control file-selector" id="file-selector" ref={(ref) => { this.uploadInput = ref; }} type="file" multiple />
             </FormGroup>
             <FormGroup>
               <Label for="mode">Classifier</Label>
@@ -76,6 +113,8 @@ export default class FileUpload extends Component {
             </FormGroup>
             {uploadButton}
           </Form>
+
+          <div id="imgdisplay"></div>
         </div>
      )
    }

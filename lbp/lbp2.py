@@ -26,7 +26,6 @@ def getLBPHistogram(lbp, img):
 
     for m in range(len(subdivided)):
         for n in range(len(subdivided[0])):
-
             # convert to grayscale
             gray = cv2.cvtColor(subdivided[m][n], cv2.COLOR_RGB2GRAY)
             hist = lbp.describe(gray)

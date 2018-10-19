@@ -6,7 +6,7 @@ from modules.lbp import LocalBinaryPatterns
 from modules.subdivisions import subdivide_checkeredLBP
 from modules.shifting import rightshift, bottomshift
 
-# initialise LocalBinaryPattern instance
+# initialise LocalBinaryPattern instances for testing
 lbp1 = LocalBinaryPatterns(12, 2, "uniform") #number of points, radius
 lbp2 = LocalBinaryPatterns(8, 2, "uniform") #number of points, radius
 lbp3 = LocalBinaryPatterns(4, 2, "uniform") #number of points, radius
@@ -45,43 +45,43 @@ for i in range(len(images)):
     # for j in range(5):
     checkered = subdivide_checkeredLBP(img, blocksize, lbps[3])
     equ = cv2.equalizeHist(np.uint8(checkered)) # do histogram equalization
-    sub = cv2.bitwise_not(equ)
-    ret,thresh1 = cv2.threshold(sub,200,255,cv2.THRESH_TOZERO)
-    ret,thresh2 = cv2.threshold(sub,200,255,cv2.THRESH_BINARY)
+    # sub = cv2.bitwise_not(equ)
+    # ret,thresh1 = cv2.threshold(sub,200,255,cv2.THRESH_TOZERO)
+    # ret,thresh2 = cv2.threshold(sub,200,255,cv2.THRESH_BINARY)
 
-    kernel = np.ones((3,3),np.uint8)
-    erosion = cv2.erode(thresh2,kernel,iterations = 1)
-    edges = cv2.Canny(erosion,100,200,apertureSize = 7)
-
-
-    rho = 200  # distance resolution in pixels of the Hough grid
-    theta = np.pi / 2  # angular resolution in radians of the Hough grid
-    threshold = 30  # minimum number of votes (intersections in Hough grid cell)
-    min_line_length = 50  # minimum number of pixels making up a line
-    max_line_gap = 20  # maximum gap in pixels between connectable line segments
-    line_image = np.copy(edges) * 0  # creating a blank to draw lines on
-
-    # Run Hough on edge detected image
-    # Output "lines" is an array containing endpoints of detected line segments
-    lines = cv2.HoughLinesP(edges, rho, theta, threshold, np.array([]),
-                        min_line_length, max_line_gap)
-
-    for line in lines:
-        for x1,y1,x2,y2 in line:
-            cv2.line(line_image,(x1,y1),(x2,y2),(255,0,0),1)
+    # kernel = np.ones((3,3),np.uint8)
+    # erosion = cv2.erode(thresh2,kernel,iterations = 1)
+    # edges = cv2.Canny(erosion,100,200,apertureSize = 7)
 
 
-    plt.subplot(1, 4, 2)
-    plt.imshow(thresh2, cmap='gray')
-    plt.axis('off')
+    # rho = 200  # distance resolution in pixels of the Hough grid
+    # theta = np.pi / 2  # angular resolution in radians of the Hough grid
+    # threshold = 30  # minimum number of votes (intersections in Hough grid cell)
+    # min_line_length = 50  # minimum number of pixels making up a line
+    # max_line_gap = 20  # maximum gap in pixels between connectable line segments
+    # line_image = np.copy(edges) * 0  # creating a blank to draw lines on
 
-    plt.subplot(1, 4, 3)
-    plt.imshow(edges, cmap='gray')
-    plt.axis('off')
+    # # Run Hough on edge detected image
+    # # Output "lines" is an array containing endpoints of detected line segments
+    # lines = cv2.HoughLinesP(edges, rho, theta, threshold, np.array([]),
+    #                     min_line_length, max_line_gap)
 
-    plt.subplot(1, 4, 4)
-    plt.imshow(line_image)
-    plt.axis('off')
+    # for line in lines:
+    #     for x1,y1,x2,y2 in line:
+    #         cv2.line(line_image,(x1,y1),(x2,y2),(255,0,0),1)
+
+
+    # plt.subplot(1, 4, 2)
+    # plt.imshow(thresh2, cmap='gray')
+    # plt.axis('off')
+
+    # plt.subplot(1, 4, 3)
+    # plt.imshow(edges, cmap='gray')
+    # plt.axis('off')
+
+    # plt.subplot(1, 4, 4)
+    # plt.imshow(line_image)
+    # plt.axis('off')
 
     # checkered1 = subdivide(img, blocksize, lbp1)
     # checkered2 = subdivide(img, blocksize, lbp2)

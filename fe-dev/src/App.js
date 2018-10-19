@@ -17,6 +17,25 @@ import './css/trippybourbon.css';
 
 class App extends Component {
 
+  constructor(props) {
+      super(props);
+
+      this.fileHandler = this.fileHandler.bind(this);
+
+      this.state = {
+          files: null
+      };
+  };
+
+
+  fileHandler(filearray) {
+      console.log('app receive file array', filearray)
+      this.setState({
+          files: filearray
+      });
+  }
+
+
   componentWillMount() {
     document.title = 'FYP ACID'; // changing doc title upon loading. 
   }
@@ -32,9 +51,10 @@ class App extends Component {
             <AppHeader />
             {/* <AppNav {...this.props} /> */}
             <div className="content">
-              <Route exact path='/fyp-acid' component={WelcomePage}/>
               <Route exact path='/' component={WelcomePage}/>
-              <Route path='/upload' component={UploadPage}/>
+              <Route exact path='/fyp-acid' component={WelcomePage}/>
+              <Route path='/upload' 
+                render={(props) => <UploadPage {...props} receiveFiles={this.fileHandler} />}/>
               <Route path='/template-test' component={TemplateTestPage}/>
               <Route path='/methodology' component={MethodologyPage}/>
               <Route path='/results' component={ResultsPage}/>
