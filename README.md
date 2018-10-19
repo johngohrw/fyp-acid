@@ -12,7 +12,8 @@ Command for installing dependencies below are prefixed with `pip install`:
   * scikit-learn
 
 The Optical Character Recognition (OCR) module of our project depends on the
-Tesseract OCR engine. See their Github [wiki](https://github.com/tesseract-ocr/tesseract/wiki) 
+Tesseract OCR engine v4.0 with LSTM. 
+See their Github [wiki](https://github.com/tesseract-ocr/tesseract/wiki) 
 for installation instructions.
 
 ## Starting the web app
