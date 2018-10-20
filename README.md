@@ -21,6 +21,10 @@ for installation instructions.
 ## Starting the web app
 Run the web server:
 ```
+python app.py
+```
+or
+```
 python3 app.py
 ```
 The front end can be accessed [here](https://johngohrw.github.io/fyp-acid/) after successfully running the web-server.
