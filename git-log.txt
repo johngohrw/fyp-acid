@@ -1,0 +1,823 @@
+
+# Team's version control commits on GitLab
+# Sorted from new to old.
+
+
+commit dc3b67676ccfae5e31a0393ffcbf8d822a731dbe (HEAD -> master, origin/master, origin/HEAD)
+Author: John Goh <john@accendo.com.my>
+Date:   Sat Oct 20 08:18:40 2018 +0800
+
+    change routes to suit githubpages
+
+commit 53cb8f012dcd6c13feb9ad23240ea46b88bf3fc4
+Author: John Goh <john@accendo.com.my>
+Date:   Sat Oct 20 07:34:43 2018 +0800
+
+    upload and display results
+
+commit 757638b51e8441b6a176d4dba54d0aea00ebca8a
+Merge: 5e94802 08189c2
+Author: John Goh <john@accendo.com.my>
+Date:   Sat Oct 20 06:32:09 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit 5e9480209c759e9fea73ac82c03dea35898b8149
+Author: John Goh <john@accendo.com.my>
+Date:   Sat Oct 20 06:31:50 2018 +0800
+
+    FE: image pushing on results page
+
+commit faa708091108f18a25065dc7ab9d3c9b349b38dd
+Author: John Goh <john@accendo.com.my>
+Date:   Sat Oct 20 05:06:28 2018 +0800
+
+    file picker successfully read to React global app state
+
+commit 08189c26b03c90f81a3518721d39e15989f8d219
+Author: Gabriel Derek Tan <gabrieltan19@gmail.com>
+Date:   Fri Oct 19 20:32:12 2018 +0000
+
+    missed a dependency
+
+commit cf7763fbdc4aa5da1cfafcdb5c8b552aed299fb8
+Merge: 6c468e9 b677b10
+Author: John Goh <john@accendo.com.my>
+Date:   Fri Oct 19 20:43:04 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit 6c468e9bd1e1f9396c83cca6dc46ef4fda011e40
+Author: John Goh <john@accendo.com.my>
+Date:   Fri Oct 19 20:42:47 2018 +0800
+
+    added methodology and results page, however it's unrouted
+
+commit b677b10ea757ac27ea2da6350ea9aa3a17b32a10
+Author: Gabriel Derek Tan <gabrieltan19@gmail.com>
+Date:   Fri Oct 19 09:16:13 2018 +0000
+
+    minor change
+
+commit 0557e51db743b848d27befcd121ebd4aa5f81058
+Author: Gabriel Derek Tan <gabrieltan19@gmail.com>
+Date:   Fri Oct 19 09:09:13 2018 +0000
+
+    Updated README.md as short user guide.
+
+commit 4b42c3307653ab5e1c5843a7c2899cdc0e848eeb
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Oct 19 15:55:23 2018 +0800
+
+    created ml folder
+
+commit 8cf3821681e1ca2cd944f367d4264e76c30dd556
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Oct 19 15:25:27 2018 +0800
+
+    removed redundant codes
+
+commit 8ffdde0bf252181e092be91a504bd4ace40bb070
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Oct 19 15:16:05 2018 +0800
+
+    the purge
+
+commit 0791d1b45f22901a556bcda13e1032ba13e67ca0
+Merge: 583c00e c9536ef
+Author: John Goh <john@accendo.com.my>
+Date:   Fri Oct 19 05:51:36 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit 583c00eced7246e785bc03385e4dea2ae589b401
+Author: John Goh <john@accendo.com.my>
+Date:   Fri Oct 19 05:51:27 2018 +0800
+Date:   Fri Oct 19 05:51:27 2018 +0800
+
+    changed tag bg color
+
+commit c9536ef57ed53596f6c604c2338d9525abe9f16a
+Merge: 8002afd 3b0ed07
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Oct 19 05:49:09 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit 8002afdc8ad83935409090b411a93bfcde154f35
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Oct 19 05:48:47 2018 +0800
+
+    classification endpoint of uploading image and classify with pre-trained models
+
+commit 3b0ed07096c32f335e62fcfe3604ec6661bc95c7
+Author: John Goh <john@accendo.com.my>
+Date:   Fri Oct 19 05:05:07 2018 +0800
+
+    minor flexbox adjustments
+
+commit d18dbbe7f32d8f09e1d036e8bb842037474e8451
+Author: John Goh <john@accendo.com.my>
+Date:   Fri Oct 19 04:51:02 2018 +0800
+
+    removed background, is mobile-adaptive
+
+commit d5a3cb3a7b87c7e0856b3b1bdacd5e099500fe62
+Author: John Goh <john@accendo.com.my>
+Date:   Fri Oct 19 04:30:00 2018 +0800
+
+    chenge welcome message, add fileupload endpoints
+
+commit 7c221d6b33acf9e20b1e7d8fbd1ad4041b83d185
+Author: John Goh <john@accendo.com.my>
+Date:   Fri Oct 19 03:19:29 2018 +0800
+
+    change upload endpoint
+
+commit 1244486c6eabfd58a86367557a09b8cf91d0a7ff
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Oct 18 15:10:27 2018 +0800
+
+    train, test and persist models
+
+commit 93adb4cddefdd3639dc9a34a64bc5e3d3b74d71e
+Merge: 4a40e43 9e318fb
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Oct 18 13:21:12 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit 4a40e436fa25946d51afadcd5ae233c5db4ec6d8
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Oct 18 13:20:57 2018 +0800
+
+    more data
+
+commit 9e318fbf6a95028bfe3e24c90917edc8171f3b9e
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Thu Oct 18 10:11:38 2018 +0800
+
+    Remove one line of code which is unneccessary
+
+commit b8399e7182e6ba0363c3f4f5eff1918fa363cb5f
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Thu Oct 18 09:34:25 2018 +0800
+
+    Very The Final! Freaking Good Dy. Added my own way of doing it instead of copy whole thing. Commments added too
+
+commit 42c9421edde376562fc1795643dbc615e92273f2
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Thu Oct 18 06:13:10 2018 +0800
+
+    Made some changes. Instead of sorting contours in top to bottom order, currently sorting from largest to smallest for better accuracy
+
+commit a8b795ec9aa8007850a9efbc10e9de5a764c97b1
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Thu Oct 18 05:17:03 2018 +0800
+
+    deleted some minor stuff
+
+commit 514c35930dec16be4c862b7b81e0b978fee3be03
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Thu Oct 18 05:15:20 2018 +0800
+
+    Before i screw up everything. Here is a nice good ol method of mine before factorization
+
+commit 71ce69cc9683b10b2629a02290919c702d90bdc9
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Wed Oct 17 12:29:59 2018 +0800
+
+    open image in memory instead of writing to file for pytesseract
+
+commit 1dca8fbbf06d03c952dc9d1a67922f5679056b5d
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Tue Oct 16 16:46:03 2018 +0800
+
+    integrate shape features
+
+commit 5f665a09e097c9e30333d2615c4e5f0672109d0a
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Tue Oct 16 15:25:12 2018 +0800
+
+    Vely Naise Classy
+
+commit baa2855a2250bc7f590eba0164f11f10f0b3343d
+Merge: b2ec8da b790f88
+Author: John Goh <john@accendo.com.my>
+Date:   Tue Oct 16 14:43:17 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit b2ec8da96d4aabf693afa1141246686e061b88fe
+Author: John Goh <john@accendo.com.my>
+Date:   Tue Oct 16 14:42:21 2018 +0800
+
+    add deployment code. minor ui tweaks
+
+commit b790f88dda868588c8f85a720872a54401e3b306
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Tue Oct 16 14:34:45 2018 +0800
+
+    With some results
+
+commit 8771d1f2e6ff965c4eca67ebd9ef8d23ccc05708
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Mon Oct 15 21:39:17 2018 +0800
+
+    some refactoring and reports yay
+
+commit 0fcea776f027af18c40e552c5253e85da67fd0e6
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Mon Oct 15 20:06:00 2018 +0800
+
+    more data collected
+
+commit 798b0b85690dc16b693d123aab465cff89644897
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Mon Oct 15 18:59:05 2018 +0800
+
+    parameter testing with svm and knn
+
+commit e899af821c2ca4221cc450f2e5e323d1edd1cd20
+Merge: f46cbd3 db306e9
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Mon Oct 15 17:47:41 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit f46cbd3a274b9b305f497c43db02d4d434b69e81
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Mon Oct 15 17:47:20 2018 +0800
+
+    script to extract features and another for training/testing
+
+commit db306e937b859729a5135b9ec8595e2b73688510
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Mon Oct 15 15:53:34 2018 +0800
+
+    nice-fy and added conditions for method 2. added more images.
+
+commit f81a7e2771f476fe2bbefa68af96ff5ea7d968ce
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Mon Oct 15 14:59:48 2018 +0800
+
+    get lbp histogram function
+
+commit 172df510e327518e6118767b33c48631dee04a7f
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Sun Oct 14 22:07:34 2018 +0800
+
+    Added 1 more method - (method2) that may be used as the final method
+
+commit 0a07c66cd8fbc88be49b5a82baecd7046d484e64
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Sun Oct 14 21:57:58 2018 +0800
+
+    some classification report
+
+commit c2910277dfea0c0ac47cfac00e8676758ff327e3
+Author: John Goh <john@accendo.com.my>
+Date:   Sat Oct 13 23:50:47 2018 +0800
+
+    change bg circles colors
+
+commit a62fb80ca5b820b6bc32ae2c14c71d91ec689c01
+Author: John Goh <john@accendo.com.my>
+Date:   Sat Oct 13 23:39:41 2018 +0800
+
+    added trippy bg on frontend
+
+commit f9fb49308592a9e46800ddb87bb326bc0a53538e
+Author: John Goh <john@accendo.com.my>
+Date:   Sat Oct 13 22:42:09 2018 +0800
+
+    got results from LBP subdivided & concatenated histograms
+
+commit c00ff9284c3fe95d1f7b8a810379247673f96817
+Merge: e6c635f a1c4e21
+Author: John Goh <john@accendo.com.my>
+Date:   Sat Oct 13 22:15:55 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit e6c635f9dcd2981aa48c538917533cac8a6acda2
+Author: John Goh <john@accendo.com.my>
+Date:   Sat Oct 13 22:15:41 2018 +0800
+
+    LBP second attempt
+
+commit adaa56d4c9cfeed03660e4d383820e9a1f98b09d
+Author: John Goh <john@accendo.com.my>
+Date:   Sat Oct 13 22:15:25 2018 +0800
+
+    LBP failed attempts
+
+commit a1c4e21bbc58e6ff3039c5a9202e146ce51045e0
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Sat Oct 13 20:17:55 2018 +0800
+
+    more playing around with cross validation
+
+commit 6ab8b3d1c740ffbaf043fd78279905ccecacfd48
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Sat Oct 13 18:10:34 2018 +0800
+
+    trying out k fold cross validation
+
+commit 5ddb7901382d9a1e55ce6557e8bdfce61dabf594
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Sat Oct 13 01:53:10 2018 +0800
+
+    basic testing and training with Linear SVM
+
+commit 95c83d8583b4b5b99bedc1ded7502f2ae91b0417
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Sat Oct 13 00:30:52 2018 +0800
+
+    basic training and testing for KNN
+
+commit d85144f0306cd840f537949f03851f23706cb20b
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Oct 12 23:59:19 2018 +0800
+
+    write data and labels to a csv and text file
+
+commit 6070b66ac097a37b231580e696d6d5cff13ba5b4
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Oct 12 16:47:25 2018 +0800
+
+    continue attempt in extracting ocr features
+
+commit 18840b663dea8fbeb21d211d9308e0738a821c55
+Merge: 4996c98 24d6d17
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Oct 11 22:09:29 2018 +0800
+
+    Merge branch 'gabriel/sklearn-experiment'
+
+commit 24d6d17fa8d8ae10cf2c3b8a659cb9656ebc2d21
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Oct 11 22:09:00 2018 +0800
+
+    trying to extract some features
+
+commit 4996c9872b7bda87b4039e7b32b313003590d4ce
+Merge: 413bdcb c32ae7a
+Author: Gabriel Derek Tan <gabrieltan19@gmail.com>
+Date:   Thu Sep 27 17:31:34 2018 +0000
+
+    Merge branch 'gabriel/ocr-improv' into 'master'
+
+    Gabriel/ocr improv
+
+    See merge request jrgoh1/fyp-acid!2
+
+commit c32ae7ac56fd414a74eca2a620c07fbfe6530bd7
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Sep 27 19:52:12 2018 +0800
+
+    boosted index error handling
+
+commit a7214d6c3213ea7821f3913f09f99edf2cef8325
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Sep 20 17:16:25 2018 +0800
+
+    more attempts to improve recognition
+
+commit 4ae84e7bb7d400ed01633fab573fb5904f9e9d47
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Sep 20 17:01:29 2018 +0800
+
+    added zhang suen's thinning algorithm (may or may not always improve recognition results)
+
+commit 486e443342bbd099fd1be9630409bcaf4d2fa453
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Sep 20 15:29:26 2018 +0800
+
+    added pytesseract for character recognition
+
+commit 1b28378b206531ea970bb5f0b2aebcd06eb2864b
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Wed Sep 19 17:06:59 2018 +0800
+
+    improved min coverage algo
+
+commit 413bdcbed54c5bd4595521d1e97aa5bb62472dd6
+Author: John Goh <john@accendo.com.my>
+Date:   Wed Sep 19 16:52:45 2018 +0800
+
+    added tensorflow hello world
+
+commit bbce1359a06ffea812b91e1f1249cde551194769
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Wed Sep 19 13:06:10 2018 +0800
+
+    concatenate template imgs to a single img (breaking change)
+
+commit 02077f33dc6402369ba749e1dacfd72e68e5d198
+Merge: 1c7a131 cfa245c
+Author: John Goh <john@accendo.com.my>
+Date:   Wed Sep 19 12:40:26 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit 1c7a131d1cd8a48cc26245a4268e5c74a8471d67
+Author: John Goh <john@accendo.com.my>
+Date:   Wed Sep 19 12:37:21 2018 +0800
+
+    FE - uploader page tweaks
+
+commit cfa245c54b358fe7af929feb1fb29f5de992bc76
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Sat Sep 15 18:19:50 2018 +0800
+
+    Re-adjust values for image 3.jpg. Detecting quite clean now. Added Canny Edge UI App to speed up looking for the best threshold.
+
+commit 2cf1be1c3750ff3a73f649763b466975b6392993
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Wed Sep 12 15:52:50 2018 +0800
+
+    Added Canny Edge  Interface app, to find best threshold
+
+commit c68f4028993bdcb8febe7a45bab7ecc2ea63339b
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Wed Sep 12 13:50:01 2018 +0800
+
+    Remove Uneccessary stuff and reduced details in image
+
+commit 3a118fee734d16322afec3b2d52c3143f8d3314b
+Author: John Goh <john@accendo.com.my>
+Date:   Thu Sep 6 03:45:54 2018 +0800
+
+    add LBP endpoint at backend (wip)
+
+commit 4418b9e4661e5274977071de33a6a8ab08f8a737
+Merge: 4dfbe95 f03fb29
+Author: John Goh <john@accendo.com.my>
+Date:   Thu Sep 6 03:14:32 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit 4dfbe95aaee86bb1b6daf8f2274deaaab4635a82
+Author: John Goh <john@accendo.com.my>
+Date:   Thu Sep 6 03:13:43 2018 +0800
+
+    restructure lbp folder, fix fileupload component for mode selection
+
+commit f03fb29b6c81a7f4302dbb8724a0c33e183c692e
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Thu Sep 6 02:40:08 2018 +0800
+
+    Did some Hough Transform Testing, RealShapes.py is the main
+
+commit 419dc497e903e90f0d5eb8e8b6785e7bb9aefa8d
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Sep 6 02:32:05 2018 +0800
+
+    removed min coverage for now
+
+commit 29c137681d361b4c13f74fe6812de0d3a6710e87
+Author: John Goh <john@accendo.com.my>
+Date:   Thu Sep 6 01:58:54 2018 +0800
+
+    container padding fix for frontend
+
+commit 5561aaaeedb5d45e56b711eec189d3c99113eb01
+Merge: aae1cd2 bc4fb6f
+Author: John Goh <jrgoh1@student.monash.edu>
+Date:   Wed Sep 5 17:34:03 2018 +0000
+
+    Merge branch 'fe-dev' into 'master'
+
+    Fe dev
+
+    See merge request jrgoh1/fyp-acid!1
+
+commit bc4fb6f5b848e014c759e8522f49e65f69d79a62 (origin/fe-dev)
+Author: John Goh <john@accendo.com.my>
+Date:   Thu Sep 6 01:32:21 2018 +0800
+
+    add subtitle
+
+commit e8f031e99c312031fb84719bfca533ebab033886
+Author: John Goh <john@accendo.com.my>
+Date:   Thu Sep 6 01:23:12 2018 +0800
+
+    styling restructure. frontend overhaul
+
+commit aae1cd2baf531265f7dc27afa20dfaccf0fe300f
+Merge: e7f14c6 42326fa
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Wed Sep 5 23:36:22 2018 +0800
+
+    Merge branch 'gabriel/integration'
+
+commit 42326fa027a55068a95ac035160147f8e4a43d60
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Wed Sep 5 23:35:33 2018 +0800
+
+    can upload and decode image liao
+
+commit 3093db63bc6cdd7d686eb7d4d4ffc69ac91e7f49
+Merge: 9e00852 f2ab227
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Wed Sep 5 17:17:15 2018 +0800
+
+    fixed minor merge conflict
+
+commit 9e0085260a88fb411d43f9985bb6d8c7d9385fea
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Wed Sep 5 17:12:34 2018 +0800
+
+    minor changes
+
+commit f2ab227f1b94beb47840f5c56c660092244ca3b1
+Author: John Goh <john@accendo.com.my>
+Date:   Wed Sep 5 17:05:24 2018 +0800
+
+    file upload
+
+commit f34e402eed9559d9a0aab1f9862abaaa4e4c047a
+Author: John Goh <john@accendo.com.my>
+Date:   Wed Sep 5 13:56:36 2018 +0800
+
+    add favicon
+
+commit 9a67da0fc704ce55d91b5f1ab25a002d18374e61
+Author: John Goh <john@accendo.com.my>
+Date:   Wed Sep 5 13:46:30 2018 +0800
+
+    AppHeader and UploadPage styling
+
+commit b582f966df5497af93b6ba93dc302f7d518749fa
+Author: John Goh <john@accendo.com.my>
+Date:   Wed Sep 5 13:06:46 2018 +0800
+
+    add color and font scss definitions. add app header
+
+commit e7f14c61116db2a0e36009bd35d7ebec1b4b3cc8
+Author: John Goh <john@accendo.com.my>
+Date:   Wed Sep 5 11:59:26 2018 +0800
+
+    removed old lbp folder
+
+commit c5656bfda979aa90ce43059473f3166c2ea9955d
+Merge: ca50603 fbcd02b
+Author: John Goh <john@accendo.com.my>
+Date:   Wed Sep 5 11:52:21 2018 +0800
+
+    merge branch 'master'
+
+commit ca5060352c98c87b3dc1a9a8dcd71328a02ccdc3
+Author: John Goh <john@accendo.com.my>
+Date:   Wed Sep 5 11:49:34 2018 +0800
+
+    initialize fe-dev repo
+
+commit fbcd02b2c07666a2f07f2b9d22382f698e6169f1
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Wed Sep 5 04:21:35 2018 +0800
+
+    added some functions that will be able to match 2 shapes
+
+commit cff1e0376f2c9445d59e806edc204e162542ac9b
+Merge: bffa6e0 22e0ba8
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Tue Sep 4 00:42:39 2018 +0800
+
+    Merge branch 'gabriel/OCR_REST'
+
+commit 22e0ba8701dfbf5525a76af137f78f235ee84c82
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Tue Sep 4 00:41:28 2018 +0800
+
+    ocr REST endpoint, returns JPEG files only for now
+
+commit c406e49a6cf76bf58ced69c21487ff785b142548
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Aug 23 18:23:52 2018 +0800
+
+    decoding uploaded image in flask server using opencv
+
+commit bffa6e09ca08255c220593781eba6853baef8243
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Tue Aug 21 19:22:11 2018 +0800
+
+    Looking into coordinates of the contours
+
+commit a3ef3feb07dddfa5b7b2d5487c6923d8546ddc10
+Merge: 5ba68d9 909abc6
+Author: John Goh <john@accendo.com.my>
+Date:   Tue Aug 21 18:48:25 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit 5ba68d90a3f4c0c8b5da632107a7208236408a7e
+Author: John Goh <john@accendo.com.my>
+Date:   Tue Aug 21 18:42:57 2018 +0800
+
+    downshift and bottomshift
+
+commit 480ebf9679915f83b4dcf61b81e051759ba0f80d
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Mon Aug 20 01:27:26 2018 +0800
+
+    half-assed template matching implementation
+
+commit 302433efa0ffcaf8e8e2caf0aeed92107e73bb9f
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Aug 17 17:04:38 2018 +0800
+
+    OCR templates for template matching
+
+commit 909abc6409fd3aae32f8e5362290763659edbc3a
+Merge: 08075b1 1d0e409
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Aug 17 01:24:22 2018 +0800
+
+    Merge branch 'gabriel/min-coverage'
+
+commit 1d0e4093305e1ba38fe34b22e1206a467ef4b5ae
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Aug 17 01:22:58 2018 +0800
+
+    moved utility functions to img_utils module
+
+commit 08075b1ddcc09888a746e3300678924f484dba27
+Merge: ec7570b 66a89a9
+Author: John Goh <john@accendo.com.my>
+Date:   Thu Aug 16 23:59:22 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit ec7570b129ec025dd055660931af6d367eddfca8
+Author: John Goh <john@accendo.com.my>
+Date:   Thu Aug 16 23:59:12 2018 +0800
+
+    LBP: subdivisions refactoring
+
+commit 98f549387119c4c594e1ddf9633782fd082252df
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Thu Aug 16 00:51:16 2018 +0800
+
+    min coverage bounding box implementation
+
+commit 66a89a9406a9c1453f1723a0ab0c382c4d78c05b
+Merge: f7e411a b93fef3
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Sat Aug 11 01:44:33 2018 +0800
+
+    Merge branch 'gabriel/2018-08-09'
+
+commit b93fef3b3696796830737b10ccb23179b99b68b4
+Merge: 325a4cf 2ef7866
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Sat Aug 11 01:43:27 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid into gabriel/2018-08-09
+
+commit 325a4cfb7cda27f6459cde8042fef387258c02f4
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Sat Aug 11 01:42:55 2018 +0800
+
+    attempt to sharpen the image using unsharpening and convoluting with a sharpening kernel
+
+commit ff6d3fe52b5fe6db1cc316a853d35331a3fcbe39
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Aug 10 16:57:26 2018 +0800
+
+    removal of detected lines from edge image
+
+commit 3e8563929c409ee23b8d033c6e50a47ce11e4899
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Fri Aug 10 16:44:01 2018 +0800
+
+    line detection using probabilistic hough transform
+
+commit 2ef7866ea832e7dc8aeb1ba20574c84d63b9fc08
+Merge: cf4c0b4 2e60706
+Author: John Goh <john@accendo.com.my>
+Date:   Fri Aug 10 13:25:55 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit cf4c0b4646ecbfb7faaa4b841db6249ad2ebec43
+Author: John Goh <john@accendo.com.my>
+Date:   Fri Aug 10 13:22:46 2018 +0800
+
+    LBP subdivisions logic
+
+commit 2e607066bd5e2102be435b380e2dc3561badff1b
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Fri Aug 10 12:15:06 2018 +0800
+
+    OMG I DID IT! LOOK MA! THE BOXES ARE SO CLEAN!
+
+commit 43ff07872bc71fcf94b67d8d7529bf7254f0f03e
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Fri Aug 10 01:13:43 2018 +0800
+
+    Modified and tuned to noises
+
+commit eb36959c51f2a6a2bc2a0cf6a1dff62bd12bd04c
+Author: unknown <ykyio1@student.monash.edu>
+Date:   Thu Aug 9 23:15:51 2018 +0800
+
+    Added shapes
+
+commit f7e411ad0eb8f0fe107f07be7cda987c07f4fa8c
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Tue Aug 7 02:12:22 2018 +0800
+
+    some update
+
+commit fd1d5d2a70358b183a79e64930293c9e8320bc83
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Tue Aug 7 02:11:07 2018 +0800
+
+    .gitignore
+
+commit 6c6d6d24e0388561a61ff21bb6bf4fa799b5f72c
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Tue Aug 7 02:10:38 2018 +0800
+
+    no node_modules in our repo bruh
+
+commit 0c9096c14b3d0dc906b7798b97575d49405dc2e2
+Merge: 89a79fb f448895
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Tue Aug 7 02:08:50 2018 +0800
+
+    Merge branch 'gabriel/2018-08-04'
+
+commit f4488955c24cccf3e021d5870fe39de23fd9c5c9
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Tue Aug 7 02:06:35 2018 +0800
+
+    full iterative text detection algorithm
+
+    still below expectations, maybe missing something crucial
+
+commit 89a79fb454f60fb937259875d90cc4dcdd68d3c1
+Merge: e573a9b 968b4d3
+Author: John Goh <john@accendo.com.my>
+Date:   Mon Aug 6 13:43:37 2018 +0800
+
+    Merge branch 'master' of gitlab.com:jrgoh1/fyp-acid
+
+commit e573a9b9025385f0d3f2ba389d4f95875a1c1c42
+Author: John Goh <john@accendo.com.my>
+Date:   Mon Aug 6 13:42:38 2018 +0800
+
+    added frontend-dev environment and LBP subdivision implementation
+
+commit 4d1a56bf1a61ee5b9356c7a533bb10fe5870691d
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Sat Aug 4 23:37:04 2018 +0800
+
+    text detection algo in separate py module now
+
+commit 968b4d3dd4e3dddff885ed8aa40eb2e29346d61b
+Merge: c701ebb 53e6950
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Sat Aug 4 02:16:18 2018 +0800
+
+    Merge branch 'gabriel/2018-08-03'
+
+commit 53e6950795df8fbefabd0cc9a6bb4c6cd2b85a00
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Sat Aug 4 02:15:28 2018 +0800
+
+    imperfect text detection algorithm taken from a research paper
+
+commit c701ebb5c14fab636aa5981b662cd3f3ea901c9c
+Author: John Goh <john@accendo.com.my>
+Date:   Fri Aug 3 02:03:27 2018 +0800
+
+    starter lbp code. incomplete.
+
+commit 4b585ad5e2969d8572de8a7113b7191d443a1ba8
+Merge: adcb088 c9f6448
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Tue Jul 31 00:58:53 2018 +0800
+
+    Merge branch 'gabriel/flaskBackend'
+
+commit c9f644861d2b5975e9c1d3aaf30e3ffd0b11391b
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Tue Jul 31 00:58:06 2018 +0800
+
+    added .gitignore
+
+commit bb5eeb64e7b9d15b9e72b54a7ee70a820a3d166c
+Author: TheGreatGaben <gdtan3@student.monash.edu>
+Date:   Tue Jul 31 00:57:38 2018 +0800
+
+    sample flask server code
+
+commit adcb088a2053f6210e4647a07f084b4690f3135e
+Author: John Goh <jrgoh1@student.monash.edu>
+Date:   Thu Jul 26 03:14:34 2018 +0000
+
+    Initial commit
+
