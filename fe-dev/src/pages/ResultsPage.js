@@ -83,7 +83,7 @@ export default class ResultsPage extends Component {
                     </div>
                 </div>
                 <div className="button-row">
-                    <Link to="/">
+                    <Link to="/fyp-acid/">
                         <button className="btn btn-success">Back to Home</button>
                     </Link>
                 </div>

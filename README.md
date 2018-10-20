@@ -1,4 +1,4 @@
-# fyp-acid
+# fyp-acid: Automatic Compound Image Detection
 
 ## Dependencies
 We recommend using `pip` to install the necessary Python modules.

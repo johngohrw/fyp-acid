@@ -27,7 +27,7 @@ export default class TemplateTestPage extends Component {
                     <p>p goes here</p>
                 </div>
                 <div className="button-row">
-                    <Link to="/">
+                    <Link to="/fyp-acid/">
                         <button className="btn btn-danger">Back</button>
                     </Link>
                 </div>

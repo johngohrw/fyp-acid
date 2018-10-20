@@ -43,7 +43,7 @@ class UploadPage extends Component {
     // trigger route when upload button is pressed
     uploadHandler() {
         console.log('push \'/results\' to history!')
-        this.props.history.push("/results")
+        this.props.history.push("/fyp-acid/results")
     }
 
     render() {
@@ -58,7 +58,7 @@ class UploadPage extends Component {
                 </div>
                 <div className="button-row">
                     <div>
-                        <Link to="/">
+                        <Link to="/fyp-acid/">
                             <button className="btn btn-danger">Back</button>
                         </Link>
                     </div>

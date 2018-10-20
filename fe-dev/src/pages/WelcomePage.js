@@ -22,14 +22,14 @@ export default class WelcomePage extends Component {
                     </p>
                     <p>
                         You can read more about our methodology in detail 
-                        <Link to='/methodology'> here</Link>.
+                        <Link to='/fyp-acid/methodology'> here</Link>.
                     </p>
                 </div>
                 <div className="button-row">
                     {/* <Link to="/template-test">
                         <button className="btn btn-info">Test</button>   
                     </Link> */}
-                    <Link to="/upload">
+                    <Link to="/fyp-acid/upload">
                         <button className="btn btn-success">Next</button>
                     </Link>
                 </div>

@@ -86,7 +86,7 @@ export default class FileUpload extends Component {
         // gather response from server
         var gatherResponses = setInterval(() => {
           console.log(responses.length, numberOfFiles)
-          if (responses.length == numberOfFiles) {
+          if (responses.length === numberOfFiles) {
             
             console.log('all files gathered!')
             clearInterval(gatherResponses);
