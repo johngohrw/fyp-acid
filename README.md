@@ -1,4 +1,5 @@
 # fyp-acid: Automatic Compound Image Detection
+[Live Prototype Website](https://johngohrw.github.io/fyp-acid/) (requires web-server running on background)
 
 ## Dependencies
 We recommend using `pip` to install the necessary Python modules.
@@ -22,4 +23,4 @@ Run the web server:
 ```
 python3 app.py
 ```
-The front end can be accessed [here](https://johngohrw.github.io/fyp-acid/).
+The front end can be accessed [here](https://johngohrw.github.io/fyp-acid/) after successfully running the web-server.
