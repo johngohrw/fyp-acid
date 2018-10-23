@@ -69,7 +69,11 @@ def classify_endpoint():
     for modelName in param.split(","):
         model = models[modelName];
         pred = model.predict(features)[0];
-        results.append({"model": modelName, "prediction": str(pred)});
+        if pred == 0:
+            predStr = "Non-compound";
+        else:
+            predStr = "Compound";
+        results.append({"model": modelName, "prediction": predStr});
 
     response = jsonify(results);
     response.headers.add('Access-Control-Allow-Origin', '*');
