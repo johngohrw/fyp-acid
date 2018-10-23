@@ -55,6 +55,28 @@ class App extends Component {
         <Router>
           <div className="main-container container">  
             <div className="trippybg">
+              <ul className="trippycontainer">
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+                <li className="trippycircle"></li>
+              </ul>
             </div>
             <AppHeader />
             {/* <AppNav {...this.props} /> */}

@@ -16,14 +16,16 @@ body {
 }
 
 .trippybg {
-    // display: none;
-    position: absolute;
+    position: fixed;
     overflow: hidden;
     top: 0;
     z-index: 0;
+    height: 100vh;
+    width: 100vw;
 
-    height: inherit !important;
-    width: 100% !important;
+    .trippycontainer {
+        height: 100vh;
+    }
 }
 
 .main-container {

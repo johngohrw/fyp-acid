@@ -101,8 +101,6 @@ export default class FileUpload extends Component {
             // }, 2000)
           }
         },300) 
-        
-
       }
 
       
