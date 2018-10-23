@@ -29,6 +29,9 @@ export default class WelcomePage extends Component {
                     {/* <Link to="/template-test">
                         <button className="btn btn-info">Test</button>   
                     </Link> */}
+                    <Link to="/fyp-acid/methodology">
+                        <button className="btn btn-info">Methodology</button>
+                    </Link>
                     <Link to="/fyp-acid/upload">
                         <button className="btn btn-success">Next</button>
                     </Link>
