@@ -1,4 +1,6 @@
 # fyp-acid: Automatic Compound Image Detection
+Part of a submission for my computer science final-year project in Monash University.
+
 [Live Prototype Website](https://johngohrw.github.io/fyp-acid/) (requires web-server running on background)
 
 [Git repository for front-end component](https://github.com/johngohrw/fyp-acid-fe)
