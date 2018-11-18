@@ -1,6 +1,8 @@
 # fyp-acid: Automatic Compound Image Detection
 [Live Prototype Website](https://johngohrw.github.io/fyp-acid/) (requires web-server running on background)
 
+[Git repository for front-end component](https://github.com/johngohrw/fyp-acid-fe)
+
 ## Dependencies
 We recommend using `pip` to install the necessary Python modules.
 Command for installing dependencies below are prefixed with `pip install`:
